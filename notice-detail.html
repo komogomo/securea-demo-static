@@ -92,32 +92,38 @@
 
   <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
     <!-- お知らせ詳細 -->
-    <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
-      <!-- カテゴリとNEWバッジ -->
-      <div class="flex items-center gap-2 mb-4">
-        <span id="categoryBadge" class="badge bg-red-100 text-red-800">重要</span>
-        <span id="newBadge" class="bg-red-500 text-white text-xs px-2 py-0.5 rounded font-bold">NEW</span>
-        <span id="noticeDate" class="text-sm text-gray-500">2025/10/18</span>
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden fade-in">
+      <!-- ヘッダー部分 -->
+      <div class="p-6 border-b border-gray-200">
+        <div class="flex items-center gap-2 mb-4">
+          <span id="categoryBadge" class="badge bg-red-100 text-red-800">重要</span>
+          <span id="newBadge" class="bg-red-500 text-white text-xs px-2 py-0.5 rounded font-bold">NEW</span>
+          <span id="noticeDate" class="text-sm text-gray-500">2025/10/18</span>
+        </div>
+
+        <!-- タイトル -->
+        <h2 id="noticeTitle" class="text-2xl font-bold text-gray-900">
+          お知らせタイトル
+        </h2>
       </div>
 
-      <!-- タイトル -->
-      <h2 id="noticeTitle" class="text-2xl font-bold text-gray-900 mb-6">
-        エレベーター点検のお知らせ
-      </h2>
-
       <!-- 本文 -->
-      <div id="noticeContent" class="text-gray-700 leading-relaxed whitespace-pre-wrap mb-6">
-        10月25日（土）9:00-12:00の間、エレベーターの定期点検を実施いたします。この間、エレベーターはご利用いただけませんので、ご了承ください。
+      <div class="p-6">
+        <div id="noticeContent" class="text-gray-700 leading-relaxed space-y-4">
+          <!-- 本文がここに動的に挿入されます -->
+        </div>
       </div>
 
       <!-- 問い合わせ先 -->
-      <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <p class="text-sm text-gray-600 mb-2">
-          <span class="font-bold" data-i18n="notice.contact">お問い合わせ先：</span><br>
-          <span data-i18n="notice.contact.office">管理組合事務局</span><br>
-          <span data-i18n="notice.contact.email">メール</span>：info@securea-city.example.com<br>
-          <span data-i18n="notice.contact.phone">電話</span>：029-XXX-XXXX（<span data-i18n="notice.contact.hours">平日9:00-18:00</span>）
-        </p>
+      <div class="p-6 bg-gray-50 border-t border-gray-200">
+        <div class="bg-white border border-gray-200 rounded-lg p-4">
+          <p class="text-sm text-gray-600">
+            <span class="font-bold block mb-2" data-i18n="notice.contact">お問い合わせ先：</span>
+            <span data-i18n="notice.contact.office">管理組合事務局</span><br>
+            <span data-i18n="notice.contact.email">メール</span>：info@securea-city.example.com<br>
+            <span data-i18n="notice.contact.phone">電話</span>：029-XXX-XXXX（<span data-i18n="notice.contact.hours">平日9:00-18:00</span>）
+          </p>
+        </div>
       </div>
     </div>
 
@@ -236,8 +242,38 @@
         if (notice) {
           const titleElem = document.getElementById('noticeTitle');
           const contentElem = document.getElementById('noticeContent');
-          if (titleElem) titleElem.textContent = notice.title[this.currentLanguage] || notice.title.ja;
-          if (contentElem) contentElem.textContent = notice.content[this.currentLanguage] || notice.content.ja;
+          
+          // タイトルを更新
+          if (titleElem) {
+            const title = notice.title[this.currentLanguage] || notice.title.ja;
+            titleElem.textContent = title;
+          }
+          
+          // 本文を更新（改行を段落として表示）
+          if (contentElem) {
+            const content = notice.content[this.currentLanguage] || notice.content.ja;
+            const paragraphs = content.split('\n\n');
+            contentElem.innerHTML = paragraphs.map(para => {
+              if (para.trim()) {
+                // 箇条書きの処理
+                if (para.includes('\n-')) {
+                  const lines = para.split('\n');
+                  const title = lines[0];
+                  const items = lines.slice(1).filter(line => line.trim().startsWith('-'));
+                  return `<div class="mb-4">
+                    <p class="font-bold text-gray-900 mb-2">${title}</p>
+                    <ul class="list-disc list-inside space-y-1 ml-4 text-gray-700">
+                      ${items.map(item => `<li>${item.replace(/^-\s*/, '')}</li>`).join('')}
+                    </ul>
+                  </div>`;
+                } else {
+                  // 通常の段落
+                  return `<p class="text-gray-700">${para.replace(/\n/g, '<br>')}</p>`;
+                }
+              }
+              return '';
+            }).join('');
+          }
         }
       }
       
@@ -270,16 +306,48 @@
       if (notice) {
         const currentLang = window.languageManager.currentLanguage;
         
+        // カテゴリバッジ
         document.getElementById('categoryBadge').className = `badge ${notice.category === 'important' ? 'bg-red-100 text-red-800' : 'bg-blue-100 text-blue-800'}`;
         document.getElementById('categoryBadge').textContent = notice.category === 'important' ? window.i18n('notice.important') : window.i18n('notice.general');
         
+        // NEWバッジ
         if (!notice.isNew) {
           document.getElementById('newBadge').style.display = 'none';
         }
         
+        // 日付
         document.getElementById('noticeDate').textContent = notice.date;
-        document.getElementById('noticeTitle').textContent = notice.title[currentLang] || notice.title.ja;
-        document.getElementById('noticeContent').textContent = notice.content[currentLang] || notice.content.ja;
+        
+        // タイトル
+        const title = notice.title[currentLang] || notice.title.ja;
+        document.getElementById('noticeTitle').textContent = title;
+        
+        // 本文（改行を段落として表示）
+        const content = notice.content[currentLang] || notice.content.ja;
+        const contentElem = document.getElementById('noticeContent');
+        const paragraphs = content.split('\n\n');
+        
+        contentElem.innerHTML = paragraphs.map(para => {
+          if (para.trim()) {
+            // 箇条書きの処理
+            if (para.includes('\n-')) {
+              const lines = para.split('\n');
+              const title = lines[0];
+              const items = lines.slice(1).filter(line => line.trim().startsWith('-'));
+              return `<div class="mb-4">
+                <p class="font-bold text-gray-900 mb-2">${title}</p>
+                <ul class="list-disc list-inside space-y-1 ml-4 text-gray-700">
+                  ${items.map(item => `<li>${item.replace(/^-\s*/, '')}</li>`).join('')}
+                </ul>
+              </div>`;
+            } else {
+              // 通常の段落
+              return `<p class="text-gray-700">${para.replace(/\n/g, '<br>')}</p>`;
+            }
+          }
+          return '';
+        }).join('');
+        
       } else {
         document.querySelector('main').innerHTML = '<div class="text-center py-12 text-gray-500">' + window.i18n('notice.no_notice') + '</div>';
       }
