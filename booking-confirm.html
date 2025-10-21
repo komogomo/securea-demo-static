@@ -69,7 +69,55 @@
     class EmbeddedLanguageManager{constructor(){this.currentLanguage=localStorage.getItem('language')||'ja';this.translations=window.i18nData;this.dynamicHooks=[]}setLanguage(a){if(this.translations[a]){this.currentLanguage=a;localStorage.setItem('language',a);this.updatePage();this.updateLanguageButtons();this.dynamicHooks.forEach(b=>b())}}translate(a){const b=this.translations[this.currentLanguage];return b&&b[a]?b[a]:a}updatePage(){document.querySelectorAll('[data-i18n]').forEach(a=>{const b=a.getAttribute('data-i18n'),c=this.translate(b);if(a.children.length===0)a.textContent=c;else for(let d of a.childNodes)if(d.nodeType===Node.TEXT_NODE&&d.textContent.trim()){d.textContent=c;break}});document.querySelectorAll('[data-i18n-placeholder]').forEach(a=>{const b=a.getAttribute('data-i18n-placeholder');a.placeholder=this.translate(b)});const a=document.querySelector('title[data-i18n]');if(a){const b=a.getAttribute('data-i18n');document.title=this.translate(b)}}updateLanguageButtons(){document.querySelectorAll('.lang-btn').forEach(a=>{const b=a.getAttribute('data-lang');a.classList.toggle('active',b===this.currentLanguage);a.classList.toggle('inactive',b!==this.currentLanguage)})}init(){document.querySelectorAll('.lang-btn').forEach(a=>{a.addEventListener('click',()=>{const b=a.getAttribute('data-lang');this.setLanguage(b)})})}getCurrentLanguage(){return this.currentLanguage}}
     window.languageManager = new EmbeddedLanguageManager(); window.i18n = function(key) { return window.languageManager.translate(key); };
     
-    function handleConfirm(){const a=document.getElementById('agree').checked;if(!a){alert(window.i18n('alert.agree_required'));return}const b=document.getElementById('purpose').value;if(typeof facility!=='undefined'&&facility==='hall'&&!b){alert(window.i18n('alert.purpose_required'));return}alert(window.i18n('alert.booking_complete'));window.location.href='home.html'}
+    function handleConfirm(){
+      const agree = document.getElementById('agree').checked;
+      if(!agree){
+        alert(window.i18n('alert.agree_required'));
+        return;
+      }
+      const purpose = document.getElementById('purpose').value;
+      if(typeof facility!=='undefined'&&facility==='hall'&&!purpose){
+        alert(window.i18n('alert.purpose_required'));
+        return;
+      }
+      
+      // URLパラメータから予約情報を取得
+      const urlParams = new URLSearchParams(window.location.search);
+      const date = urlParams.get('date') || '2025-10-25';
+      const parkingNum = urlParams.get('num');
+      
+      // LocalStorageから既存の予約を取得
+      let bookings = [];
+      const bookingsJson = localStorage.getItem('bookings');
+      if (bookingsJson) {
+        bookings = JSON.parse(bookingsJson);
+      }
+      
+      // 新しい予約を追加
+      const newBooking = {
+        id: Date.now(), // 簡易的なID生成
+        facility: facility,
+        date: date,
+        status: 'active',
+        createdAt: new Date().toISOString().split('T')[0]
+      };
+      
+      if (facility === 'hall') {
+        newBooking.time = '9:00-12:00';
+        newBooking.purpose = purpose;
+      } else {
+        newBooking.time = 'allday';
+        newBooking.parkingNum = parkingNum;
+      }
+      
+      bookings.push(newBooking);
+      
+      // LocalStorageに保存
+      localStorage.setItem('bookings', JSON.stringify(bookings));
+      
+      alert(window.i18n('alert.booking_complete'));
+      window.location.href='booking-history.html';
+    }
     let facility='hall';
 
     // ★ updateBookingDetails 関数を定義 (動的フック用)

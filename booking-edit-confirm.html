@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="booking.edit.confirm.title">予約変更確認 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    // 翻訳データ（Gemini方式：埋め込み型）
+    window.i18nData = {
+      ja: {
+        // 共通
+        'home': 'ホーム',
+        'board': '掲示板',
+        'booking': '予約',
+        'mypage': 'マイページ',
+        'back': '戻る',
+        
+        // 予約変更確認画面
+        'booking.edit.confirm.title': '予約変更確認',
+        'booking.edit.confirm.heading': '以下の内容で変更します',
+        'booking.edit.confirm.changes': '変更内容',
+        'booking.edit.confirm.before': '変更前',
+        'booking.edit.confirm.after': '変更後',
+        'booking.edit.confirm.facility': '施設',
+        'booking.edit.confirm.date': '予約日',
+        'booking.edit.confirm.time': '利用時間',
+        'booking.edit.confirm.purpose': '使用目的',
+        'booking.edit.confirm.attendees': '参加人数',
+        'booking.edit.confirm.confirm_button': '変更を確定',
+        'booking.edit.confirm.back_button': '戻って修正',
+        
+        // 施設名
+        'booking.hall.name_short': '集会所（セキュレアステーション）',
+        'booking.parking.name_short': 'ゲスト駐車場',
+        'booking.parking.spot': '番',
+        
+        // 時間
+        'booking.history.allday': '終日（24時間）',
+        
+        // その他
+        'booking.detail.people': '名',
+        'booking.detail.no_purpose': '（未入力）',
+        'booking.edit.save_success': '予約を変更しました',
+        'booking.edit.confirm.no_change': '変更はありません'
+      },
+      en: {
+        // 共通
+        'home': 'Home',
+        'board': 'Board',
+        'booking': 'Booking',
+        'mypage': 'My Page',
+        'back': 'Back',
+        
+        // 予約変更確認画面
+        'booking.edit.confirm.title': 'Confirm Booking Changes',
+        'booking.edit.confirm.heading': 'Please confirm the changes',
+        'booking.edit.confirm.changes': 'Changes',
+        'booking.edit.confirm.before': 'Before',
+        'booking.edit.confirm.after': 'After',
+        'booking.edit.confirm.facility': 'Facility',
+        'booking.edit.confirm.date': 'Date',
+        'booking.edit.confirm.time': 'Time',
+        'booking.edit.confirm.purpose': 'Purpose',
+        'booking.edit.confirm.attendees': 'Attendees',
+        'booking.edit.confirm.confirm_button': 'Confirm Changes',
+        'booking.edit.confirm.back_button': 'Back to Edit',
+        
+        // 施設名
+        'booking.hall.name_short': 'Meeting Room (SECUREA Station)',
+        'booking.parking.name_short': 'Guest Parking',
+        'booking.parking.spot': ' Spot',
+        
+        // 時間
+        'booking.history.allday': 'All day (24 hours)',
+        
+        // その他
+        'booking.detail.people': ' people',
+        'booking.detail.no_purpose': '(Not entered)',
+        'booking.edit.save_success': 'Booking updated',
+        'booking.edit.confirm.no_change': 'No changes'
+      },
+      zh: {
+        // 共通
+        'home': '首页',
+        'board': '留言板',
+        'booking': '预约',
+        'mypage': '我的',
+        'back': '返回',
+        
+        // 予約変更確認画面
+        'booking.edit.confirm.title': '确认预约更改',
+        'booking.edit.confirm.heading': '请确认以下更改内容',
+        'booking.edit.confirm.changes': '更改内容',
+        'booking.edit.confirm.before': '更改前',
+        'booking.edit.confirm.after': '更改后',
+        'booking.edit.confirm.facility': '设施',
+        'booking.edit.confirm.date': '预约日期',
+        'booking.edit.confirm.time': '使用时间',
+        'booking.edit.confirm.purpose': '使用目的',
+        'booking.edit.confirm.attendees': '参加人数',
+        'booking.edit.confirm.confirm_button': '确认更改',
+        'booking.edit.confirm.back_button': '返回修改',
+        
+        // 施設名
+        'booking.hall.name_short': '会议室（SECUREA Station）',
+        'booking.parking.name_short': '访客停车场',
+        'booking.parking.spot': '号',
+        
+        // 時間
+        'booking.history.allday': '全天（24小时）',
+        
+        // その他
+        'booking.detail.people': '人',
+        'booking.detail.no_purpose': '（未输入）',
+        'booking.edit.save_success': '预约已更新',
+        'booking.edit.confirm.no_change': '无更改'
+      }
+    };
+    console.log('✅ i18nData embedded for booking-edit-confirm.html');
+  </script>
+</head>
+<body class="bg-gray-50">
+  <!-- 言語切り替えボタン -->
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center gap-3">
+        <button onclick="goBack()" class="text-gray-600 hover:text-gray-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold text-gray-900" data-i18n="booking.edit.confirm.title">予約変更確認</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    
+    <!-- 見出し -->
+    <div class="bg-blue-50 border-l-4 border-blue-500 p-4 mb-6 fade-in">
+      <p class="text-blue-900 font-bold" data-i18n="booking.edit.confirm.heading">以下の内容で変更します</p>
+    </div>
+
+    <!-- 変更内容 -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+      <h2 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
+        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+        </svg>
+        <span data-i18n="booking.edit.confirm.changes">変更内容</span>
+      </h2>
+      
+      <div id="changesContainer" class="space-y-4">
+        <!-- 動的に生成 -->
+      </div>
+    </div>
+
+    <!-- アクションボタン -->
+    <div class="space-y-3 fade-in">
+      <button 
+        onclick="confirmChanges()" 
+        class="w-full bg-blue-600 text-white py-4 rounded-lg font-bold hover:bg-blue-700 transition flex items-center justify-center gap-2"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+        <span data-i18n="booking.edit.confirm.confirm_button">変更を確定</span>
+      </button>
+      
+      <button 
+        onclick="goBack()" 
+        class="w-full bg-gray-100 text-gray-700 py-4 rounded-lg font-bold hover:bg-gray-200 transition"
+      >
+        <span data-i18n="booking.edit.confirm.back_button">戻って修正</span>
+      </button>
+    </div>
+
+  </main>
+
+  <!-- ナビゲーションバー -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="home">ホーム</span>
+        </a>
+        <a href="board.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="board">掲示板</span>
+        </a>
+        <a href="booking.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="booking">予約</span>
+        </a>
+        <a href="mypage.html" class="flex flex-col items-center text-blue-600">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1 font-bold" data-i18n="mypage">マイページ</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 翻訳システム（Gemini方式：埋め込み型） -->
+  <script>
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        this.dynamicHooks = [];
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          this.dynamicHooks.forEach(hook => hook());
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+        
+        const titleElement = document.querySelector('title[data-i18n]');
+        if (titleElement) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+      }
+      
+      getCurrentLanguage() {
+        return this.currentLanguage;
+      }
+    }
+    
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
+  </script>
+
+  <!-- 予約変更確認のロジック -->
+  <script>
+    let originalBooking = null;
+    let updatedData = null;
+
+    // sessionStorageから変更データを取得
+    function loadChangesData() {
+      const originalJson = sessionStorage.getItem('booking_edit_original');
+      const updatedJson = sessionStorage.getItem('booking_edit_updated');
+      
+      if (!originalJson || !updatedJson) {
+        alert('データが見つかりませんでした');
+        window.location.href = 'booking-history.html';
+        return;
+      }
+      
+      originalBooking = JSON.parse(originalJson);
+      updatedData = JSON.parse(updatedJson);
+      
+      renderChanges();
+    }
+
+    // 変更内容を表示
+    function renderChanges() {
+      const container = document.getElementById('changesContainer');
+      container.innerHTML = '';
+      
+      let hasChanges = false;
+      
+      // 施設名（表示のみ、変更不可）
+      addInfoRow(container, 'facility', getFacilityName(originalBooking), null);
+      
+      // 予約日
+      if (originalBooking.date !== updatedData.date) {
+        hasChanges = true;
+        addChangeRow(container, 'date', 
+          originalBooking.date.replace(/-/g, '/'), 
+          updatedData.date.replace(/-/g, '/')
+        );
+      } else {
+        addInfoRow(container, 'date', originalBooking.date.replace(/-/g, '/'), null);
+      }
+      
+      // 集会所のみの項目
+      if (originalBooking.facility === 'hall') {
+        // 利用時間
+        if (originalBooking.time !== updatedData.time) {
+          hasChanges = true;
+          addChangeRow(container, 'time', originalBooking.time, updatedData.time);
+        } else {
+          addInfoRow(container, 'time', originalBooking.time, null);
+        }
+        
+        // 使用目的
+        if (originalBooking.purpose !== updatedData.purpose) {
+          hasChanges = true;
+          const beforePurpose = originalBooking.purpose || window.i18n('booking.detail.no_purpose');
+          const afterPurpose = updatedData.purpose || window.i18n('booking.detail.no_purpose');
+          addChangeRow(container, 'purpose', beforePurpose, afterPurpose);
+        }
+        
+        // 参加人数
+        if (originalBooking.attendees !== updatedData.attendees) {
+          hasChanges = true;
+          const peopleUnit = window.i18n('booking.detail.people');
+          const beforeAttendees = originalBooking.attendees ? `${originalBooking.attendees}${peopleUnit}` : window.i18n('booking.detail.no_purpose');
+          const afterAttendees = updatedData.attendees ? `${updatedData.attendees}${peopleUnit}` : window.i18n('booking.detail.no_purpose');
+          addChangeRow(container, 'attendees', beforeAttendees, afterAttendees);
+        }
+      }
+      
+      // 変更がない場合
+      if (!hasChanges) {
+        const noChangeDiv = document.createElement('div');
+        noChangeDiv.className = 'text-center text-gray-500 py-8';
+        noChangeDiv.textContent = window.i18n('booking.edit.confirm.no_change');
+        container.appendChild(noChangeDiv);
+      }
+    }
+
+    // 施設名を取得
+    function getFacilityName(booking) {
+      if (booking.facility === 'hall') {
+        return window.i18n('booking.hall.name_short');
+      } else {
+        const parkingName = window.i18n('booking.parking.name_short');
+        const spotUnit = window.i18n('booking.parking.spot');
+        return `${parkingName} ${booking.parkingNum}${spotUnit}`;
+      }
+    }
+
+    // 情報行を追加（変更なし）
+    function addInfoRow(container, field, value) {
+      const row = document.createElement('div');
+      row.className = 'pb-4 border-b border-gray-100';
+      
+      const labelKey = `booking.edit.confirm.${field}`;
+      const label = window.i18n(labelKey);
+      
+      row.innerHTML = `
+        <div class="text-sm text-gray-600 mb-2">${label}</div>
+        <div class="text-lg font-bold text-gray-900">${value}</div>
+      `;
+      
+      container.appendChild(row);
+    }
+
+    // 変更行を追加（変更前 → 変更後）
+    function addChangeRow(container, field, beforeValue, afterValue) {
+      const row = document.createElement('div');
+      row.className = 'pb-4 border-b border-gray-100';
+      
+      const labelKey = `booking.edit.confirm.${field}`;
+      const label = window.i18n(labelKey);
+      const beforeLabel = window.i18n('booking.edit.confirm.before');
+      const afterLabel = window.i18n('booking.edit.confirm.after');
+      
+      row.innerHTML = `
+        <div class="text-sm text-gray-600 mb-2">${label}</div>
+        <div class="flex items-center gap-4">
+          <div class="flex-1">
+            <div class="text-xs text-gray-500 mb-1">${beforeLabel}</div>
+            <div class="text-base text-gray-600 line-through">${beforeValue}</div>
+          </div>
+          <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+          <div class="flex-1">
+            <div class="text-xs text-blue-600 mb-1">${afterLabel}</div>
+            <div class="text-lg font-bold text-blue-600">${afterValue}</div>
+          </div>
+        </div>
+      `;
+      
+      container.appendChild(row);
+    }
+
+    // 変更を確定
+    function confirmChanges() {
+      // LocalStorageから予約データを取得
+      const bookingsJson = localStorage.getItem('bookings');
+      const bookings = JSON.parse(bookingsJson);
+      
+      // 該当する予約を更新
+      const index = bookings.findIndex(b => b.id === originalBooking.id);
+      if (index !== -1) {
+        bookings[index] = {
+          ...originalBooking,
+          ...updatedData
+        };
+        
+        localStorage.setItem('bookings', JSON.stringify(bookings));
+        
+        // sessionStorageをクリア
+        sessionStorage.removeItem('booking_edit_original');
+        sessionStorage.removeItem('booking_edit_updated');
+        
+        const successMessage = window.i18n('booking.edit.save_success');
+        alert(successMessage);
+        
+        window.location.href = `booking-detail.html?id=${originalBooking.id}`;
+      }
+    }
+
+    // 戻る
+    function goBack() {
+      window.history.back();
+    }
+
+    // DOM読み込み完了時
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager.init();
+      window.languageManager.updatePage();
+      window.languageManager.updateLanguageButtons();
+      
+      window.languageManager.dynamicHooks.push(renderChanges);
+      
+      loadChangesData();
+    });
+  </script>
+</body>
+</html>

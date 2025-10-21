@@ -25,6 +25,7 @@
         'booking.parking.layout.north': 'つくば市学園の森義務教育学校方面',
         'booking.parking.layout.center': '集会所', 'booking.parking.layout.center_sub': 'セキュレアステーション',
         'booking.parking.layout.south': '研究学園駅方面', 'booking.parking.spot': '番',
+        'booking.parking.select_date': '選択した日付：',
         'alert.agree_required': '注意事項に同意してください', 'alert.purpose_required': '使用目的を入力してください',
         'alert.booking_complete': '予約が完了しました！\n\n予約内容を確認メールで送信しました。\n（実運用版の機能）'
       },
@@ -34,7 +35,7 @@
         'booking.hall.name': '📌 Meeting Room (SECUREA Station)',
         'booking.hall.hours': '• Hours: 9:00-19:00 (30min units)', 'booking.hall.fee': '• Fee: Free',
         'booking.hall.capacity': '• Capacity: About 30 people', 'booking.hall.equipment': '• Equipment: Tables, Chairs, Projector',
-        'booking.month': '', // No suffix needed
+        'booking.month': '',
         'booking.day.sun': 'Sun', 'booking.day.mon': 'Mon', 'booking.day.tue': 'Tue',
         'booking.day.wed': 'Wed', 'booking.day.thu': 'Thu', 'booking.day.fri': 'Fri', 'booking.day.sat': 'Sat',
         'booking.available': 'Available', 'booking.reserved': 'Reserved', 'booking.myreservation': 'My Reservation',
@@ -43,7 +44,8 @@
         'booking.parking.advance': '• Booking: 2 weeks in advance', 'booking.parking.layout': 'Parking Layout',
         'booking.parking.layout.north': 'Towards Gakuen no Mori Gimu Kyoiku Gakko',
         'booking.parking.layout.center': 'Meeting Room', 'booking.parking.layout.center_sub': 'SECUREA Station',
-        'booking.parking.layout.south': 'Towards Kenkyu-gakuen Station', 'booking.parking.spot': '', // (e.g., Spot ①)
+        'booking.parking.layout.south': 'Towards Kenkyu-gakuen Station', 'booking.parking.spot': '',
+        'booking.parking.select_date': 'Selected Date: ',
         'alert.agree_required': 'Please agree to the terms and conditions', 'alert.purpose_required': 'Please enter the purpose of use',
         'alert.booking_complete': 'Booking completed!\n\nA confirmation email has been sent.\n(Live version feature)'
       },
@@ -63,6 +65,7 @@
         'booking.parking.layout.north': '往学园之森义务教育学校方向',
         'booking.parking.layout.center': '会议室', 'booking.parking.layout.center_sub': 'SECUREA Station',
         'booking.parking.layout.south': '往研究学园站方向', 'booking.parking.spot': '号',
+        'booking.parking.select_date': '选择的日期：',
         'alert.agree_required': '请同意注意事项', 'alert.purpose_required': '请输入使用目的',
         'alert.booking_complete': '预约已完成！\n\n预约内容的确认邮件已发送。\n（实际运营版功能）'
       }
@@ -70,20 +73,219 @@
   </script>
 </head>
 <body class="bg-gray-50">
-  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg"> <button class="lang-btn" data-lang="ja">JA</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="zh">ZH</button> </div>
-  <header class="bg-white shadow-sm"> <div class="max-w-4xl mx-auto px-4 py-4"> <div class="flex items-center justify-between"> <div class="flex items-center gap-3"> <button onclick="window.location.href='home.html'" class="text-gray-600 hover:text-gray-900"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> </button> <h1 class="text-xl font-bold text-gray-900" data-i18n="booking.title">施設予約</h1> </div> </div> </div> </header>
-  <main class="max-w-4xl mx-auto px-4 py-6 pb-32"> <div class="bg-white rounded-lg shadow-sm p-4 mb-6 fade-in"> <div class="flex gap-2 overflow-x-auto"> <button onclick="selectFacility('hall')" id="facility-hall" class="px-6 py-3 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap flex items-center gap-2"> 🏠 <span data-i18n="booking.hall">集会所</span> </button> <button onclick="selectFacility('parking')" id="facility-parking" class="px-6 py-3 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap flex items-center gap-2"> 🚗 <span data-i18n="booking.parking">ゲスト駐車場</span> </button> </div> </div> <div id="hall-section" class="space-y-6"> <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 fade-in"> <h3 class="font-bold text-blue-900 mb-2" data-i18n="booking.hall.name">📌 集会所（セキュレアステーション）</h3> <ul class="text-sm text-blue-800 space-y-1"> <li data-i18n="booking.hall.hours">• 使用時間：9:00-19:00（30分単位）</li> <li data-i18n="booking.hall.fee">• 使用料：無料</li> <li data-i18n="booking.hall.capacity">• 定員：約30名</li> <li data-i18n="booking.hall.equipment">• 設備：テーブル・椅子・プロジェクター</li> </ul> </div> <div class="bg-white rounded-lg shadow-sm p-6 fade-in"> <div class="flex items-center justify-between mb-4"> <h3 class="text-lg font-bold text-gray-900" id="calendar-month">2025年10月</h3> <div class="flex gap-2"> <button class="p-2 hover:bg-gray-100 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg></button> <button class="p-2 hover:bg-gray-100 rounded-lg"><svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></button> </div> </div> <div class="grid grid-cols-7 gap-2 mb-4" id="calendar-weekdays"></div> <div class="grid grid-cols-7 gap-2" id="calendar-grid"></div> <div class="mt-6 flex items-center gap-4 text-sm"> <div class="flex items-center gap-2"><div class="w-4 h-4 bg-green-100 border border-green-500 rounded"></div><span class="text-gray-600" data-i18n="booking.available">空き</span></div> <div class="flex items-center gap-2"><div class="w-4 h-4 bg-gray-200 border border-gray-400 rounded"></div><span class="text-gray-600" data-i18n="booking.reserved">予約済み</span></div> <div class="flex items-center gap-2"><div class="w-4 h-4 bg-blue-100 border border-blue-500 rounded"></div><span class="text-gray-600" data-i18n="booking.myreservation">自分の予約</span></div> </div> </div> </div> <div id="parking-section" class="space-y-6 hidden"> <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 fade-in"> <h3 class="font-bold text-purple-900 mb-2" data-i18n="booking.parking.name">🚗 ゲスト駐車場</h3> <ul class="text-sm text-purple-800 space-y-1"> <li data-i18n="booking.parking.count">• 台数：8台（①〜⑧番）</li> <li data-i18n="booking.parking.hours">• 使用時間：24時間</li> <li data-i18n="booking.parking.fee">• 使用料：無料</li> <li data-i18n="booking.parking.advance">• 予約：2週間前から可能</li> </ul> </div> <div class="bg-white rounded-lg shadow-sm p-6 fade-in"> <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="booking.parking.layout">駐車場配置図</h3> <div class="bg-gray-100 p-4 rounded-lg mb-4"> <div class="text-center mb-4 text-sm font-bold text-gray-700" data-i18n="booking.parking.layout.north">つくば市学園の森義務教育学校方面</div> <div class="space-y-4"> <div class="flex justify-center gap-4"><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">②</div><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">①</div></div> <div class="bg-orange-100 border-2 border-orange-400 p-8 rounded-lg text-center"><div class="font-bold text-gray-900 text-lg" data-i18n="booking.parking.layout.center">集会所</div><div class="text-sm text-gray-600" data-i18n="booking.parking.layout.center_sub">セキュレアステーション</div></div> <div class="flex justify-center gap-4"><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">⑥</div><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">⑤</div><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">④</div></div> <div class="flex justify-center gap-4"><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">⑧</div><div class="bg-blue-500 text-white p-4 rounded-lg text-center font-bold w-20">⑦</div></div> </div> <div class="text-center mt-4 text-sm font-bold text-gray-700" data-i18n="booking.parking.layout.south">研究学園駅方面</div> </div> <div class="grid grid-cols-4 gap-3" id="parking-spots"></div> </div> </div> </main>
-  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg"> <div class="max-w-4xl mx-auto px-4"><div class="flex justify-around py-3"> <a href="home.html" class="flex flex-col items-center text-gray-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg><span class="text-xs mt-1" data-i18n="home">ホーム</span></a> <a href="board.html" class="flex flex-col items-center text-gray-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg><span class="text-xs mt-1" data-i18n="board">掲示板</span></a> <a href="booking.html" class="flex flex-col items-center text-blue-600"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg><span class="text-xs mt-1 font-bold" data-i18n="booking">予約</span></a> <a href="mypage.html" class="flex flex-col items-center text-gray-500"><svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg><span class="text-xs mt-1" data-i18n="mypage">マイページ</span></a> </div></div> </nav>
+  <!-- 言語切り替えボタン -->
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
 
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='home.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="booking.title">施設予約</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    <!-- 施設選択タブ -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-6 fade-in">
+      <div class="flex gap-2 overflow-x-auto">
+        <button onclick="selectFacility('hall')" id="facility-hall" 
+          class="px-6 py-3 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap flex items-center gap-2">
+          🏠 <span data-i18n="booking.hall">集会所</span>
+        </button>
+        <button onclick="selectFacility('parking')" id="facility-parking" 
+          class="px-6 py-3 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap flex items-center gap-2">
+          🚗 <span data-i18n="booking.parking">ゲスト駐車場</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- 集会所セクション -->
+    <div id="hall-section" class="space-y-6">
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 fade-in">
+        <h3 class="font-bold text-blue-900 mb-2" data-i18n="booking.hall.name">📌 集会所（セキュレアステーション）</h3>
+        <ul class="text-sm text-blue-800 space-y-1">
+          <li data-i18n="booking.hall.hours">• 使用時間：9:00-19:00（30分単位）</li>
+          <li data-i18n="booking.hall.fee">• 使用料：無料</li>
+          <li data-i18n="booking.hall.capacity">• 定員：約30名</li>
+          <li data-i18n="booking.hall.equipment">• 設備：テーブル・椅子・プロジェクター</li>
+        </ul>
+      </div>
+      
+      <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-900" id="calendar-month">2025年10月</h3>
+          <div class="flex gap-2">
+            <button class="p-2 hover:bg-gray-100 rounded-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button class="p-2 hover:bg-gray-100 rounded-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-7 gap-2 mb-4" id="calendar-weekdays"></div>
+        <div class="grid grid-cols-7 gap-2" id="calendar-grid"></div>
+        <div class="mt-6 flex items-center gap-4 text-sm">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-green-100 border border-green-500 rounded"></div>
+            <span class="text-gray-600" data-i18n="booking.available">空き</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-gray-200 border border-gray-400 rounded"></div>
+            <span class="text-gray-600" data-i18n="booking.reserved">予約済み</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-blue-100 border border-blue-500 rounded"></div>
+            <span class="text-gray-600" data-i18n="booking.myreservation">自分の予約</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 駐車場セクション（カレンダー追加版） -->
+    <div id="parking-section" class="space-y-6 hidden">
+      <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 fade-in">
+        <h3 class="font-bold text-purple-900 mb-2" data-i18n="booking.parking.name">🚗 ゲスト駐車場</h3>
+        <ul class="text-sm text-purple-800 space-y-1">
+          <li data-i18n="booking.parking.count">• 台数：8台（①〜⑧番）</li>
+          <li data-i18n="booking.parking.hours">• 使用時間：24時間</li>
+          <li data-i18n="booking.parking.fee">• 使用料：無料</li>
+          <li data-i18n="booking.parking.advance">• 予約：2週間前から可能</li>
+        </ul>
+      </div>
+      
+      <!-- 駐車場用カレンダー -->
+      <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="text-lg font-bold text-gray-900" id="parking-calendar-month">2025年10月</h3>
+          <div class="flex gap-2">
+            <button class="p-2 hover:bg-gray-100 rounded-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+              </svg>
+            </button>
+            <button class="p-2 hover:bg-gray-100 rounded-lg">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+        <div class="grid grid-cols-7 gap-2 mb-4" id="parking-calendar-weekdays"></div>
+        <div class="grid grid-cols-7 gap-2" id="parking-calendar-grid"></div>
+        <div class="mt-6 flex items-center gap-4 text-sm">
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-green-100 border border-green-500 rounded"></div>
+            <span class="text-gray-600" data-i18n="booking.available">空き</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-gray-200 border border-gray-400 rounded"></div>
+            <span class="text-gray-600" data-i18n="booking.reserved">予約済み</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <div class="w-4 h-4 bg-blue-100 border border-blue-500 rounded"></div>
+            <span class="text-gray-600" data-i18n="booking.myreservation">自分の予約</span>
+          </div>
+        </div>
+      </div>
+      
+      <!-- 駐車場選択エリア（日付選択後に表示） -->
+      <div id="parking-selection" class="bg-white rounded-lg shadow-sm p-6 fade-in hidden">
+        <h3 class="text-lg font-bold text-gray-900 mb-4">
+          <span data-i18n="booking.parking.select_date">選択した日付：</span>
+          <span id="selected-date-display" class="text-blue-600 ml-2">2025年10月25日</span>
+        </h3>
+        
+        <div class="bg-gray-100 p-4 rounded-lg mb-4">
+          <h4 class="text-sm font-bold text-gray-700 mb-3" data-i18n="booking.parking.layout">駐車場配置図</h4>
+          <div class="text-center mb-3 text-xs text-gray-600" data-i18n="booking.parking.layout.north">つくば市学園の森義務教育学校方面</div>
+          <div class="space-y-3">
+            <div class="flex justify-center gap-3">
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">②</div>
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">①</div>
+            </div>
+            <div class="bg-orange-100 border border-orange-300 p-4 rounded text-center">
+              <div class="font-bold text-gray-900 text-sm" data-i18n="booking.parking.layout.center">集会所</div>
+            </div>
+            <div class="flex justify-center gap-3">
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">⑥</div>
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">⑤</div>
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">④</div>
+            </div>
+            <div class="flex justify-center gap-3">
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">⑧</div>
+              <div class="bg-blue-400 text-white p-3 rounded text-center text-sm font-bold w-16">⑦</div>
+            </div>
+          </div>
+          <div class="text-center mt-3 text-xs text-gray-600" data-i18n="booking.parking.layout.south">研究学園駅方面</div>
+        </div>
+        
+        <div class="grid grid-cols-4 gap-3" id="parking-spots"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- ナビゲーションバー -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="home">ホーム</span>
+        </a>
+        <a href="board.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="board">掲示板</span>
+        </a>
+        <a href="booking.html" class="flex flex-col items-center text-blue-600">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1 font-bold" data-i18n="booking">予約</span>
+        </a>
+        <a href="mypage.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="mypage">マイページ</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 言語管理スクリプト（ミニファイ版） -->
   <script>
     class EmbeddedLanguageManager{constructor(){this.currentLanguage=localStorage.getItem('language')||'ja';this.translations=window.i18nData;this.dynamicHooks=[]}setLanguage(a){if(this.translations[a]){this.currentLanguage=a;localStorage.setItem('language',a);this.updatePage();this.updateLanguageButtons();this.dynamicHooks.forEach(b=>b())}}translate(a){const b=this.translations[this.currentLanguage];return b&&b[a]?b[a]:a}updatePage(){document.querySelectorAll('[data-i18n]').forEach(a=>{const b=a.getAttribute('data-i18n'),c=this.translate(b);if(a.children.length===0)a.textContent=c;else for(let d of a.childNodes)if(d.nodeType===Node.TEXT_NODE&&d.textContent.trim()){d.textContent=c;break}});document.querySelectorAll('[data-i18n-placeholder]').forEach(a=>{const b=a.getAttribute('data-i18n-placeholder');a.placeholder=this.translate(b)});const a=document.querySelector('title[data-i18n]');if(a){const b=a.getAttribute('data-i18n');document.title=this.translate(b)}}updateLanguageButtons(){document.querySelectorAll('.lang-btn').forEach(a=>{const b=a.getAttribute('data-lang');a.classList.toggle('active',b===this.currentLanguage);a.classList.toggle('inactive',b!==this.currentLanguage)})}init(){document.querySelectorAll('.lang-btn').forEach(a=>{a.addEventListener('click',()=>{const b=a.getAttribute('data-lang');this.setLanguage(b)})})}getCurrentLanguage(){return this.currentLanguage}}
-    window.languageManager = new EmbeddedLanguageManager(); window.i18n = function(key) { return window.languageManager.translate(key); };
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) { return window.languageManager.translate(key); };
   </script>
   
+  <!-- ページ固有のスクリプト -->
   <script>
-    // --- ページ固有のスクリプト ---
-    
-    // ▼ console.log を削除した selectFacility ▼
+    let selectedParkingDate = null; // 選択された駐車場の日付
+
+    // 施設選択
     function selectFacility(facility) {
       const hallButton = document.getElementById('facility-hall');
       const parkingButton = document.getElementById('facility-parking');
@@ -106,36 +308,268 @@
       if (facility === 'hall') {
         hallSection.classList.remove('hidden');
         parkingSection.classList.add('hidden');
-      } else { // facility === 'parking'
+        // 駐車場選択エリアを非表示
+        document.getElementById('parking-selection').classList.add('hidden');
+      } else {
         hallSection.classList.add('hidden');
         parkingSection.classList.remove('hidden');
       }
       
-      // スタイルの強制更新 (念のため残す)
       hallSection.style.display = hallSection.classList.contains('hidden') ? 'none' : ''; 
       parkingSection.style.display = parkingSection.classList.contains('hidden') ? 'none' : '';
     }
-    // ▲▲▲ (修正ここまで) ▲▲▲
 
-    function generateCalendar() { /* ... (v3 と同じ) ... */ 
-        const grid=document.getElementById('calendar-grid'),weekdaysContainer=document.getElementById('calendar-weekdays'),monthLabel=document.getElementById('calendar-month');if(!grid||!weekdaysContainer||!monthLabel)return;grid.innerHTML='';weekdaysContainer.innerHTML='';const today=20,year=2025,month=10,currentLang=window.languageManager.getCurrentLanguage();let monthText='';if(currentLang==='en'){const date=new Date(year,month-1);monthText=date.toLocaleString('en-US',{month:'long',year:'numeric'})}else if(currentLang==='zh'){monthText=`${year}年${month}月`}else{monthText=`${year}年${month}月`}monthLabel.textContent=monthText;const weekdays=['sun','mon','tue','wed','thu','fri','sat'];weekdays.forEach(dayKey=>{const dayName=window.i18n(`booking.day.${dayKey}`),div=document.createElement('div');div.className='text-center text-sm font-bold text-gray-600';div.textContent=dayName;weekdaysContainer.appendChild(div)});for(let i=1;i<=31;i++){const day=document.createElement('button');day.className='aspect-square p-2 rounded-lg text-sm font-bold transition';if(i<today){day.className+=' bg-gray-100 text-gray-400 cursor-not-allowed'}else if(i===25){day.className+=' bg-blue-100 border-2 border-blue-500 text-blue-900 hover:bg-blue-200';day.onclick=()=>window.location.href='booking-confirm.html?date=2025-10-25&facility=hall'}else if([19,26].includes(i)){day.className+=' bg-gray-200 border-2 border-gray-400 text-gray-600 cursor-not-allowed'}else{day.className+=' bg-green-100 border-2 border-green-500 text-green-900 hover:bg-green-200';day.onclick=()=>window.location.href='booking-confirm.html?date=2025-10-'+String(i).padStart(2,'0')+'&facility=hall'}day.textContent=i;grid.appendChild(day)}
-    }
-    function generateParkingSpots() { /* ... (v3 と同じ) ... */ 
-        const spotsContainer=document.getElementById('parking-spots');if(!spotsContainer)return;spotsContainer.innerHTML='';const availableText=window.i18n('booking.available'),reservedText=window.i18n('booking.reserved'),spotUnit=window.i18n('booking.parking.spot');for(let i=1;i<=8;i++){const btn=document.createElement('button'),isReserved=i===3;btn.className=`parking-btn p-4 rounded-lg text-center transition ${isReserved?'bg-gray-200 border-2 border-gray-400 cursor-not-allowed':'bg-green-100 border-2 border-green-500 hover:bg-green-200'}`;if(!isReserved){btn.onclick=()=>selectParking(i)}btn.innerHTML=`<div class="font-bold ${isReserved?'text-gray-600':'text-green-900'}">${['①','②','③','④','⑤','⑥','⑦','⑧'][i-1]}${spotUnit}</div> <div class="text-xs ${isReserved?'text-gray-500':'text-green-700'}">${isReserved?reservedText:availableText}</div>`;spotsContainer.appendChild(btn)}
-    }
-    function selectParking(num) { /* ... (v3 と同じ) ... */ 
-        window.location.href='booking-confirm.html?date=2025-10-25&facility=parking&num='+num;
+    // 集会所カレンダー生成
+    function generateCalendar() {
+        const grid = document.getElementById('calendar-grid');
+        const weekdaysContainer = document.getElementById('calendar-weekdays');
+        const monthLabel = document.getElementById('calendar-month');
+        
+        if (!grid || !weekdaysContainer || !monthLabel) return;
+        
+        grid.innerHTML = '';
+        weekdaysContainer.innerHTML = '';
+        
+        const today = 20;
+        const year = 2025;
+        const month = 10;
+        const currentLang = window.languageManager.getCurrentLanguage();
+        
+        // 月表示
+        let monthText = '';
+        if (currentLang === 'en') {
+            const date = new Date(year, month - 1);
+            monthText = date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+        } else if (currentLang === 'zh') {
+            monthText = `${year}年${month}月`;
+        } else {
+            monthText = `${year}年${month}月`;
+        }
+        monthLabel.textContent = monthText;
+        
+        // 曜日ヘッダー
+        const weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        weekdays.forEach(dayKey => {
+            const dayName = window.i18n(`booking.day.${dayKey}`);
+            const div = document.createElement('div');
+            div.className = 'text-center text-sm font-bold text-gray-600';
+            div.textContent = dayName;
+            weekdaysContainer.appendChild(div);
+        });
+        
+        // LocalStorageから予約データを取得
+        const bookingsJson = localStorage.getItem('bookings');
+        const bookings = bookingsJson ? JSON.parse(bookingsJson) : [];
+        
+        // 自分の予約を日付でマッピング
+        const myBookings = {};
+        bookings.forEach(booking => {
+            if (booking.facility === 'hall' && booking.status === 'active') {
+                const day = parseInt(booking.date.split('-')[2]);
+                myBookings[day] = booking;
+            }
+        });
+        
+        // カレンダー生成
+        for (let i = 1; i <= 31; i++) {
+            const day = document.createElement('button');
+            day.className = 'aspect-square p-2 rounded-lg text-sm font-bold transition';
+            
+            if (i < today) {
+                day.className += ' bg-gray-100 text-gray-400 cursor-not-allowed';
+            } else if (myBookings[i]) {
+                day.className += ' bg-blue-100 border-2 border-blue-500 text-blue-900 hover:bg-blue-200';
+                day.onclick = () => window.location.href = `booking-detail.html?id=${myBookings[i].id}`;
+            } else if ([19, 26].includes(i)) {
+                day.className += ' bg-gray-200 border-2 border-gray-400 text-gray-600 cursor-not-allowed';
+            } else {
+                day.className += ' bg-green-100 border-2 border-green-500 text-green-900 hover:bg-green-200';
+                day.onclick = () => window.location.href = 'booking-confirm.html?date=2025-10-' + String(i).padStart(2, '0') + '&facility=hall';
+            }
+            
+            day.textContent = i;
+            grid.appendChild(day);
+        }
     }
 
-    // DOM読み込み完了時 (v3 と同じ)
+    // 駐車場カレンダー生成
+    function generateParkingCalendar() {
+        const grid = document.getElementById('parking-calendar-grid');
+        const weekdaysContainer = document.getElementById('parking-calendar-weekdays');
+        const monthLabel = document.getElementById('parking-calendar-month');
+        
+        if (!grid || !weekdaysContainer || !monthLabel) return;
+        
+        grid.innerHTML = '';
+        weekdaysContainer.innerHTML = '';
+        
+        const today = 20;
+        const year = 2025;
+        const month = 10;
+        const currentLang = window.languageManager.getCurrentLanguage();
+        
+        // 月表示
+        let monthText = '';
+        if (currentLang === 'en') {
+            const date = new Date(year, month - 1);
+            monthText = date.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+        } else if (currentLang === 'zh') {
+            monthText = `${year}年${month}月`;
+        } else {
+            monthText = `${year}年${month}月`;
+        }
+        monthLabel.textContent = monthText;
+        
+        // 曜日ヘッダー
+        const weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+        weekdays.forEach(dayKey => {
+            const dayName = window.i18n(`booking.day.${dayKey}`);
+            const div = document.createElement('div');
+            div.className = 'text-center text-sm font-bold text-gray-600';
+            div.textContent = dayName;
+            weekdaysContainer.appendChild(div);
+        });
+        
+        // LocalStorageから予約データを取得
+        const bookingsJson = localStorage.getItem('bookings');
+        const bookings = bookingsJson ? JSON.parse(bookingsJson) : [];
+        
+        // 駐車場の予約を日付でマッピング
+        const myParkingBookings = {};
+        const allParkingBookings = {};
+        bookings.forEach(booking => {
+            if (booking.facility === 'parking' && booking.status === 'active') {
+                const day = parseInt(booking.date.split('-')[2]);
+                if (!allParkingBookings[day]) allParkingBookings[day] = [];
+                allParkingBookings[day].push(booking);
+                
+                // 自分の予約かチェック（デモでは全部自分の予約）
+                myParkingBookings[day] = booking;
+            }
+        });
+        
+        // カレンダー生成
+        for (let i = 1; i <= 31; i++) {
+            const day = document.createElement('button');
+            day.className = 'aspect-square p-2 rounded-lg text-sm font-bold transition';
+            
+            if (i < today) {
+                // 過去の日付
+                day.className += ' bg-gray-100 text-gray-400 cursor-not-allowed';
+            } else if (myParkingBookings[i]) {
+                // 自分の予約（青色）→ 予約詳細画面へ
+                day.className += ' bg-blue-100 border-2 border-blue-500 text-blue-900 hover:bg-blue-200';
+                day.onclick = () => window.location.href = `booking-detail.html?id=${myParkingBookings[i].id}`;
+            } else if (allParkingBookings[i] && allParkingBookings[i].length >= 8) {
+                // 満車（他の人の予約で全て埋まっている）
+                day.className += ' bg-gray-200 border-2 border-gray-400 text-gray-600 cursor-not-allowed';
+            } else {
+                // 空きあり（緑色）→ 駐車場選択画面を表示
+                day.className += ' bg-green-100 border-2 border-green-500 text-green-900 hover:bg-green-200';
+                day.onclick = () => selectParkingDate(year, month, i);
+            }
+            
+            day.textContent = i;
+            grid.appendChild(day);
+        }
+    }
+
+    // 駐車場の日付を選択
+    function selectParkingDate(year, month, day) {
+        selectedParkingDate = `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        
+        // 選択した日付を表示
+        const currentLang = window.languageManager.getCurrentLanguage();
+        let dateText = '';
+        if (currentLang === 'en') {
+            const date = new Date(year, month - 1, day);
+            dateText = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+        } else if (currentLang === 'zh') {
+            dateText = `${year}年${month}月${day}日`;
+        } else {
+            dateText = `${year}年${month}月${day}日`;
+        }
+        document.getElementById('selected-date-display').textContent = dateText;
+        
+        // 駐車場選択エリアを表示
+        document.getElementById('parking-selection').classList.remove('hidden');
+        
+        // 駐車場スポットを生成
+        generateParkingSpots();
+        
+        // 駐車場選択エリアまでスクロール
+        document.getElementById('parking-selection').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // 駐車場スポット生成
+    function generateParkingSpots() {
+        const spotsContainer = document.getElementById('parking-spots');
+        if (!spotsContainer) return;
+        
+        spotsContainer.innerHTML = '';
+        
+        const availableText = window.i18n('booking.available');
+        const reservedText = window.i18n('booking.reserved');
+        const spotUnit = window.i18n('booking.parking.spot');
+        
+        // デモデータ：③番は予約済み
+        const reservedSpots = [3];
+        
+        for (let i = 1; i <= 8; i++) {
+            const btn = document.createElement('button');
+            const isReserved = reservedSpots.includes(i);
+            
+            btn.className = `parking-btn p-4 rounded-lg text-center transition ${
+                isReserved 
+                ? 'bg-gray-200 border-2 border-gray-400 cursor-not-allowed' 
+                : 'bg-green-100 border-2 border-green-500 hover:bg-green-200'
+            }`;
+            
+            if (!isReserved) {
+                btn.onclick = () => selectParking(i);
+            }
+            
+            const spotNumbers = ['①', '②', '③', '④', '⑤', '⑥', '⑦', '⑧'];
+            btn.innerHTML = `
+                <div class="font-bold ${isReserved ? 'text-gray-600' : 'text-green-900'}">
+                    ${spotNumbers[i-1]}${spotUnit}
+                </div>
+                <div class="text-xs ${isReserved ? 'text-gray-500' : 'text-green-700'}">
+                    ${isReserved ? reservedText : availableText}
+                </div>
+            `;
+            
+            spotsContainer.appendChild(btn);
+        }
+    }
+
+    // 駐車場を選択
+    function selectParking(num) {
+        if (!selectedParkingDate) {
+            alert('日付を選択してください');
+            return;
+        }
+        window.location.href = `booking-confirm.html?date=${selectedParkingDate}&facility=parking&num=${num}`;
+    }
+
+    // DOM読み込み完了時
     document.addEventListener('DOMContentLoaded', function() {
       window.languageManager.init();
       window.languageManager.updatePage(); 
       window.languageManager.updateLanguageButtons(); 
+      
+      // 言語切り替え時に動的コンテンツも更新
       window.languageManager.dynamicHooks.push(generateCalendar);
-      window.languageManager.dynamicHooks.push(generateParkingSpots);
+      window.languageManager.dynamicHooks.push(generateParkingCalendar);
+      window.languageManager.dynamicHooks.push(function() {
+          if (!document.getElementById('parking-selection').classList.contains('hidden')) {
+              generateParkingSpots();
+          }
+      });
+      
+      // 初回生成
       generateCalendar();
-      generateParkingSpots();
+      generateParkingCalendar();
     });
   </script>
 </body>
