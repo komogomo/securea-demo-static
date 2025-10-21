@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="board.detail.title">投稿詳細 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'board.detail.title': '投稿詳細', 'board.category.noise': '騒音', 'board.anonymous': '匿名', 'board.author': '投稿者',
+        'post.1.title': '道路でのボール遊びについて', 'post.1.content.full': '最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br>子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br>公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。',
+        'post.1.author': '匿名', 'board.detail.replies_count': '返信（5件）',
+        'reply.1.author': 'A15', 'reply.1.content': '同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。',
+        'reply.2.author': '匿名', 'reply.2.content': '親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。',
+        'reply.3.author': 'C08', 'reply.3.content': '子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。',
+        'reply.4.author': '管理組合', 'reply.4.official': '公式', 'reply.4.content': 'ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。',
+        'reply.5.author': '匿名', 'reply.5.content': '管理組合の対応に感謝します。住みやすい環境になることを期待しています。',
+        'board.detail.reply': '返信する', 'board.detail.reply.placeholder': '返信を入力してください...',
+        'board.detail.reply.anonymous': '匿名で投稿', 'common.char_unit': '文字', 'common.back': '戻る',
+        'board.detail.reply.submit': '返信を投稿', 'alert.reply_submitted': '返信を投稿しました！ (デモ)'
+      },
+      en: {
+        'board.detail.title': 'Post Details', 'board.category.noise': 'Noise', 'board.anonymous': 'Anonymous', 'board.author': 'Author',
+        'post.1.title': 'About playing ball on the road', 'post.1.content.full': 'I am concerned about the voices of children playing ball on the road recently. The time is around 17:00-19:00 in the evening.<br><br>I think it\'s good for children to play, but playing ball on the road is dangerous and noisy.<br><br>Could we ask the parents to have them play in the park?',
+        'post.1.author': 'Anonymous', 'board.detail.replies_count': 'Replies (5)',
+        'reply.1.author': 'A15', 'reply.1.content': 'I have the same concern. Playing ball on the road is indeed dangerous. I would like to ask the management association to issue a warning.',
+        'reply.2.author': 'Anonymous', 'reply.2.content': 'As a parent, I apologize. I will tell my children again to play in the park.',
+        'reply.3.author': 'C08', 'reply.3.content': 'I think children\'s voices are part of "living noise," but the road is definitely dangerous. The distance to the park might also be an issue.',
+        'reply.4.author': 'Management', 'reply.4.official': 'Official', 'reply.4.content': 'Thank you for your feedback. We will discuss this at the next board meeting and plan to circulate a notice to all residents. We ask for your continued consideration for one another.',
+        'reply.5.author': 'Anonymous', 'reply.5.content': 'Thank you for the management\'s response. I hope this will lead to a more comfortable living environment.',
+        'board.detail.reply': 'Reply', 'board.detail.reply.placeholder': 'Enter your reply...',
+        'board.detail.reply.anonymous': 'Post anonymously', 'common.char_unit': ' chars', 'common.back': 'Back',
+        'board.detail.reply.submit': 'Post Reply', 'alert.reply_submitted': 'Reply posted! (Demo)'
+      },
+      zh: {
+        'board.detail.title': '帖子详情', 'board.category.noise': '噪音', 'board.anonymous': '匿名', 'board.author': '发帖人',
+        'post.1.title': '关于在路上玩球', 'post.1.content.full': '最近，在路上玩球的孩子们的声音让我很担心。时间是傍晚17-19点左右。<br><br>孩子们玩耍是好事，但在路上玩球很危险，声音也很大。<br><br>能否请家长们让他们在公园玩？',
+        'post.1.author': '匿名', 'board.detail.replies_count': '回复 (5)',
+        'reply.1.author': 'A15', 'reply.1.content': '我也有同样的困扰。在路上玩球确实很危险。希望管理组合能发出提醒。',
+        'reply.2.author': '匿名', 'reply.2.content': '作为家长，我表示歉意。我会再次告诉孩子去公园玩。',
+        'reply.3.author': 'C08', 'reply.3.content': '我认为孩子的声音属于“生活噪音”的范围，但在路上玩确实很危险。到公园有点距离可能也是个问题。',
+        'reply.4.author': '管理组合', 'reply.4.official': '官方', 'reply.4.content': '感谢您的意见。我们将在下次理事会上讨论，并计划向所有住户分发通知。请大家继续相互体谅。',
+        'reply.5.author': '匿名', 'reply.5.content': '感谢管理组合的回应。期待能有一个更宜居的环境。',
+        'board.detail.reply': '回复', 'board.detail.reply.placeholder': '请输入您的回复...',
+        'board.detail.reply.anonymous': '匿名发帖', 'common.char_unit': '字', 'common.back': '返回',
+        'board.detail.reply.submit': '发表回复', 'alert.reply_submitted': '回复已发表！ (演示)'
+      },
+    };
+  </script>
+</head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg"> <button class="lang-btn" data-lang="ja">JA</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="zh">ZH</button> </div>
+  <header class="bg-white shadow-sm"> <div class="max-w-4xl mx-auto px-4 py-4"> <div class="flex items-center gap-3"> <button onclick="window.location.href='board.html'" class="text-gray-600 hover:text-gray-900"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> </button> <h1 class="text-xl font-bold text-gray-900" data-i18n="board.detail.title">投稿詳細</h1> </div> </div> </div> </header>
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32"> <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in"> <div class="flex items-center gap-2 mb-4"> <span class="badge bg-red-100 text-red-800" data-i18n="board.category.noise">騒音</span> <span class="badge bg-purple-100 text-purple-800" data-i18n="board.anonymous">匿名</span> <span class="text-sm text-gray-500">2025/10/18 15:32</span> </div> <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="post.1.title"> 道路でのボール遊びについて </h2> <p class="text-gray-700 leading-relaxed mb-4" data-i18n="post.1.content.full"> 最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br> 子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br> 公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。 </p> <div class="text-sm text-gray-500"> <span data-i18n="board.author">投稿者</span>: <span data-i18n="post.1.author">匿名</span> </div> </div> <div class="mb-6"> <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg> <span data-i18n="board.detail.replies_count">返信（5件）</span> </h3> <div class="space-y-4"> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.1.author">A15</span> <span class="text-xs text-gray-500">2025/10/18 16:45</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.1.content"> 同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。 </p> </div> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.2.author">匿名</span> <span class="text-xs text-gray-500">2025/10/18 17:20</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.2.content"> 親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。 </p> </div> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.3.author">C08</span> <span class="text-xs text-gray-500">2025/10/18 18:10</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.3.content"> 子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。 </p> </div> <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-blue-900" data-i18n="reply.4.author">管理組合</span> <span class="bg-blue-600 text-white text-xs px-2 py-0.5 rounded font-bold" data-i18n="reply.4.official">公式</span> <span class="text-xs text-blue-700">2025/10/19 10:00</span> </div> <p class="text-blue-900 text-sm" data-i18n="reply.4.content"> ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。 </p> </div> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.5.author">匿名</span> <span class="text-xs text-gray-500">2025/10/19 14:30</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.5.content"> 管理組合の対応に感謝します。住みやすい環境になることを期待しています。 </p> </div> </div> </div> <div class="bg-white rounded-lg shadow-sm p-6 fade-in"> <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="board.detail.reply">返信する</h3> <form onsubmit="handleReply(event)"> <div class="mb-4"> <textarea id="replyContent" rows="4" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" data-i18n-placeholder="board.detail.reply.placeholder" placeholder="返信を入力してください..." required ></textarea> </div> <div class="flex items-center justify-between mb-4"> <label class="flex items-center cursor-pointer"> <input type="checkbox" name="anonymous" class="w-4 h-4 text-blue-600 rounded"> <span class="ml-2 text-gray-900" data-i18n="board.detail.reply.anonymous">匿名で投稿</span> </label> <span class="text-sm text-gray-500" id="charCountWrapper"> <span id="charCountNum">0</span> / 500<span data-i18n="common.char_unit">文字</span> </span> </div> <div class="flex gap-4"> <button type="button" onclick="window.location.href='board.html'" class="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-200 transition" data-i18n="common.back">戻る</button> <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold btn-primary" > <span data-i18n="board.detail.reply.submit">返信を投稿</span> </button> </div> </form> </div> </main>
+
+  <script>
+    class EmbeddedLanguageManager{constructor(){this.currentLanguage=localStorage.getItem('language')||'ja';this.translations=window.i18nData;this.dynamicHooks=[]}setLanguage(a){if(this.translations[a]){this.currentLanguage=a;localStorage.setItem('language',a);this.updatePage();this.updateLanguageButtons();this.dynamicHooks.forEach(b=>b())}}translate(a){const b=this.translations[this.currentLanguage];return b&&b[a]?b[a]:a}updatePage(){document.querySelectorAll('[data-i18n]').forEach(a=>{const b=a.getAttribute('data-i18n'),c=this.translate(b);if(b==='post.1.content.full'){a.innerHTML=c}else if(a.children.length===0)a.textContent=c;else for(let d of a.childNodes)if(d.nodeType===Node.TEXT_NODE&&d.textContent.trim()){d.textContent=c;break}});document.querySelectorAll('[data-i18n-placeholder]').forEach(a=>{const b=a.getAttribute('data-i18n-placeholder');a.placeholder=this.translate(b)});const a=document.querySelector('title[data-i18n]');if(a){const b=a.getAttribute('data-i18n');document.title=this.translate(b)}}updateLanguageButtons(){document.querySelectorAll('.lang-btn').forEach(a=>{const b=a.getAttribute('data-lang');a.classList.toggle('active',b===this.currentLanguage);a.classList.toggle('inactive',b!==this.currentLanguage)})}init(){document.querySelectorAll('.lang-btn').forEach(a=>{a.addEventListener('click',()=>{const b=a.getAttribute('data-lang');this.setLanguage(b)})})}getCurrentLanguage(){return this.currentLanguage}}
+    window.languageManager = new EmbeddedLanguageManager(); window.i18n = function(key) { return window.languageManager.translate(key); };
+
+    function handleReply(event){event.preventDefault();alert(window.i18n('alert.reply_submitted'));window.location.href='board.html'}
+
+    // 文字数カウンター更新用関数
+    function updateCharCount() {
+        const textarea = document.getElementById('replyContent');
+        const charCountNum = document.getElementById('charCountNum');
+        const charCountWrapper = document.getElementById('charCountWrapper');
+        if(!textarea || !charCountNum || !charCountWrapper) return; 
+
+        const length = textarea.value.length;
+        const unit = window.i18n('common.char_unit'); // ★単位を翻訳
+        
+        charCountNum.textContent = length; 
+        // ★ ラッパー要素全体ではなく、単位部分だけを更新する方が安全
+        const unitSpan = charCountWrapper.querySelector('[data-i18n="common.char_unit"]');
+        if (unitSpan) unitSpan.textContent = unit;
+
+        charCountWrapper.classList.toggle('text-red-600', length > 500);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager.init();
+      window.languageManager.updatePage(); 
+      window.languageManager.updateLanguageButtons(); 
+
+      // ★文字数カウンターを動的フックに登録 & 初期化
+      window.languageManager.dynamicHooks.push(updateCharCount);
+      const textarea = document.getElementById('replyContent');
+      if (textarea) {
+          textarea.addEventListener('input', updateCharCount);
+          updateCharCount(); // 初回表示
+      }
+    });
+  </script>
+</body>
+</html>

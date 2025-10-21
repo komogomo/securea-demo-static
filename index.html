@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ログイン - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'login.title': 'ログイン',
+        'login.site.title': 'SECUREA City つくば研究学園',
+        'login.site.subtitle': '入居者専用Webサイト',
+        'login.app.title': '住まいコミュニティアプリ',
+        'login.username': 'ユーザー名',
+        'login.password': 'パスワード',
+        'login.remember': 'ログイン状態を保持',
+        'login.button': 'ログイン',
+        'login.demo': 'デモアカウント',
+        'login.demo.text': 'ユーザー名: B71 / パスワード: demo',
+        'login.info.screens': 'このデモは全15画面で構成されています',
+        'login.info.language': '🌐 右上のボタンで言語を切り替えられます',
+        'login.error': 'ユーザー名またはパスワードが正しくありません'
+      },
+      en: {
+        'login.title': 'Login',
+        'login.site.title': 'SECUREA City Tsukuba Kenkyugakuen',
+        'login.site.subtitle': 'Resident Portal',
+        'login.app.title': 'Community Living App',
+        'login.username': 'Username',
+        'login.password': 'Password',
+        'login.remember': 'Remember me',
+        'login.button': 'Login',
+        'login.demo': 'Demo Account',
+        'login.demo.text': 'Username: B71 / Password: demo',
+        'login.info.screens': 'This demo consists of 15 screens',
+        'login.info.language': '🌐 Switch language with buttons above',
+        'login.error': 'Invalid username or password'
+      },
+      zh: {
+        'login.title': '登录',
+        'login.site.title': 'SECUREA City 筑波研究学园',
+        'login.site.subtitle': '住户专用网站',
+        'login.app.title': '居住社区应用',
+        'login.username': '用户名',
+        'login.password': '密码',
+        'login.remember': '保持登录状态',
+        'login.button': '登录',
+        'login.demo': '演示账户',
+        'login.demo.text': '用户名: B71 / 密码: demo',
+        'login.info.screens': '此演示由15个界面组成',
+        'login.info.language': '🌐 使用上方按钮切换语言',
+        'login.error': '用户名或密码不正确'
+      }
+    };
+    
+    console.log('✅ i18nData embedded successfully');
+    console.log('Available languages:', Object.keys(window.i18nData));
+  </script>
+</head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+  <div class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full">
+      <div class="text-center mb-8 fade-in">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2" data-i18n="login.site.title">
+          SECUREA City つくば研究学園
+        </h1>
+        <p class="text-gray-600" data-i18n="login.site.subtitle">入居者専用Webサイト</p>
+        <h2 class="text-2xl font-bold text-blue-600 mt-4" data-i18n="login.app.title">
+          住まいコミュニティアプリ
+        </h2>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-lg p-8 fade-in">
+        <h3 class="text-xl font-bold text-gray-900 mb-6 text-center" data-i18n="login.title">
+          ログイン
+        </h3>
+
+        <form onsubmit="handleLogin(event)">
+          <div class="mb-4">
+            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="login.username">
+              ユーザー名
+            </label>
+            <input 
+              type="text" 
+              id="username"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value="B71"
+              required
+            >
+          </div>
+
+          <div class="mb-6">
+            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="login.password">
+              パスワード
+            </label>
+            <input 
+              type="password" 
+              id="password"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              value="demo"
+              required
+            >
+          </div>
+
+          <div class="mb-6">
+            <label class="flex items-center cursor-pointer">
+              <input type="checkbox" class="w-4 h-4 text-blue-600 rounded">
+              <span class="ml-2 text-gray-900" data-i18n="login.remember">ログイン状態を保持</span>
+            </label>
+          </div>
+
+          <button 
+            type="submit"
+            class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition"
+          >
+            <span data-i18n="login.button">ログイン</span>
+          </button>
+        </form>
+
+        <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+          <p class="text-sm text-blue-900">
+            <span class="font-bold" data-i18n="login.demo">デモアカウント</span><br>
+            <span data-i18n="login.demo.text">ユーザー名: B71 / パスワード: demo</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="mt-6 text-center text-sm text-gray-600">
+        <p data-i18n="login.info.screens">このデモは全15画面で構成されています</p>
+        <p class="mt-1" data-i18n="login.info.language">🌐 右上のボタンで言語を切り替えられます</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    console.log('=== 翻訳システム初期化開始 ===');
+    
+    class EmbeddedLanguageManager {
+      constructor() {
+        console.log('EmbeddedLanguageManager constructor');
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        console.log('✅ Translations loaded:', Object.keys(this.translations));
+        console.log('✅ Current language:', this.currentLanguage);
+      }
+      
+      setLanguage(lang) {
+        console.log('🔄 Changing language to:', lang);
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          console.log('✅ Language changed successfully');
+        } else {
+          console.error('❌ Translation not found for:', lang);
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        console.log('🔄 Updating page translations');
+        let count = 0;
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+          count++;
+        });
+        console.log('✅ Translated', count, 'elements');
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        console.log('🔄 Initializing buttons');
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            console.log('🖱️ Button clicked:', lang);
+            this.setLanguage(lang);
+          });
+        });
+        this.updatePage();
+        this.updateLanguageButtons();
+        console.log('✅ Initialization complete');
+      }
+    }
+    
+    // DOMが読み込まれたら実行
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('=== DOMContentLoaded ===');
+      
+      if (!window.i18nData) {
+        console.error('❌ CRITICAL: i18nData not found!');
+        alert('翻訳データの読み込みに失敗しました');
+        return;
+      }
+      
+      window.languageManager = new EmbeddedLanguageManager();
+      window.languageManager.init();
+      
+      window.i18n = function(key) {
+        return window.languageManager.translate(key);
+      };
+      
+      console.log('=== 翻訳システム初期化完了 ===');
+    });
+    
+    function handleLogin(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+      
+      if (username === 'B71' && password === 'demo') {
+        // ログイン状態をlocalStorageに保存
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('roomNumber', username);
+        window.location.href = 'home.html';
+      } else {
+        const errorMsg = window.i18n ? window.i18n('login.error') : 'ユーザー名またはパスワードが正しくありません';
+        alert(errorMsg);
+      }
+    }
+  </script>
+</body>
+</html>

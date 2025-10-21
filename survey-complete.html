@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="survey.complete.title">アンケート完了 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'survey.complete.title': 'アンケート完了',
+        'survey.complete.message': 'アンケートの回答を受け付けました',
+        'survey.complete.details': '回答内容',
+        'survey.complete.survey_name': 'アンケート',
+        'home.survey.environment': '住環境に関するアンケート',
+        'survey.complete.datetime': '回答日時',
+        'survey.complete.user': '回答者',
+        'survey.complete.user_id': '住戸番号 B71',
+        'survey.complete.thanks': '💡 ありがとうございます',
+        'survey.complete.thanks_msg': '皆様からいただいたご意見は、管理組合で検討し、より良い住環境づくりに活用させていただきます。',
+        'survey.manage.result': '集計結果を見る（管理者向け）',
+        'home.title': 'ホームに戻る',
+        'survey.complete.email_info': '回答内容の確認メールを送信しました<br>（実運用版の機能）'
+      },
+      en: {
+        'survey.complete.title': 'Survey Complete',
+        'survey.complete.message': 'Your response has been received',
+        'survey.complete.details': 'Response Details',
+        'survey.complete.survey_name': 'Survey',
+        'home.survey.environment': 'Living Environment Survey',
+        'survey.complete.datetime': 'Submission Time',
+        'survey.complete.user': 'Respondent',
+        'survey.complete.user_id': 'Room No. B71',
+        'survey.complete.thanks': '💡 Thank You',
+        'survey.complete.thanks_msg': 'Your feedback will be reviewed by the management association and used to improve our living environment.',
+        'survey.manage.result': 'View Results (Admin)',
+        'home.title': 'Back to Home',
+        'survey.complete.email_info': 'A confirmation email has been sent<br>(Live version feature)'
+      },
+      zh: {
+        'survey.complete.title': '调查问卷已完成',
+        'survey.complete.message': '您的回答已收到',
+        'survey.complete.details': '回答详情',
+        'survey.complete.survey_name': '调查问卷',
+        'home.survey.environment': '居住环境调查',
+        'survey.complete.datetime': '提交时间',
+        'survey.complete.user': '回答者',
+        'survey.complete.user_id': '房号 B71',
+        'survey.complete.thanks': '💡 谢谢',
+        'survey.complete.thanks_msg': '您提供的意见将由管理组合进行讨论，并用于营造更好的居住环境。',
+        'survey.manage.result': '查看汇总结果（管理员）',
+        'home.title': '返回首页',
+        'survey.complete.email_info': '已发送回答内容的确认邮件<br>（实际运营版功能）'
+      }
+    };
+  </script>
+</head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+
+  <main class="min-h-screen flex items-center justify-center px-4">
+    <div class="max-w-md w-full">
+      <div class="text-center mb-8 fade-in">
+        <div class="inline-block bg-green-100 rounded-full p-6 mb-4">
+          <svg class="w-16 h-16 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+          </svg>
+        </div>
+        <h1 class="text-2xl font-bold text-gray-900 mb-2" data-i18n="survey.complete.title">
+          回答ありがとうございました
+        </h1>
+        <p class="text-gray-600" data-i18n="survey.complete.message">
+          アンケートの回答を受け付けました
+        </p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+        <h2 class="font-bold text-gray-900 mb-4" data-i18n="survey.complete.details">回答内容</h2>
+        
+        <div class="space-y-4 text-sm">
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <div class="font-bold text-gray-900" data-i18n="survey.complete.survey_name">アンケート</div>
+              <div class="text-gray-600" data-i18n="home.survey.environment">住環境に関するアンケート</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <div class="font-bold text-gray-900" data-i18n="survey.complete.datetime">回答日時</div>
+              <div class="text-gray-600" id="submitTime">2025/10/20 15:32</div>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <svg class="w-5 h-5 text-blue-600 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+            </svg>
+            <div>
+              <div class="font-bold text-gray-900" data-i18n="survey.complete.user">回答者</div>
+              <div class="text-gray-600" data-i18n="survey.complete.user_id">住戸番号 B71</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 fade-in">
+        <p class="text-sm text-blue-800">
+          <span class="font-bold" data-i18n="survey.complete.thanks">💡 ありがとうございます</span><br>
+          <span data-i18n="survey.complete.thanks_msg">皆様からいただいたご意見は、管理組合で検討し、より良い住環境づくりに活用させていただきます。</span>
+        </p>
+      </div>
+
+      <div class="space-y-3 fade-in">
+        <button 
+          onclick="window.location.href='survey-result.html'" 
+          class="w-full bg-purple-600 text-white py-4 rounded-lg font-bold hover:bg-purple-700 transition"
+        >
+          <span data-i18n="survey.manage.result">集計結果を見る（管理者向け）</span>
+        </button>
+        <button 
+          onclick="window.location.href='home.html'" 
+          class="w-full bg-blue-600 text-white py-4 rounded-lg font-bold btn-primary"
+        >
+          <span data-i18n="home.title">ホームに戻る</span>
+        </button>
+      </div>
+
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-500" data-i18n="survey.complete.email_info">
+          回答内容の確認メールを送信しました<br>
+          （実運用版の機能）
+        </p>
+      </div>
+    </div>
+  </main>
+
+
+  <script>
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        this.dynamicHooks = []; 
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          this.dynamicHooks.forEach(hook => hook());
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (key === 'survey.complete.thanks_msg' || key === 'survey.complete.email_info') {
+             element.innerHTML = translation;
+          }
+          else if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            // ★★★ ここを修正 ★★★
+            const lang = btn.getAttribute('data-lang'); // 'data-i18n' -> 'data-lang'
+            // ★★★ (修正ここまで) ★★★
+            this.setLanguage(lang);
+          });
+        });
+      }
+    }
+    
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
+  </script>
+  
+  <script>
+    // DOM読み込み完了時に、翻訳システムの初期化と時刻表示
+    document.addEventListener('DOMContentLoaded', function() {
+      // 翻訳システムをキック
+      window.languageManager.init();
+      window.languageManager.updatePage(); // 静的コンテンツの初回翻訳
+      window.languageManager.updateLanguageButtons(); // ボタンの状態更新
+
+      // 現在時刻を表示
+      const now = new Date();
+      const formatted = `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')} ${String(now.getHours()).padStart(2, '0')}:${String(now.getMinutes()).padStart(2, '0')}`;
+      const timeEl = document.getElementById('submitTime');
+      if (timeEl) {
+        timeEl.textContent = formatted;
+      }
+    });
+  </script>
+  </body>
+</html>

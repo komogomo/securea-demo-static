@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="survey.answer.title">アンケート回答 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'survey.answer.title': 'アンケート回答',
+        'home.survey.environment': '住環境に関するアンケート',
+        'survey.info.description': 'より良い住環境づくりのため、ご協力をお願いします',
+        'survey.question': '質問',
+        'survey.time_estimate': '約',
+        'survey.time_minutes': '分',
+        'home.survey.deadline': '期限',
+        'survey.required': '*必須',
+        'survey.q1.text': '騒音問題で困っていますか？',
+        'survey.q1.opt.yes': 'はい',
+        'survey.q1.opt.no': 'いいえ',
+        'survey.q1.opt.neither': 'どちらでもない',
+        'survey.multiple': '複数選択可',
+        'survey.q2.text': 'どの時間帯の騒音が気になりますか？',
+        'survey.q2.opt.morning': '早朝（6-9時）',
+        'survey.q2.opt.day': '日中（9-18時）',
+        'survey.q2.opt.evening': '夜間（18-22時）',
+        'survey.q2.opt.night': '深夜（22-6時）',
+        'survey.optional': '任意',
+        'survey.q3.text': 'その他、ご意見があればお聞かせください',
+        'survey.q3.placeholder': '自由にご記入ください（例：道路でのボール遊びがうるさい）',
+        'common.char_unit': '文字',
+        'survey.response_type.title': '回答形式',
+        'survey.named': '実名で回答',
+        'survey.anonymous': '匿名で回答',
+        'cancel': 'キャンセル',
+        'survey.submit': '回答を送信'
+      },
+      en: {
+        'survey.answer.title': 'Answer Survey',
+        'home.survey.environment': 'Living Environment Survey',
+        'survey.info.description': 'Please cooperate in creating a better living environment.',
+        'survey.question': 'Question',
+        'survey.time_estimate': 'Approx.',
+        'survey.time_minutes': 'min',
+        'home.survey.deadline': 'Deadline',
+        'survey.required': '*Required',
+        'survey.q1.text': 'Are you troubled by noise problems?',
+        'survey.q1.opt.yes': 'Yes',
+        'survey.q1.opt.no': 'No',
+        'survey.q1.opt.neither': 'Neither',
+        'survey.multiple': 'Multiple Choice',
+        'survey.q2.text': 'Which time of day is the noise noticeable?',
+        'survey.q2.opt.morning': 'Morning (6-9h)',
+        'survey.q2.opt.day': 'Daytime (9-18h)',
+        'survey.q2.opt.evening': 'Evening (18-22h)',
+        'survey.q2.opt.night': 'Night (22-6h)',
+        'survey.optional': 'Optional',
+        'survey.q3.text': 'Other comments or opinions?',
+        'survey.q3.placeholder': 'Please write freely (e.g., Noise from ball games on the road)',
+        'common.char_unit': ' chars',
+        'survey.response_type.title': 'Response Format',
+        'survey.named': 'Answer with Name',
+        'survey.anonymous': 'Answer Anonymously',
+        'cancel': 'Cancel',
+        'survey.submit': 'Submit Answer'
+      },
+      zh: {
+        'survey.answer.title': '回答调查问卷',
+        'home.survey.environment': '居住环境调查',
+        'survey.info.description': '为了营造更好的居住环境，请您协助。',
+        'survey.question': '问题',
+        'survey.time_estimate': '约',
+        'survey.time_minutes': '分钟',
+        'home.survey.deadline': '截止日期',
+        'survey.required': '*必需',
+        'survey.q1.text': '您是否受到噪音问题的困扰？',
+        'survey.q1.opt.yes': '是',
+        'survey.q1.opt.no': '否',
+        'survey.q1.opt.neither': '都不是',
+        'survey.multiple': '可多选',
+        'survey.q2.text': '哪个时间段的噪音让您在意？',
+        'survey.q2.opt.morning': '清晨 (6-9点)',
+        'survey.q2.opt.day': '白天 (9-18点)',
+        'survey.q2.opt.evening': '傍晚 (18-22点)',
+        'survey.q2.opt.night': '深夜 (22-6点)',
+        'survey.optional': '任意',
+        'survey.q3.text': '您还有其他意见吗？',
+        'survey.q3.placeholder': '请自由填写（例如：路上玩球的声音很吵）',
+        'common.char_unit': '字',
+        'survey.response_type.title': '回答形式',
+        'survey.named': '实名回答',
+        'survey.anonymous': '匿名回答',
+        'cancel': '取消',
+        'survey.submit': '提交回答'
+      }
+    };
+  </script>
+  </head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center gap-3">
+        <button onclick="window.location.href='home.html'" class="text-gray-600 hover:text-gray-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold text-gray-900" data-i18n="survey.answer.title">アンケート回答</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 fade-in">
+      <h2 class="text-lg font-bold text-blue-900 mb-2" data-i18n="home.survey.environment">住環境に関するアンケート</h2>
+      <p class="text-sm text-blue-800 mb-2" data-i18n="survey.info.description">
+        より良い住環境づくりのため、ご協力をお願いします
+      </p>
+      <div class="flex items-center gap-4 text-sm text-blue-700">
+        <span>📊 <span data-i18n="survey.question">質問</span>3</span>
+        <span>⏱️ <span data-i18n="survey.time_estimate">約</span>3<span data-i18n="survey.time_minutes">分</span></span>
+        <span>📅 <span data-i18n="home.survey.deadline">期限</span>：10/27</span>
+      </div>
+    </div>
+
+    <form id="surveyForm" onsubmit="handleSubmit(event)">
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm font-bold"><span data-i18n="survey.question">質問</span>1</span>
+            <span class="text-red-600 text-sm font-bold" data-i18n="survey.required">*必須</span>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900" data-i18n="survey.q1.text">騒音問題で困っていますか？</h3>
+        </div>
+
+        <div class="space-y-3">
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="radio" name="q1" value="yes" class="w-5 h-5 text-blue-600" required>
+            <span class="ml-3 text-gray-900" data-i18n="survey.q1.opt.yes">はい</span>
+          </label>
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="radio" name="q1" value="no" class="w-5 h-5 text-blue-600">
+            <span class="ml-3 text-gray-900" data-i18n="survey.q1.opt.no">いいえ</span>
+          </label>
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="radio" name="q1" value="neither" class="w-5 h-5 text-blue-600">
+            <span class="ml-3 text-gray-900" data-i18n="survey.q1.opt.neither">どちらでもない</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm font-bold"><span data-i18n="survey.question">質問</span>2</span>
+            <span class="text-gray-500 text-sm" data-i18n="survey.multiple">複数選択可</span>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900" data-i18n="survey.q2.text">どの時間帯の騒音が気になりますか？</h3>
+        </div>
+
+        <div class="space-y-3">
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="checkbox" name="q2" value="morning" class="w-5 h-5 text-blue-600 rounded">
+            <span class="ml-3 text-gray-900" data-i18n="survey.q2.opt.morning">早朝（6-9時）</span>
+          </label>
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="checkbox" name="q2" value="day" class="w-5 h-5 text-blue-600 rounded">
+            <span class="ml-3 text-gray-900" data-i18n="survey.q2.opt.day">日中（9-18時）</span>
+          </label>
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="checkbox" name="q2" value="evening" class="w-5 h-5 text-blue-600 rounded">
+            <span class="ml-3 text-gray-900" data-i18n="survey.q2.opt.evening">夜間（18-22時）</span>
+          </label>
+          <label class="flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-500 hover:bg-blue-50 transition">
+            <input type="checkbox" name="q2" value="night" class="w-5 h-5 text-blue-600 rounded">
+            <span class="ml-3 text-gray-900" data-i18n="survey.q2.opt.night">深夜（22-6時）</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+        <div class="mb-4">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded text-sm font-bold"><span data-i18n="survey.question">質問</span>3</span>
+            <span class="text-gray-500 text-sm" data-i18n="survey.optional">任意</span>
+          </div>
+          <h3 class="text-lg font-bold text-gray-900" data-i18n="survey.q3.text">その他、ご意見があればお聞かせください</h3>
+        </div>
+
+        <textarea 
+          name="q3" 
+          rows="5" 
+          class="w-full px-4 py-3 border-2 border-gray-200 rounded-lg focus:outline-none focus:border-blue-500 resize-none"
+          data-i18n-placeholder="survey.q3.placeholder" placeholder="自由にご記入ください（例：道路でのボール遊びがうるさい）"
+        ></textarea>
+        <p class="text-sm text-gray-500 mt-2" id="charCountDisplay">
+          0 / 500文字
+        </p>
+      </div>
+
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+        <h3 class="text-sm font-bold text-gray-900 mb-3" data-i18n="survey.response_type.title">回答形式</h3>
+        <div class="space-y-2">
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="anonymous" value="false" class="w-4 h-4 text-blue-600" checked>
+            <span class="ml-2 text-gray-900" data-i18n="survey.named">実名で回答</span>
+          </label>
+          <label class="flex items-center cursor-pointer">
+            <input type="radio" name="anonymous" value="true" class="w-4 h-4 text-blue-600">
+            <span class="ml-2 text-gray-900" data-i18n="survey.anonymous">匿名で回答</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="flex gap-4">
+        <button 
+          type="button" 
+          onclick="window.location.href='home.html'" 
+          class="flex-1 bg-gray-100 text-gray-700 py-4 rounded-lg font-bold hover:bg-gray-200 transition"
+         data-i18n="cancel">キャンセル</button>
+        <button 
+          type="submit" 
+          class="flex-1 bg-blue-600 text-white py-4 rounded-lg font-bold btn-primary"
+          data-i18n="survey.submit"
+        >
+          回答を送信
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        this.dynamicHooks = []; // ★動的コンテンツ用のフック
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          
+          // --- ★登録されたフックをすべて実行★ ---
+          this.dynamicHooks.forEach(hook => hook());
+          // --- ★★★ ---
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        // 静的コンテンツ
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+
+        // Placeholder
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
+        // Title
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+      }
+    }
+    
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
+  </script>
+
+  <script>
+    // 文字数カウント
+    const textarea = document.querySelector('textarea[name="q3"]');
+    const charCountDisplay = document.getElementById('charCountDisplay');
+    const MAX_CHARS = 500;
+    
+    function updateCharCount() {
+      if (!textarea || !charCountDisplay) return; // 要素チェック
+      
+      const length = textarea.value.length;
+      
+      // 翻訳関数を使用して「文字」部分を多言語化
+      const charUnit = window.i18n ? window.i18n('common.char_unit') : '文字';
+      charCountDisplay.textContent = `${length} / ${MAX_CHARS}${charUnit}`; 
+      
+      if (length > MAX_CHARS) {
+        charCountDisplay.classList.add('text-red-600');
+      } else {
+        charCountDisplay.classList.remove('text-red-600');
+      }
+    }
+    
+    // フォーム送信
+    function handleSubmit(event) {
+      event.preventDefault();
+      window.location.href = 'survey-complete.html';
+    }
+
+    // DOM読み込み完了時に、翻訳システムの初期化と動的フックの登録
+    document.addEventListener('DOMContentLoaded', function() {
+      // 翻訳システムをキック
+      window.languageManager.init();
+      window.languageManager.updatePage(); // 静的コンテンツの初回翻訳
+      window.languageManager.updateLanguageButtons(); // ボタンの状態更新
+
+      // ★文字数カウンターを動的フックに登録
+      window.languageManager.dynamicHooks.push(updateCharCount);
+      
+      // ★イベントリスナーと初回実行
+      textarea.addEventListener('input', updateCharCount);
+      updateCharCount(); // 初回描画
+    });
+  </script>
+  </body>
+</html>

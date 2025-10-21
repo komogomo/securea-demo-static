@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="survey.result.title">アンケート結果 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'survey.result.title': 'アンケート結果',
+        'survey.result.admin': '管理者向け',
+        'survey.result.csv': 'CSV出力',
+        'home.survey.environment': '住環境に関するアンケート',
+        'survey.result.total': '回答数',
+        'survey.result.rate': '回答率',
+        'survey.result.total_residents': '総世帯数',
+        'survey.result.period': '実施期間',
+        'survey.result.hint': '💡 ヒント:',
+        'survey.result.hint_msg': 'この画面を理事会で共有し、住民の声を可視化できます。CSV出力で詳細分析も可能です。',
+        'survey.question': '質問',
+        'survey.q1.text': '騒音問題で困っていますか？',
+        'survey.q1.opt.yes': 'はい',
+        'survey.q1.opt.no': 'いいえ',
+        'survey.q1.opt.neither': 'どちらでもない',
+        'survey.result.unit': '件',
+        'survey.result.attention': '⚠️ 注目:',
+        'survey.result.attention_msg': '35.7%（15世帯）が騒音問題で困っていると回答。対策の検討が必要です。',
+        'survey.q2.text': 'どの時間帯の騒音が気になりますか？',
+        'survey.multiple': '（複数選択可）',
+        'survey.q2.opt.morning': '早朝（6-9時）',
+        'survey.q2.opt.day': '日中（9-18時）',
+        'survey.q2.opt.evening': '夜間（18-22時）',
+        'survey.q2.opt.night': '深夜（22-6時）',
+        'survey.result.max': '（最多）',
+        'survey.result.analysis': '📊 分析:',
+        'survey.result.analysis_msg': '夜間（18-22時）の騒音が最も多く報告されています（18件）。この時間帯の対策を優先すべきです。',
+        'survey.q3.text': 'その他、ご意見があればお聞かせください',
+        'survey.q3.free_response': '自由記述（15件の回答）',
+
+        'survey.q3.free_response_14': '自由記述（14件の回答）',
+
+        'survey.result.toggle': '全て表示 / 折りたたむ',
+        'survey.result.breakdown': '回答者の内訳',
+        'survey.named': '実名回答',
+        'survey.anonymous': '匿名回答',
+        'survey.result.last_updated': '最終更新',
+        // --- 自由記述の回答キー ---
+        'survey.q3.res.1': '道路でのボール遊びがうるさい',
+
+        'survey.q3.res.3': 'BBQの煙が気になる',
+        'survey.q3.res.4': '特にありません',
+        'survey.q3.res.5': '裏の家の焚き火が心配',
+        'survey.q3.res.6': '車のスピード出しすぎが怖い',
+        'survey.q3.res.7': '隣の植木が越境してきている',
+        'survey.q3.res.8': '深夜の話し声が気になる',
+        'survey.q3.res.9': '子供の遊び声は気にならない',
+        'survey.q3.res.10': 'ペットの鳴き声について',
+        'survey.q3.res.11': 'ゴミ出しのマナーが悪い人がいる',
+        'survey.q3.res.12': '駐車場での騒音',
+        'survey.q3.res.13': '改善を期待しています',
+        'survey.q3.res.14': '概ね満足しています',
+        'survey.q3.res.15': '管理組合の対応に期待',
+        'alert.csv_export_demo': 'CSV出力機能（デモ）\n\n実運用版では、アンケート結果をCSVファイルとしてダウンロードできます。'
+      },
+      en: {
+        'survey.result.title': 'Survey Results',
+        'survey.result.admin': 'Admin View',
+        'survey.result.csv': 'Export CSV',
+        'home.survey.environment': 'Living Environment Survey',
+        'survey.result.total': 'Responses',
+        'survey.result.rate': 'Response Rate',
+        'survey.result.total_residents': 'Total Households',
+        'survey.result.period': 'Period',
+        'survey.result.hint': '💡 Tip:',
+        'survey.result.hint_msg': 'Share this screen at board meetings to visualize resident feedback. CSV export allows for detailed analysis.',
+        'survey.question': 'Question',
+        'survey.q1.text': 'Are you troubled by noise problems?',
+        'survey.q1.opt.yes': 'Yes',
+        'survey.q1.opt.no': 'No',
+        'survey.q1.opt.neither': 'Neither',
+        'survey.result.unit': ' responses',
+        'survey.result.attention': '⚠️ Attention:',
+        'survey.result.attention_msg': '35.7% (15 households) reported being troubled by noise. Countermeasures should be considered.',
+        'survey.q2.text': 'Which time of day is the noise noticeable?',
+        'survey.multiple': '(Multiple choice)',
+        'survey.q2.opt.morning': 'Morning (6-9h)',
+        'survey.q2.opt.day': 'Daytime (9-18h)',
+        'survey.q2.opt.evening': 'Evening (18-22h)',
+        'survey.q2.opt.night': 'Night (22-6h)',
+        'survey.result.max': '(Most)',
+        'survey.result.analysis': '📊 Analysis:',
+        'survey.result.analysis_msg': 'Noise during the evening (18-22h) is reported most frequently (18 responses). Priority should be given to measures during this time.',
+        'survey.q3.text': 'Other comments or opinions?',
+        'survey.q3.free_response': 'Open-ended (15 responses)',
+        'survey.q3.free_response_14': 'Open-ended (14 responses)',
+        'survey.result.toggle': 'Show All / Collapse',
+        'survey.result.breakdown': 'Respondent Breakdown',
+        'survey.named': 'Named',
+        'survey.anonymous': 'Anonymous',
+        'survey.result.last_updated': 'Last Updated',
+        // --- 自由記述の回答キー ---
+        'survey.q3.res.1': 'Noise from ball games on the road',
+        'survey.q3.res.2': 'The sound of basketball bouncing late at night',
+        'survey.q3.res.3': 'Concerned about BBQ smoke',
+        'survey.q3.res.4': 'None in particular',
+        'survey.q3.res.5': 'Worried about bonfires in the backyard',
+        'survey.q3.res.6': 'Cars speeding is scary',
+        'survey.q3.res.7': "Neighbor's tree is encroaching",
+        'survey.q3.res.8': 'Loud conversations late at night',
+        'survey.q3.res.9': "Children's playing voices don't bother me",
+        'survey.q3.res.10': 'Regarding pet noises',
+        'survey.q3.res.11': 'Some people have bad manners with garbage disposal',
+        'survey.q3.res.12': 'Noise in the parking lot',
+        'survey.q3.res.13': 'Hoping for improvement',
+        'survey.q3.res.14': 'Generally satisfied',
+        'survey.q3.res.15': 'Expecting action from the management association',
+        'alert.csv_export_demo': 'CSV Export (Demo)\n\nIn the live version, you can download survey results as a CSV file.'
+      },
+      zh: {
+        'survey.result.title': '调查结果',
+        'survey.result.admin': '管理员视图',
+        'survey.result.csv': '导出CSV',
+        'home.survey.environment': '居住环境调查',
+        'survey.result.total': '回答数',
+        'survey.result.rate': '回答率',
+        'survey.result.total_residents': '总户数',
+        'survey.result.period': '实施期间',
+        'survey.result.hint': '💡 提示:',
+        'survey.result.hint_msg': '在理事会上共享此屏幕，使居民的意见可视化。CSV导出可进行详细分析。',
+        'survey.question': '问题',
+        'survey.q1.text': '您是否受到噪音问题的困扰？',
+        'survey.q1.opt.yes': '是',
+        'survey.q1.opt.no': '否',
+        'survey.q1.opt.neither': '都不是',
+        'survey.result.unit': '条',
+        'survey.result.attention': '⚠️ 注意:',
+        'survey.result.attention_msg': '35.7%（15户）回答受到噪音困扰。需要检讨对策。',
+        'survey.q2.text': '哪个时间段的噪音让您在意？',
+        'survey.multiple': '（可多选）',
+        'survey.q2.opt.morning': '清晨 (6-9点)',
+        'survey.q2.opt.day': '白天 (9-18点)',
+        'survey.q2.opt.evening': '傍晚 (18-22点)',
+        'survey.q2.opt.night': '深夜 (22-6点)',
+        'survey.result.max': '（最多）',
+        'survey.result.analysis': '📊 分析:',
+        'survey.result.analysis_msg': '傍晚（18-22点）的噪音报告最多（18条）。应优先考虑此时段的对策。',
+        'survey.q3.text': '您还有其他意见吗？',
+        'survey.q3.free_response': '自由记述（15条回答）',
+        'survey.q3.free_response_14': '自由记述（14条回答）',
+        'survey.result.toggle': '显示全部 / 折叠',
+        'survey.result.breakdown': '回答者明细',
+        'survey.named': '实名回答',
+        'survey.anonymous': '匿名回答',
+        'survey.result.last_updated': '最后更新',
+        // --- 自由記述の回答キー ---
+        'survey.q3.res.1': '在路上玩球很吵',
+        'survey.q3.res.2': '深夜篮球的声音很响',
+        'survey.q3.res.3': 'BBQ的烟味很重',
+        'survey.q3.res.4': '没有特别的',
+        'survey.q3.res.5': '担心后院的篝火',
+        'survey.q3.res.6': '车速太快很吓人',
+        'survey.q3.res.7': '邻居的树枝越界了',
+        'survey.q3.res.8': '深夜的说话声很吵',
+        'survey.q3.res.9': '不介意孩子们的玩耍声',
+        'survey.q3.res.10': '关于宠物的叫声',
+        'survey.q3.res.11': '有人扔垃圾的礼仪很差',
+        'survey.q3.res.12': '停车场的噪音',
+        'survey.q3.res.13': '期待改善',
+        'survey.q3.res.14': '大致满意',
+        'survey.q3.res.15': '期待管理组合的对应',
+        'alert.csv_export_demo': 'CSV导出功能（演示）\n\n在实际运营版中，您可以将调查结果下载为CSV文件。'
+      }
+    };
+  </script>
+  </head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='home.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <div>
+            <h1 class="text-xl font-bold text-gray-900" data-i18n="survey.result.title">アンケート結果</h1>
+            <p class="text-sm text-gray-600" data-i18n="survey.result.admin">管理者向け</p>
+          </div>
+        </div>
+        <button onclick="exportCSV()" class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-green-700 transition">
+          <span data-i18n="survey.result.csv">CSV出力</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-24">
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+      <h2 class="text-2xl font-bold text-gray-900 mb-4" id="surveyTitle" data-i18n="home.survey.environment">住環境に関するアンケート</h2>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <div class="text-3xl font-bold text-blue-600" id="responseCount">42</div>
+          <div class="text-sm text-gray-600" data-i18n="survey.result.total">回答数</div>
+        </div>
+        <div class="bg-green-50 p-4 rounded-lg">
+          <div class="text-3xl font-bold text-green-600" id="responseRate">24.6%</div>
+          <div class="text-sm text-gray-600" data-i18n="survey.result.rate">回答率</div>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-lg">
+          <div class="text-3xl font-bold text-purple-600">171</div>
+          <div class="text-sm text-gray-600" data-i18n="survey.result.total_residents">総世帯数</div>
+        </div>
+        <div class="bg-orange-50 p-4 rounded-lg">
+          <div class="text-lg font-bold text-orange-600">10/20 - 10/27</div>
+          <div class="text-sm text-gray-600" data-i18n="survey.result.period">実施期間</div>
+        </div>
+      </div>
+
+      <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+        <p class="text-sm text-yellow-800">
+          <span class="font-bold" data-i18n="survey.result.hint">💡 ヒント:</span> 
+          <span data-i18n="survey.result.hint_msg">この画面を理事会で共有し、住民の声を可視化できます。CSV出力で詳細分析も可能です。</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+      <h3 class="text-lg font-bold text-gray-900 mb-4">
+        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm mr-2"><span data-i18n="survey.question">質問</span>1</span>
+        <span data-i18n="survey.q1.text">騒音問題で困っていますか？</span>
+      </h3>
+
+      <div class="space-y-3 mb-6">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q1.opt.yes">はい</span>
+            <span class="text-gray-900 font-bold">15<span data-i18n="survey.result.unit">件</span>（35.7%）</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 35.7%">35.7%</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q1.opt.no">いいえ</span>
+            <span class="text-gray-900 font-bold">20<span data-i18n="survey.result.unit">件</span>（47.6%）</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 47.6%; background-color: #10B981;">47.6%</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q1.opt.neither">どちらでもない</span>
+            <span class="text-gray-900 font-bold">7<span data-i18n="survey.result.unit">件</span>（16.7%）</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 16.7%; background-color: #6B7280;">16.7%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+        <p class="text-sm text-red-800">
+          <span class="font-bold" data-i18n="survey.result.attention">⚠️ 注目:</span> 
+          <span data-i18n="survey.result.attention_msg">35.7%（15世帯）が騒音問題で困っていると回答。対策の検討が必要です。</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+      <h3 class="text-lg font-bold text-gray-900 mb-2">
+        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm mr-2"><span data-i18n="survey.question">質問</span>2</span>
+        <span data-i18n="survey.q2.text">どの時間帯の騒音が気になりますか？</span>
+      </h3>
+      <p class="text-sm text-gray-600 mb-4" data-i18n="survey.multiple">（複数選択可）</p>
+
+      <div class="space-y-3 mb-6">
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q2.opt.morning">早朝（6-9時）</span>
+            <span class="text-gray-900 font-bold">8<span data-i18n="survey.result.unit">件</span></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 44.4%; background-color: #3B82F6;">44.4%</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q2.opt.day">日中（9-18時）</span>
+            <span class="text-gray-900 font-bold">12<span data-i18n="survey.result.unit">件</span></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 66.7%; background-color: #3B82F6;">66.7%</div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q2.opt.evening">夜間（18-22時）</span>
+            <span class="text-gray-900 font-bold">18<span data-i18n="survey.result.unit">件</span> 🔥</span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 100%; background-color: #EF4444;">100%<span data-i18n="survey.result.max">（最多）</span></div>
+          </div>
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between mb-1">
+            <span class="text-gray-700 font-medium" data-i18n="survey.q2.opt.night">深夜（22-6時）</span>
+            <span class="text-gray-900 font-bold">10<span data-i18n="survey.result.unit">件</span></span>
+          </div>
+          <div class="w-full bg-gray-200 rounded-full h-8">
+            <div class="percentage-bar" style="width: 55.6%; background-color: #3B82F6;">55.6%</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-orange-50 border border-orange-200 rounded-lg p-4">
+        <p class="text-sm text-orange-800">
+          <span class="font-bold" data-i18n="survey.result.analysis">📊 分析:</span> 
+          <span data-i18n="survey.result.analysis_msg">夜間（18-22時）の騒音が最も多く報告されています（18件）。この時間帯の対策を優先すべきです。</span>
+        </p>
+      </div>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+      <h3 class="text-lg font-bold text-gray-900 mb-2">
+        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-sm mr-2"><span data-i18n="survey.question">質問</span>3</span>
+        <span data-i18n="survey.q3.text">その他、ご意見があればお聞かせください</span>
+      </h3>
+      <p class="text-sm text-gray-600 mb-4" data-i18n="survey.q3.free_response_14">自由記述（14件の回答）</p>
+
+      <div class="space-y-2 max-h-96 overflow-y-auto" id="freeTextResponses">
+        </div>
+
+      <button onclick="toggleAllResponses()" class="mt-4 w-full bg-gray-100 text-gray-700 py-2 rounded-lg hover:bg-gray-200 transition">
+        <span data-i18n="survey.result.toggle">全て表示 / 折りたたむ</span>
+      </button>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
+      <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="survey.result.breakdown">回答者の内訳</h3>
+      <div class="grid grid-cols-2 gap-4">
+        <div class="bg-blue-50 p-4 rounded-lg text-center">
+          <div class="text-2xl font-bold text-blue-600">18<span class="text-lg" data-i18n="survey.result.unit">件</span></div>
+          <div class="text-sm text-gray-600" data-i18n="survey.named">実名回答</div>
+        </div>
+        <div class="bg-purple-50 p-4 rounded-lg text-center">
+          <div class="text-2xl font-bold text-purple-600">24<span class="text-lg" data-i18n="survey.result.unit">件</span></div>
+          <div class="text-sm text-gray-600" data-i18n="survey.anonymous">匿名回答</div>
+        </div>
+      </div>
+      <p class="text-xs text-gray-500 mt-4 text-center">
+        <span data-i18n="survey.result.last_updated">最終更新</span>: 2025/10/22 15:32
+      </p>
+    </div>
+  </main>
+  <script>
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        this.dynamicHooks = []; // ★動的コンテンツ用のフック
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          
+          // --- ★登録されたフックをすべて実行★ ---
+          this.dynamicHooks.forEach(hook => hook());
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang'); // ★修正済★
+            this.setLanguage(lang);
+          });
+        });
+      }
+    }
+    
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
+  </script>
+
+  <script>
+    // ▼ 自由記述の回答を「キー」の配列として定義
+    const responseKeys = [
+      'survey.q3.res.1', 'survey.q3.res.3', 'survey.q3.res.4',
+      'survey.q3.res.5', 'survey.q3.res.6', 'survey.q3.res.7', 'survey.q3.res.8',
+      'survey.q3.res.9', 'survey.q3.res.10', 'survey.q3.res.11', 'survey.q3.res.12',
+      'survey.q3.res.13', 'survey.q3.res.14', 'survey.q3.res.15'
+    ];
+    
+    const container = document.getElementById('freeTextResponses');
+    let showingAll = false;
+
+    // ▼ renderResponses() を修正 (キーを翻訳するように)
+    function renderResponses(showAll = false) {
+      if (!container) return; // 要素チェック
+      container.innerHTML = '';
+      const displayKeys = showAll ? responseKeys : responseKeys.slice(0, 5);
+      
+      displayKeys.forEach((key, index) => {
+        const responseText = window.i18n(key); // ★翻訳★
+        
+        const div = document.createElement('div');
+        div.className = 'bg-gray-50 p-3 rounded-lg border border-gray-200';
+        div.innerHTML = `
+          <div class="flex items-start gap-2">
+            <span class="text-gray-400 text-sm">${index + 1}.</span>
+            <p class="text-gray-700 text-sm">${responseText}</p>
+          </div>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    function toggleAllResponses() {
+      showingAll = !showingAll;
+      renderResponses(showingAll); // ★翻訳された内容で再描画
+    }
+
+    // CSV出力（デモ）
+    function exportCSV() {
+      alert(window.i18n('alert.csv_export_demo'));
+    }
+
+    // DOM読み込み完了時に、翻訳システムの初期化と動的フックの登録
+    document.addEventListener('DOMContentLoaded', function() {
+      // 翻訳システムをキック
+      window.languageManager.init();
+      window.languageManager.updatePage(); // 静的コンテンツの初回翻訳
+      window.languageManager.updateLanguageButtons(); // ボタンの状態更新
+
+      // ★自由記述欄の描画を動的フックに登録
+      // (renderResponses は showingAll の状態を保持する必要があるため、
+      //  言語が切り替わった際は showingAll の状態を維持したまま再描画する)
+      window.languageManager.dynamicHooks.push(() => renderResponses(showingAll));
+      
+      // ★リストの初回描画
+      renderResponses(false);
+    });
+  </script>
+  </body>
+</html>

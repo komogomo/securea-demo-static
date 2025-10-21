@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="booking.confirm.title">予約確認 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'back': '戻る',
+        'booking.confirm.title': '予約確認', 'booking.confirm.details': '予約内容',
+        'booking.confirm.facility': '施設', 'booking.hall.name_only': '集会所（セキュレアステーション）',
+        'booking.parking.name_only': 'ゲスト駐車場', 'booking.parking.spot': '番',
+        'booking.confirm.datetime': '予約日時', 'booking.confirm.applicant': '申込者',
+        'booking.confirm.user_id': '住戸番号 B71', 'booking.confirm.purpose': '使用目的',
+        'booking.confirm.purpose_placeholder': '例：子供の誕生日会', 'booking.confirm.attendees': '参加人数（目安）',
+        'booking.confirm.attendees_placeholder': '例：15', 'booking.confirm.attendees_note': '集会所の定員は約30名です',
+        'booking.confirm.notes': '📌 ご利用にあたって', 'booking.confirm.notes.1': '• 使用後は清掃をお願いします',
+        'booking.confirm.notes.2': '• ゴミは各自でお持ち帰りください', 'booking.confirm.notes.3': '• 設備の破損・汚損があった場合はご連絡ください',
+        'booking.confirm.notes.4': '• キャンセルの場合は前日までにご連絡ください', 'booking.confirm.agree': '上記の注意事項を確認し、同意します',
+        'booking.confirm.button': '予約を確定', 'booking.confirm.allday': '終日', 'survey.required': '*必須',
+        'alert.agree_required': '注意事項に同意してください', 'alert.purpose_required': '使用目的を入力してください',
+        'alert.booking_complete': '予約が完了しました！\n\n予約内容を確認メールで送信しました。\n（実運用版の機能）'
+      },
+      en: {
+        'back': 'Back',
+        'booking.confirm.title': 'Booking Confirmation', 'booking.confirm.details': 'Booking Details',
+        'booking.confirm.facility': 'Facility', 'booking.hall.name_only': 'Meeting Room (SECUREA Station)', 
+        'booking.parking.name_only': 'Guest Parking', 'booking.parking.spot': ' Spot',
+        'booking.confirm.datetime': 'Date & Time', 'booking.confirm.applicant': 'Applicant',
+        'booking.confirm.user_id': 'Room No. B71', 'booking.confirm.purpose': 'Purpose',
+        'booking.confirm.purpose_placeholder': 'e.g., Children\'s birthday party', 'booking.confirm.attendees': 'Attendees (Est.)',
+        'booking.confirm.attendees_placeholder': 'e.g., 15', 'booking.confirm.attendees_note': 'Meeting room capacity is approx. 30 people',
+        'booking.confirm.notes': '📌 Terms & Conditions', 'booking.confirm.notes.1': '• Please clean up after use',
+        'booking.confirm.notes.2': '• Please take your trash with you', 'booking.confirm.notes.3': '• Please report any damage or stains to the equipment',
+        'booking.confirm.notes.4': '• Please contact us by the day before if you need to cancel', 'booking.confirm.agree': 'I agree to the terms and conditions above',
+        'booking.confirm.button': 'Confirm Booking', 'booking.confirm.allday': 'All day', 'survey.required': '*Required', 
+        'alert.agree_required': 'Please agree to the terms and conditions', 'alert.purpose_required': 'Please enter the purpose of use',
+        'alert.booking_complete': 'Booking completed!\n\nA confirmation email has been sent.\n(Live version feature)'
+      },
+      zh: {
+        'back': '返回',
+        'booking.confirm.title': '预约确认', 'booking.confirm.details': '预约内容',
+        'booking.confirm.facility': '设施', 'booking.hall.name_only': '会议室（SECUREA Station）',
+        'booking.parking.name_only': '访客停车场', 'booking.parking.spot': '号',
+        'booking.confirm.datetime': '预约日期时间', 'booking.confirm.applicant': '申请人',
+        'booking.confirm.user_id': '房号 B71', 'booking.confirm.purpose': '使用目的',
+        'booking.confirm.purpose_placeholder': '例如：孩子的生日派对', 'booking.confirm.attendees': '参加人数（大约）',
+        'booking.confirm.attendees_placeholder': '例如：15', 'booking.confirm.attendees_note': '会议室容量约为30人',
+        'booking.confirm.notes': '📌 使用注意事项', 'booking.confirm.notes.1': '• 使用后请打扫干净',
+        'booking.confirm.notes.2': '• 请自行带走垃圾', 'booking.confirm.notes.3': '• 如有设备损坏或污损，请联系我们',
+        'booking.confirm.notes.4': '• 如需取消，请最晚于前一天联系', 'booking.confirm.agree': '我已确认并同意上述注意事项',
+        'booking.confirm.button': '确定预约', 'booking.confirm.allday': '全天', 'survey.required': '*必需',
+        'alert.agree_required': '请同意注意事项', 'alert.purpose_required': '请输入使用目的',
+        'alert.booking_complete': '预约已完成！\n\n预约内容的确认邮件已发送。\n（实际运营版功能）'
+      }
+    };
+  </script>
+</head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg"> <button class="lang-btn" data-lang="ja">JA</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="zh">ZHS</button> </div>
+  <header class="bg-white shadow-sm"> <div class="max-w-4xl mx-auto px-4 py-4"> <div class="flex items-center gap-3"> <button onclick="window.history.back()" class="text-gray-600 hover:text-gray-900"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> </button> <h1 class="text-xl font-bold text-gray-900" data-i18n="booking.confirm.title">予約確認</h1> </div> </div> </div> </header>
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32"> <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in"> <h2 class="text-lg font-bold text-gray-900 mb-4" data-i18n="booking.confirm.details">予約内容</h2> <div class="space-y-4"> <div class="flex items-start gap-3"> <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg> <div class="flex-1"> <div class="text-sm text-gray-600" data-i18n="booking.confirm.facility">施設</div> <div id="facilityName" class="text-lg font-bold text-gray-900">...</div> </div> </div> <div class="flex items-start gap-3"> <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/></svg> <div class="flex-1"> <div class="text-sm text-gray-600" data-i18n="booking.confirm.datetime">予約日時</div> <div id="dateTime" class="text-lg font-bold text-gray-900">...</div> </div> </div> <div class="flex items-start gap-3"> <svg class="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg> <div class="flex-1"> <div class="text-sm text-gray-600" data-i18n="booking.confirm.applicant">申込者</div> <div class="text-lg font-bold text-gray-900" data-i18n="booking.confirm.user_id">住戸番号 B71</div> </div> </div> <div id="purposeSection"> <label class="block text-sm font-bold text-gray-700 mb-2"> <span data-i18n="booking.confirm.purpose">使用目的</span> <span class="text-red-600" data-i18n="survey.required">*</span> </label> <textarea id="purpose" rows="3" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" data-i18n-placeholder="booking.confirm.purpose_placeholder" placeholder="例：子供の誕生日会" ></textarea> </div> <div id="attendeesSection"> <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="booking.confirm.attendees"> 参加人数（目安） </label> <input type="number" id="attendees" min="1" max="30" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" data-i18n-placeholder="booking.confirm.attendees_placeholder" placeholder="例：15" > <p class="text-sm text-gray-500 mt-1" data-i18n="booking.confirm.attendees_note">集会所の定員は約30名です</p> </div> </div> </div> <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6 fade-in"> <h3 class="font-bold text-yellow-900 mb-2" data-i18n="booking.confirm.notes">📌 ご利用にあたって</h3> <ul class="text-sm text-yellow-800 space-y-1"> <li data-i18n="booking.confirm.notes.1">• 使用後は清掃をお願いします</li> <li data-i18n="booking.confirm.notes.2">• ゴミは各自でお持ち帰りください</li> <li data-i18n="booking.confirm.notes.3">• 設備の破損・汚損があった場合はご連絡ください</li> <li data-i18n="booking.confirm.notes.4">• キャンセルの場合は前日までにご連絡ください</li> </ul> </div> <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in"> <label class="flex items-start cursor-pointer"> <input type="checkbox" id="agree" class="w-5 h-5 text-blue-600 rounded mt-1"> <span class="ml-3 text-gray-900" data-i18n="booking.confirm.agree"> 上記の注意事項を確認し、同意します </span> </label> </div> <div class="flex gap-4 fade-in"> <button onclick="window.history.back()" class="flex-1 bg-gray-100 text-gray-700 py-4 rounded-lg font-bold hover:bg-gray-200 transition" data-i18n="back">戻る</button> <button onclick="handleConfirm()" class="flex-1 bg-blue-600 text-white py-4 rounded-lg font-bold btn-primary" > <span data-i18n="booking.confirm.button">予約を確定</span> </button> </div> </main>
+
+  <script>
+    class EmbeddedLanguageManager{constructor(){this.currentLanguage=localStorage.getItem('language')||'ja';this.translations=window.i18nData;this.dynamicHooks=[]}setLanguage(a){if(this.translations[a]){this.currentLanguage=a;localStorage.setItem('language',a);this.updatePage();this.updateLanguageButtons();this.dynamicHooks.forEach(b=>b())}}translate(a){const b=this.translations[this.currentLanguage];return b&&b[a]?b[a]:a}updatePage(){document.querySelectorAll('[data-i18n]').forEach(a=>{const b=a.getAttribute('data-i18n'),c=this.translate(b);if(a.children.length===0)a.textContent=c;else for(let d of a.childNodes)if(d.nodeType===Node.TEXT_NODE&&d.textContent.trim()){d.textContent=c;break}});document.querySelectorAll('[data-i18n-placeholder]').forEach(a=>{const b=a.getAttribute('data-i18n-placeholder');a.placeholder=this.translate(b)});const a=document.querySelector('title[data-i18n]');if(a){const b=a.getAttribute('data-i18n');document.title=this.translate(b)}}updateLanguageButtons(){document.querySelectorAll('.lang-btn').forEach(a=>{const b=a.getAttribute('data-lang');a.classList.toggle('active',b===this.currentLanguage);a.classList.toggle('inactive',b!==this.currentLanguage)})}init(){document.querySelectorAll('.lang-btn').forEach(a=>{a.addEventListener('click',()=>{const b=a.getAttribute('data-lang');this.setLanguage(b)})})}getCurrentLanguage(){return this.currentLanguage}}
+    window.languageManager = new EmbeddedLanguageManager(); window.i18n = function(key) { return window.languageManager.translate(key); };
+    
+    function handleConfirm(){const a=document.getElementById('agree').checked;if(!a){alert(window.i18n('alert.agree_required'));return}const b=document.getElementById('purpose').value;if(typeof facility!=='undefined'&&facility==='hall'&&!b){alert(window.i18n('alert.purpose_required'));return}alert(window.i18n('alert.booking_complete'));window.location.href='home.html'}
+    let facility='hall';
+
+    // ★ updateBookingDetails 関数を定義 (動的フック用)
+    function updateBookingDetails() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const date = urlParams.get('date') || '2025-10-25';
+        facility = urlParams.get('facility') || 'hall'; 
+        const parkingNum = urlParams.get('num');
+
+        const facilityNameEl = document.getElementById('facilityName');
+        const dateTimeEl = document.getElementById('dateTime');
+        const purposeSection = document.getElementById('purposeSection');
+        const attendeesSection = document.getElementById('attendeesSection');
+
+        if (!facilityNameEl || !dateTimeEl) return; // 要素チェック
+
+        if (facility === 'parking') {
+            const parkingNameBase = window.i18n('booking.parking.name_only');
+            const parkingSpotUnit = window.i18n('booking.parking.spot');
+            facilityNameEl.textContent = `${parkingNameBase} ${parkingNum}${parkingSpotUnit}`;
+            
+            const alldayText = window.i18n('booking.confirm.allday');
+            dateTimeEl.textContent = `${date.replace(/-/g, '/')} ${alldayText}`;
+            
+            if(purposeSection) purposeSection.style.display = 'none';
+            if(attendeesSection) attendeesSection.style.display = 'none';
+        } else { // facility === 'hall'
+            facilityNameEl.textContent = window.i18n('booking.hall.name_only');
+            // 日時はデモ用に固定 (多言語対応不要な部分)
+            dateTimeEl.textContent = `${date.replace(/-/g, '/')}（土）9:00-12:00`; 
+            
+            if(purposeSection) purposeSection.style.display = 'block';
+            if(attendeesSection) attendeesSection.style.display = 'block';
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager.init();
+      window.languageManager.updatePage(); 
+      window.languageManager.updateLanguageButtons(); 
+
+      // ★ 予約詳細の表示更新を動的フックに登録
+      window.languageManager.dynamicHooks.push(updateBookingDetails);
+
+      // ★ 初回描画
+      updateBookingDetails();
+    });
+  </script>
+</body>
+</html>

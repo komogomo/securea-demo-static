@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="board.title">掲示板 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        // --- 共通キー ---
+        'logout': 'ログアウト',
+        'common.home': 'ホーム',
+        'common.board': '掲示板',
+        'common.booking': '予約',
+        'common.mypage': 'マイページ',
+        'home.title': 'ホーム',
+        // --- board.html 静的キー ---
+        'board.title': '掲示板',
+        'board.post': '投稿',
+        'board.new_post': '新規投稿画面（デモ）',
+        'board.description': '住民同士のコミュニケーション',
+        'board.subtitle': '相談・情報共有の場です。匿名での投稿も可能です。',
+        'board.category.all': 'すべて',
+        'board.category.noise': '騒音',
+        'board.category.parking': '駐車',
+        'board.category.pet': 'ペット',
+        'board.category.other': 'その他',
+        'board.anonymous': '匿名',
+        'board.author': '投稿者',
+        'board.replies': '件の返信',
+        'board.no_posts': '投稿はありません',
+        // --- ★board.html 動的データキー★ ---
+        'post.1.title': '道路でのボール遊びについて',
+        'post.1.content': '最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。',
+        'post.1.author': '匿名',
+        'post.2.title': 'ゲスト駐車場の利用について',
+        'post.2.content': 'ゲスト駐車場が長期間利用されているようです。適切に管理していただけないでしょうか。',
+        'post.2.author': 'C12',
+        'post.3.title': '夜間のBBQについて',
+        'post.3.content': 'BBQの煙と騒音が気になります。夜22時以降も続いていることがあります。',
+        'post.3.author': '匿名',
+        'post.4.title': 'ペットの散歩マナーについて',
+        'post.4.content': 'ペットの排泄物の処理をお願いしたいです。敷地内で放置されているのを見かけました。',
+        'post.4.author': 'A05',
+        'post.5.title': '植木の剪定について',
+        'post.5.content': '隣家の植木が越境してきています。剪定をお願いできないでしょうか。',
+        'post.5.author': '匿名'
+      },
+      en: {
+        // --- 共通キー ---
+        'logout': 'Logout',
+        'common.home': 'Home',
+        'common.board': 'Board',
+        'common.booking': 'Booking',
+        'common.mypage': 'My Page',
+        'home.title': 'Home',
+        // --- board.html 静的キー ---
+        'board.title': 'Board',
+        'board.post': 'Post',
+        'board.new_post': 'New Post Screen (Demo)',
+        'board.description': 'Resident Communication',
+        'board.subtitle': 'A place for consultation and information sharing. Anonymous posting is available.',
+        'board.category.all': 'All',
+        'board.category.noise': 'Noise',
+        'board.category.parking': 'Parking',
+        'board.category.pet': 'Pet',
+        'board.category.other': 'Other',
+        'board.anonymous': 'Anonymous',
+        'board.author': 'Author',
+        'board.replies': ' replies',
+        'board.no_posts': 'No posts available',
+        // --- ★board.html 動的データキー★ ---
+        'post.1.title': 'About playing ball on the road',
+        'post.1.content': 'I am concerned about the voices of children playing ball on the road recently. The time is around 17:00-19:00 in the evening.',
+        'post.1.author': 'Anonymous',
+        'post.2.title': 'Regarding guest parking lot usage',
+        'post.2.content': 'It seems the guest parking lot is being used for a long period. Could you please manage it properly?',
+        'post.2.author': 'C12',
+        'post.3.title': 'About nighttime BBQ',
+        'post.3.content': 'I am concerned about the smoke and noise from BBQ. It sometimes continues after 22:00 at night.',
+        'post.3.author': 'Anonymous',
+        'post.4.title': 'About pet walking etiquette',
+        'post.4.content': 'I would like to ask you to please clean up after your pets. I have seen waste left on the premises.',
+        'post.4.author': 'A05',
+        'post.5.title': 'About pruning shrubs',
+        'post.5.content': "The neighbor's shrubs are crossing the property line. Could you please ask them to prune them?",
+        'post.5.author': 'Anonymous'
+      },
+      zh: {
+        // --- 共通キー ---
+        'logout': '登出',
+        'common.home': '首页',
+        'common.board': '留言板',
+        'common.booking': '预约',
+        'common.mypage': '我的页面',
+        'home.title': '首页',
+        // --- board.html 静的キー ---
+        'board.title': '留言板',
+        'board.post': '投稿',
+        'board.new_post': '新帖子屏幕（演示）',
+        'board.description': '居民交流',
+        'board.subtitle': '这是一个咨询和信息共享的场所。可以匿名发帖。',
+        'board.category.all': '全部',
+        'board.category.noise': '噪音',
+        'board.category.parking': '停车',
+        'board.category.pet': '宠物',
+        'board.category.other': '其他',
+        'board.anonymous': '匿名',
+        'board.author': '发帖人',
+        'board.replies': ' 条回复',
+        'board.no_posts': '没有帖子',
+        // --- ★board.html 動的データキー★ ---
+        'post.1.title': '关于在路上玩球',
+        'post.1.content': '最近，在路上玩球的孩子们的声音让我很担心。时间是傍晚17-19点左右。',
+        'post.1.author': '匿名',
+        'post.2.title': '关于访客停车场的利用',
+        'post.2.content': '访客停车场似乎被长期使用。能否请您妥善管理？',
+        'post.2.author': 'C12',
+        'post.3.title': '关于夜间BBQ',
+        'post.3.content': 'BBQ的烟雾和噪音很吵人。有时会持续到晚上22点以后。',
+        'post.3.author': '匿名',
+        'post.4.title': '关于宠物散步的礼仪',
+        'post.4.content': '希望能处理宠物的排泄物。我看到有遗弃在园区内的。',
+        'post.4.author': 'A05',
+        'post.5.title': '关于修剪灌木',
+        'post.5.content': '邻居家的灌木丛越界了。能否请您修剪一下？',
+        'post.5.author': '匿名'
+      }
+    };
+    console.log('✅ i18nData embedded for board.html (v2)');
+  </script>
+  </head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='home.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="board.title">掲示板</h1>
+        </div>
+        <button 
+          onclick="alert(window.i18n ? window.i18n('board.new_post') : '新規投稿画面（デモ）')" 
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span data-i18n="board.post">投稿</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 fade-in">
+      <h3 class="font-bold text-blue-900 mb-2">💬 <span data-i18n="board.description">住民同士のコミュニケーション</span></h3>
+      <p class="text-sm text-blue-800" data-i18n="board.subtitle">
+        相談・情報共有の場です。匿名での投稿も可能です。
+      </p>
+    </div>
+
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-6 fade-in">
+      <div class="flex gap-2 overflow-x-auto">
+        <button onclick="filterPosts('all')" id="filter-all" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap" data-i18n="board.category.all">
+          すべて
+        </button>
+        <button onclick="filterPosts('noise')" id="filter-noise" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.noise">
+          騒音
+        </button>
+        <button onclick="filterPosts('parking')" id="filter-parking" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.parking">
+          駐車
+        </button>
+        <button onclick="filterPosts('pet')" id="filter-pet" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.pet">
+          ペット
+        </button>
+        <button onclick="filterPosts('other')" id="filter-other" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.other">
+          その他
+        </button>
+      </div>
+    </div>
+
+    <div id="postsList" class="space-y-4">
+      </div>
+  </main>
+
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.home">ホーム</span>
+        </a>
+        <a href="board.html" class="flex flex-col items-center text-blue-600">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1 font-bold" data-i18n="common.board">掲示板</span>
+        </a>
+        <a href="booking.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.booking">予約</span>
+        </a>
+        <a href="mypage.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.mypage">マイページ</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <script>
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          
+          // --- 動的コンテンツ(リスト)を再描画 ---
+          if (typeof renderPosts === 'function') {
+            renderPosts();
+          }
+          if (typeof renderNotices === 'function') { // (notice.html用)
+            renderNotices();
+          }
+          // ---
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+        
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+      }
+    }
+    
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
+  </script>
+
+
+  <script src="data/demo-data.js"></script>
+  <script src="js/app.js"></script>
+  
+  <script>
+    // ▼ 投稿データを「キー」で定義
+    const posts = [
+      {
+        id: 1,
+        category: 'noise',
+        titleKey: 'post.1.title',
+        contentKey: 'post.1.content',
+        authorKey: 'post.1.author',
+        date: '2025/10/18',
+        replies: 5,
+        isAnonymous: true
+      },
+      {
+        id: 2,
+        category: 'parking',
+        titleKey: 'post.2.title',
+        contentKey: 'post.2.content',
+        authorKey: 'post.2.author',
+        date: '2025/10/17',
+        replies: 3,
+        isAnonymous: false
+      },
+      {
+        id: 3,
+        category: 'noise',
+        titleKey: 'post.3.title',
+        contentKey: 'post.3.content',
+        authorKey: 'post.3.author',
+        date: '2025/10/16',
+        replies: 8,
+        isAnonymous: true
+      },
+      {
+        id: 4,
+        category: 'pet',
+        titleKey: 'post.4.title',
+        contentKey: 'post.4.content',
+        authorKey: 'post.4.author',
+        date: '2025/10/15',
+        replies: 2,
+        isAnonymous: false
+      },
+      {
+        id: 5,
+        category: 'other',
+        titleKey: 'post.5.title',
+        contentKey: 'post.5.content',
+        authorKey: 'post.5.author',
+        date: '2025/10/14',
+        replies: 4,
+        isAnonymous: true
+      }
+    ];
+
+    let currentFilter = 'all';
+
+    function getCategoryBadgeClass(category) {
+      const classes = {
+        noise: 'bg-red-100 text-red-800',
+        parking: 'bg-blue-100 text-blue-800',
+        pet: 'bg-green-100 text-green-800',
+        other: 'bg-gray-100 text-gray-800'
+      };
+      return classes[category] || 'bg-gray-100 text-gray-800';
+    }
+
+    function getCategoryName(category) {
+      const names = {
+        noise: window.i18n('board.category.noise'),
+        parking: window.i18n('board.category.parking'),
+        pet: window.i18n('board.category.pet'),
+        other: window.i18n('board.category.other')
+      };
+      return names[category] || window.i18n('board.category.other');
+    }
+
+    // ▼ renderPosts() を修正
+    function renderPosts() {
+      const postsList = document.getElementById('postsList');
+      postsList.innerHTML = '';
+
+      const filteredPosts = currentFilter === 'all' 
+        ? posts 
+        : posts.filter(p => p.category === currentFilter);
+
+      filteredPosts.forEach(post => {
+        const postCard = document.createElement('div');
+        postCard.className = 'bg-white rounded-lg shadow-sm p-6 fade-in card-hover';
+        postCard.onclick = () => window.location.href = 'board-detail.html?id=' + post.id;
+        
+        // --- 翻訳 ---
+        const anonymousText = window.i18n('board.anonymous');
+        const authorText = window.i18n('board.author');
+        const repliesText = window.i18n('board.replies');
+        
+        // ★動的データをキーで翻訳
+        const postTitle = window.i18n(post.titleKey);
+        const postContent = window.i18n(post.contentKey);
+        const postAuthor = window.i18n(post.authorKey);
+        // ---
+        
+        postCard.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="badge ${getCategoryBadgeClass(post.category)}">
+                  ${getCategoryName(post.category)}
+                </span>
+                ${post.isAnonymous ? `<span class="badge bg-purple-100 text-purple-800">${anonymousText}</span>` : ''}
+                <span class="text-sm text-gray-500">${post.date}</span>
+              </div>
+              
+              <h3 class="text-lg font-bold text-gray-900 mb-2">${postTitle}</h3>
+              <p class="text-gray-600 text-sm line-clamp-2 mb-3">${postContent}</p>
+              <div class="flex items-center gap-4 text-sm text-gray-500">
+                <span>${authorText}: ${postAuthor}</span>
+                <span>💬 ${post.replies}${repliesText}</span>
+              </div>
+              </div>
+            <svg class="w-6 h-6 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </div>
+        `;
+        
+        postsList.appendChild(postCard);
+      });
+
+      if (filteredPosts.length === 0) {
+        const noPostsText = window.i18n('board.no_posts');
+        postsList.innerHTML = `<div class="text-center py-12 text-gray-500">${noPostsText}</div>`;
+      }
+    }
+
+    function filterPosts(filter) {
+      currentFilter = filter;
+      
+      document.querySelectorAll('[id^="filter-"]').forEach(btn => {
+        btn.className = 'px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap';
+      });
+      document.getElementById('filter-' + filter).className = 'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap';
+      
+      renderPosts();
+    }
+
+    // DOM読み込み完了時に、翻訳システムの初期化とリストの初回描画を行う
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager.init();
+      window.languageManager.updatePage();
+      window.languageManager.updateLanguageButtons();
+      renderPosts(); // 初回描画
+    });
+  </script>
+  </body>
+</html>

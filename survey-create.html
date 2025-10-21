@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="survey.create.title">アンケート作成 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        // --- 共通 ---
+        'cancel': 'キャンセル',
+        'delete': '削除',
+        // --- このページ専用 ---
+        'survey.create.title': '新規アンケート作成',
+        'survey.create.preview': 'プレビュー',
+        'survey.create.basic': '基本情報',
+        'survey.create.name': 'タイトル',
+        'survey.create.name_placeholder': '例：住環境に関するアンケート',
+        'survey.create.description': '説明文',
+        'survey.create.description_placeholder': '例：より良い住環境づくりのため、ご協力をお願いします',
+        'survey.create.start': '開始日',
+        'survey.create.end': '終了日',
+        'survey.create.response_type': '回答形式',
+        'survey.create.response_named': '実名のみ',
+        'survey.create.response_anonymous': '匿名のみ',
+        'survey.create.response_both': '選択可（回答者が選べる）',
+        'survey.create.question': '質問',
+        'survey.create.question_text': '質問文',
+        'survey.create.question_text_placeholder': '例：騒音問題で困っていますか？',
+        'survey.create.answer_type': '回答形式',
+        'survey.create.answer_single': '単一選択',
+        'survey.create.answer_multiple': '複数選択',
+        'survey.create.answer_text': '自由記述',
+        'survey.create.answer_rating': '5段階評価',
+        'survey.create.options': '選択肢',
+        'survey.create.option_placeholder': '選択肢',
+        'survey.create.add_option': '選択肢を追加',
+        'survey.create.required': '必須回答',
+        'survey.create.add': '質問を追加',
+        'survey.create.publish': '作成して公開',
+        'survey.required': '*必須', // ラベル横用
+        // --- アラート ---
+        'alert.min_one_question': '最低1つの質問が必要です',
+        'alert.preview_demo': 'プレビュー機能（デモ）\n\n実運用版では、作成中のアンケートをプレビューできます。',
+        'alert.survey_created': 'アンケートを作成しました！\n\n実運用版では、作成したアンケートが公開され、住民に通知されます。'
+      },
+      en: {
+        // --- 共通 ---
+        'cancel': 'Cancel',
+        'delete': 'Delete',
+        // --- このページ専用 ---
+        'survey.create.title': 'Create New Survey',
+        'survey.create.preview': 'Preview',
+        'survey.create.basic': 'Basic Information',
+        'survey.create.name': 'Title',
+        'survey.create.name_placeholder': 'e.g., Living Environment Survey',
+        'survey.create.description': 'Description',
+        'survey.create.description_placeholder': 'e.g., Please cooperate in creating a better living environment.',
+        'survey.create.start': 'Start Date',
+        'survey.create.end': 'End Date',
+        'survey.create.response_type': 'Response Format',
+        'survey.create.response_named': 'Named Only',
+        'survey.create.response_anonymous': 'Anonymous Only',
+        'survey.create.response_both': 'Selectable (Respondent chooses)',
+        'survey.create.question': 'Question',
+        'survey.create.question_text': 'Question Text',
+        'survey.create.question_text_placeholder': 'e.g., Are you troubled by noise problems?',
+        'survey.create.answer_type': 'Answer Type',
+        'survey.create.answer_single': 'Single Choice',
+        'survey.create.answer_multiple': 'Multiple Choice',
+        'survey.create.answer_text': 'Open Text',
+        'survey.create.answer_rating': '5-Point Scale',
+        'survey.create.options': 'Options',
+        'survey.create.option_placeholder': 'Option',
+        'survey.create.add_option': 'Add Option',
+        'survey.create.required': 'Required Answer',
+        'survey.create.add': 'Add Question',
+        'survey.create.publish': 'Create & Publish',
+        'survey.required': '*Required', // For labels
+        // --- アラート ---
+        'alert.min_one_question': 'At least one question is required',
+        'alert.preview_demo': 'Preview Feature (Demo)\n\nIn the live version, you can preview surveys under creation.',
+        'alert.survey_created': 'Survey created!\n\nIn the live version, the created survey will be published and residents will be notified.'
+      },
+      zh: {
+        // --- 共通 ---
+        'cancel': '取消',
+        'delete': '删除',
+        // --- このページ専用 ---
+        'survey.create.title': '新建调查问卷',
+        'survey.create.preview': '预览',
+        'survey.create.basic': '基本信息',
+        'survey.create.name': '标题',
+        'survey.create.name_placeholder': '例如：居住环境调查',
+        'survey.create.description': '说明',
+        'survey.create.description_placeholder': '例如：为了营造更好的居住环境，请您协助。',
+        'survey.create.start': '开始日期',
+        'survey.create.end': '结束日期',
+        'survey.create.response_type': '回答形式',
+        'survey.create.response_named': '仅限实名',
+        'survey.create.response_anonymous': '仅限匿名',
+        'survey.create.response_both': '可选（回答者选择）',
+        'survey.create.question': '问题',
+        'survey.create.question_text': '问题文本',
+        'survey.create.question_text_placeholder': '例如：您是否受到噪音问题的困扰？',
+        'survey.create.answer_type': '回答类型',
+        'survey.create.answer_single': '单选',
+        'survey.create.answer_multiple': '多选',
+        'survey.create.answer_text': '自由记述',
+        'survey.create.answer_rating': '5分制评价',
+        'survey.create.options': '选项',
+        'survey.create.option_placeholder': '选项',
+        'survey.create.add_option': '添加选项',
+        'survey.create.required': '必须回答',
+        'survey.create.add': '添加问题',
+        'survey.create.publish': '创建并发布',
+        'survey.required': '*必需', // 标签旁用
+        // --- アラート ---
+        'alert.min_one_question': '至少需要一个问题',
+        'alert.preview_demo': '预览功能（演示）\n\n在实际运营版中，您可以预览正在创建的调查问卷。',
+        'alert.survey_created': '调查问卷已创建！\n\n在实际运营版中，创建的调查问卷将被发布并通知居民。'
+      }
+    };
+    console.log('✅ i18nData embedded successfully for survey-create.html');
+  </script>
+  </head>
+<body class="bg-gray-50">
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='survey-manage.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="survey.create.title">新規アンケート作成</h1>
+        </div>
+        <button 
+          onclick="handlePreview()" 
+          class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg font-bold hover:bg-gray-200 transition"
+        >
+          <span data-i18n="survey.create.preview">プレビュー</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    <form id="surveyForm" onsubmit="handleSubmit(event)">
+      <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+        <h2 class="text-lg font-bold text-gray-900 mb-4" data-i18n="survey.create.basic">基本情報</h2>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2">
+              <span data-i18n="survey.create.name">タイトル</span> <span class="text-red-600" data-i18n="survey.required">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="title"
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              data-i18n-placeholder="survey.create.name_placeholder" placeholder="例：住環境に関するアンケート"
+              required
+            >
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="survey.create.description">
+              説明文
+            </label>
+            <textarea 
+              id="description"
+              rows="3" 
+              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              data-i18n-placeholder="survey.create.description_placeholder" placeholder="例：より良い住環境づくりのため、ご協力をお願いします"
+            ></textarea>
+          </div>
+
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2">
+                <span data-i18n="survey.create.start">開始日</span> <span class="text-red-600" data-i18n="survey.required">*</span>
+              </label>
+              <input 
+                type="date" 
+                id="startDate"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              >
+            </div>
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2">
+                <span data-i18n="survey.create.end">終了日</span> <span class="text-red-600" data-i18n="survey.required">*</span>
+              </label>
+              <input 
+                type="date" 
+                id="endDate"
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
+              >
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="survey.create.response_type">
+              回答形式
+            </label>
+            <div class="space-y-2">
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="anonymousOption" value="named" class="w-4 h-4 text-blue-600" checked>
+                <span class="ml-2 text-gray-900" data-i18n="survey.create.response_named">実名のみ</span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="anonymousOption" value="anonymous" class="w-4 h-4 text-blue-600">
+                <span class="ml-2 text-gray-900" data-i18n="survey.create.response_anonymous">匿名のみ</span>
+              </label>
+              <label class="flex items-center cursor-pointer">
+                <input type="radio" name="anonymousOption" value="both" class="w-4 h-4 text-blue-600">
+                <span class="ml-2 text-gray-900" data-i18n="survey.create.response_both">選択可（回答者が選べる）</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div id="questionsList" class="space-y-4 mb-6">
+        <div class="bg-white rounded-lg shadow-sm p-6 fade-in question-item">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-bold text-gray-900"><span data-i18n="survey.create.question">質問</span>1</h3>
+            <button 
+              type="button"
+              onclick="removeQuestion(this)"
+              class="text-red-600 hover:text-red-800 font-bold text-sm"
+             data-i18n="delete">削除</button>
+          </div>
+
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2">
+                <span data-i18n="survey.create.question_text">質問文</span> <span class="text-red-600" data-i18n="survey.required">*</span>
+              </label>
+              <input 
+                type="text" 
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                data-i18n-placeholder="survey.create.question_text_placeholder" placeholder="例：騒音問題で困っていますか？"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="survey.create.answer_type">
+                回答形式
+              </label>
+              <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="single" data-i18n="survey.create.answer_single">単一選択</option>
+                <option value="multiple" data-i18n="survey.create.answer_multiple">複数選択</option>
+                <option value="text" data-i18n="survey.create.answer_text">自由記述</option>
+                <option value="rating" data-i18n="survey.create.answer_rating">5段階評価</option>
+              </select>
+            </div>
+
+            <div class="options-container">
+              <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="survey.create.options">
+                選択肢
+              </label>
+              <div class="space-y-2">
+                <div class="flex gap-2">
+                  <input 
+                    type="text" 
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    data-i18n-placeholder="survey.create.option_placeholder" placeholder="選択肢1"
+                  >
+                  <button type="button" class="text-red-600 hover:text-red-800">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="flex gap-2">
+                  <input 
+                    type="text" 
+                    class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    data-i18n-placeholder="survey.create.option_placeholder" placeholder="選択肢2"
+                  >
+                  <button type="button" class="text-red-600 hover:text-red-800">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <button 
+                type="button"
+                class="mt-2 text-blue-600 hover:text-blue-800 font-bold text-sm flex items-center gap-1"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span data-i18n="survey.create.add_option">選択肢を追加</span>
+              </button>
+            </div>
+
+            <div>
+              <label class="flex items-center cursor-pointer">
+                <input type="checkbox" class="w-4 h-4 text-blue-600 rounded">
+                <span class="ml-2 text-gray-900" data-i18n="survey.create.required">必須回答</span>
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <button 
+        type="button"
+        onclick="addQuestion()"
+        class="w-full bg-gray-100 text-gray-700 py-4 rounded-lg font-bold hover:bg-gray-200 transition flex items-center justify-center gap-2 mb-6"
+      >
+        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+        </svg>
+        <span data-i18n="survey.create.add">質問を追加</span>
+      </button>
+
+      <div class="flex gap-4">
+        <button 
+          type="button" 
+          onclick="window.location.href='survey-manage.html'" 
+          class="flex-1 bg-gray-100 text-gray-700 py-4 rounded-lg font-bold hover:bg-gray-200 transition"
+         data-i18n="cancel">キャンセル</button>
+        <button 
+          type="submit" 
+          class="flex-1 bg-blue-600 text-white py-4 rounded-lg font-bold btn-primary"
+        >
+          <span data-i18n="survey.create.publish">作成して公開</span>
+        </button>
+      </div>
+    </form>
+  </main>
+  <script>
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        this.dynamicHooks = []; // (このページでは使わないが統一のため)
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          this.dynamicHooks.forEach(hook => hook());
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        // 静的コンテンツ
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+
+        // Placeholder
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
+        // Title
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang'); // ★修正済★
+            this.setLanguage(lang);
+          });
+        });
+      }
+    }
+    
+    // ▼ addQuestion 内で翻訳を使うため、先に i18n を定義
+    window.languageManager = new EmbeddedLanguageManager();
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
+
+    // --- ページ固有のスクリプト ---
+    let questionCount = 1;
+
+    function addQuestion() {
+      questionCount++;
+      const questionsList = document.getElementById('questionsList');
+      const newQuestion = document.querySelector('.question-item').cloneNode(true);
+      
+      // ▼ 質問番号を翻訳対応で設定
+      const questionLabel = window.i18n('survey.create.question');
+      newQuestion.querySelector('h3').textContent = `${questionLabel}${questionCount}`;
+      
+      newQuestion.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
+      
+      // ★ 新しく追加した要素にも翻訳を適用
+      window.languageManager.updatePage();
+      
+      questionsList.appendChild(newQuestion);
+    }
+
+    function removeQuestion(button) {
+      if (document.querySelectorAll('.question-item').length > 1) {
+        button.closest('.question-item').remove();
+      } else {
+        alert(window.i18n('alert.min_one_question')); // ★翻訳★
+      }
+    }
+
+    function handlePreview() {
+      alert(window.i18n('alert.preview_demo')); // ★翻訳★
+    }
+
+    function handleSubmit(event) {
+      event.preventDefault();
+      alert(window.i18n('alert.survey_created')); // ★翻訳★
+      window.location.href = 'survey-manage.html';
+    }
+
+    // DOMContentLoaded で翻訳を初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager.init();
+      window.languageManager.updatePage();
+      window.languageManager.updateLanguageButtons();
+    });
+  </script>
+  </body>
+</html>
