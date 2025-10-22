@@ -73,14 +73,12 @@
   </script>
 </head>
 <body class="bg-gray-50">
-  <!-- 言語切り替えボタン -->
   <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
     <button class="lang-btn" data-lang="ja">JA</button>
     <button class="lang-btn" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="zh">ZH</button>
   </div>
 
-  <!-- ヘッダー -->
   <header class="bg-white shadow-sm">
     <div class="max-w-4xl mx-auto px-4 py-4">
       <div class="flex items-center justify-between">
@@ -96,9 +94,7 @@
     </div>
   </header>
 
-  <!-- メインコンテンツ -->
   <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
-    <!-- 施設選択タブ -->
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6 fade-in">
       <div class="flex gap-2 overflow-x-auto">
         <button onclick="selectFacility('hall')" id="facility-hall" 
@@ -112,7 +108,6 @@
       </div>
     </div>
 
-    <!-- 集会所セクション -->
     <div id="hall-section" class="space-y-6">
       <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 fade-in">
         <h3 class="font-bold text-blue-900 mb-2" data-i18n="booking.hall.name">📌 集会所（セキュレアステーション）</h3>
@@ -159,7 +154,6 @@
       </div>
     </div>
 
-    <!-- 駐車場セクション（カレンダー追加版） -->
     <div id="parking-section" class="space-y-6 hidden">
       <div class="bg-purple-50 border border-purple-200 rounded-lg p-4 fade-in">
         <h3 class="font-bold text-purple-900 mb-2" data-i18n="booking.parking.name">🚗 ゲスト駐車場</h3>
@@ -171,7 +165,6 @@
         </ul>
       </div>
       
-      <!-- 駐車場用カレンダー -->
       <div class="bg-white rounded-lg shadow-sm p-6 fade-in">
         <div class="flex items-center justify-between mb-4">
           <h3 class="text-lg font-bold text-gray-900" id="parking-calendar-month">2025年10月</h3>
@@ -206,7 +199,6 @@
         </div>
       </div>
       
-      <!-- 駐車場選択エリア（日付選択後に表示） -->
       <div id="parking-selection" class="bg-white rounded-lg shadow-sm p-6 fade-in hidden">
         <h3 class="text-lg font-bold text-gray-900 mb-4">
           <span data-i18n="booking.parking.select_date">選択した日付：</span>
@@ -242,7 +234,6 @@
     </div>
   </main>
 
-  <!-- ナビゲーションバー -->
   <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
     <div class="max-w-4xl mx-auto px-4">
       <div class="flex justify-around py-3">
@@ -274,14 +265,98 @@
     </div>
   </nav>
 
-  <!-- 言語管理スクリプト（ミニファイ版） -->
   <script>
-    class EmbeddedLanguageManager{constructor(){this.currentLanguage=localStorage.getItem('language')||'ja';this.translations=window.i18nData;this.dynamicHooks=[]}setLanguage(a){if(this.translations[a]){this.currentLanguage=a;localStorage.setItem('language',a);this.updatePage();this.updateLanguageButtons();this.dynamicHooks.forEach(b=>b())}}translate(a){const b=this.translations[this.currentLanguage];return b&&b[a]?b[a]:a}updatePage(){document.querySelectorAll('[data-i18n]').forEach(a=>{const b=a.getAttribute('data-i18n'),c=this.translate(b);if(a.children.length===0)a.textContent=c;else for(let d of a.childNodes)if(d.nodeType===Node.TEXT_NODE&&d.textContent.trim()){d.textContent=c;break}});document.querySelectorAll('[data-i18n-placeholder]').forEach(a=>{const b=a.getAttribute('data-i18n-placeholder');a.placeholder=this.translate(b)});const a=document.querySelector('title[data-i18n]');if(a){const b=a.getAttribute('data-i18n');document.title=this.translate(b)}}updateLanguageButtons(){document.querySelectorAll('.lang-btn').forEach(a=>{const b=a.getAttribute('data-lang');a.classList.toggle('active',b===this.currentLanguage);a.classList.toggle('inactive',b!==this.currentLanguage)})}init(){document.querySelectorAll('.lang-btn').forEach(a=>{a.addEventListener('click',()=>{const b=a.getAttribute('data-lang');this.setLanguage(b)})})}getCurrentLanguage(){return this.currentLanguage}}
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+        this.dynamicHooks = []; // 動的コンテンツを更新するためのフック
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          
+          // --- 登録された動的フックを実行 ---
+          this.dynamicHooks.forEach(hook => hook());
+        }
+      }
+      
+      // ★ バグ修正済みの translate 関数
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        // キーが存在するかどうかをチェック (値が空文字 '' の場合も正しく扱うため)
+        if (translation && Object.prototype.hasOwnProperty.call(translation, key)) {
+          return translation[key]; // キーが存在すれば、その値（空文字でも）を返す
+        }
+        return key; // キーが存在しない場合のみ、キー自体を返す
+      }
+      
+      updatePage() {
+        // data-i18n 属性を持つ要素を翻訳
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            // 子要素がいる場合、最初のテキストノードだけを置き換える
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+        
+        // data-i18n-placeholder 属性を持つ要素（inputなど）のplaceholderを翻訳
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+            const key = element.getAttribute('data-i18n-placeholder');
+            element.placeholder = this.translate(key);
+        });
+        
+        // <title> タグの翻訳
+        const titleElement = document.querySelector('title[data-i18n]');
+        if (titleElement) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          btn.classList.toggle('active', lang === this.currentLanguage);
+          btn.classList.toggle('inactive', lang !== this.currentLanguage);
+        });
+      }
+      
+      init() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+      }
+
+      // 現在の言語を取得するヘルパー関数
+      getCurrentLanguage() {
+        return this.currentLanguage;
+      }
+    }
+    
     window.languageManager = new EmbeddedLanguageManager();
-    window.i18n = function(key) { return window.languageManager.translate(key); };
+    window.i18n = function(key) {
+      return window.languageManager.translate(key);
+    };
   </script>
   
-  <!-- ページ固有のスクリプト -->
   <script>
     let selectedParkingDate = null; // 選択された駐車場の日付
 
@@ -315,6 +390,7 @@
         parkingSection.classList.remove('hidden');
       }
       
+      // CSSの hidden クラスと display:none の挙動を安定させるため
       hallSection.style.display = hallSection.classList.contains('hidden') ? 'none' : ''; 
       parkingSection.style.display = parkingSection.classList.contains('hidden') ? 'none' : '';
     }
@@ -508,9 +584,10 @@
         
         spotsContainer.innerHTML = '';
         
+        // ★ バグ修正済みの i18n 関数が呼ばれる
         const availableText = window.i18n('booking.available');
         const reservedText = window.i18n('booking.reserved');
-        const spotUnit = window.i18n('booking.parking.spot');
+        const spotUnit = window.i18n('booking.parking.spot'); // 'en' の場合は '' (空文字) が正しく返る
         
         // デモデータ：③番は予約済み
         const reservedSpots = [3];
@@ -563,6 +640,7 @@
       window.languageManager.dynamicHooks.push(generateParkingCalendar);
       window.languageManager.dynamicHooks.push(function() {
           if (!document.getElementById('parking-selection').classList.contains('hidden')) {
+              // 日付が選択されていれば、駐車場スポットも再描画する
               generateParkingSpots();
           }
       });

@@ -7,6 +7,10 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css">
   
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script src="https://npmcdn.com/flatpickr/dist/l10n/ja.js"></script>
+  <script src="https://npmcdn.com/flatpickr/dist/l10n/zh.js"></script>
   <script>
     window.i18nData = {
       ja: {
@@ -193,10 +197,11 @@
                 <span data-i18n="survey.create.start">開始日</span> <span class="text-red-600" data-i18n="survey.required">*</span>
               </label>
               <input 
-                type="date" 
+                type="text" 
                 id="startDate"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
+                placeholder="YYYY/MM/DD" 
               >
             </div>
             <div>
@@ -204,10 +209,11 @@
                 <span data-i18n="survey.create.end">終了日</span> <span class="text-red-600" data-i18n="survey.required">*</span>
               </label>
               <input 
-                type="date" 
+                type="text" 
                 id="endDate"
                 class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 required
+                placeholder="YYYY/MM/DD"
               >
             </div>
           </div>
@@ -347,12 +353,13 @@
       </div>
     </form>
   </main>
+  
   <script>
     class EmbeddedLanguageManager {
       constructor() {
         this.currentLanguage = localStorage.getItem('language') || 'ja';
         this.translations = window.i18nData;
-        this.dynamicHooks = []; // (このページでは使わないが統一のため)
+        this.dynamicHooks = []; // 動的コンテンツを更新するためのフック
       }
       
       setLanguage(lang) {
@@ -361,17 +368,23 @@
           localStorage.setItem('language', lang);
           this.updatePage();
           this.updateLanguageButtons();
+          
+          // --- 登録された動的フックを実行 ---
           this.dynamicHooks.forEach(hook => hook());
         }
       }
       
       translate(key) {
         const translation = this.translations[this.currentLanguage];
-        return translation && translation[key] ? translation[key] : key;
+        // キーが存在するかどうかをチェック (値が空文字 '' の場合も正しく扱うため)
+        if (translation && Object.prototype.hasOwnProperty.call(translation, key)) {
+          return translation[key]; // キーが存在すれば、その値（空文字でも）を返す
+        }
+        return key; // キーが存在しない場合のみ、キー自体を返す
       }
       
       updatePage() {
-        // 静的コンテンツ
+        // data-i18n 属性を持つ要素を翻訳
         document.querySelectorAll('[data-i18n]').forEach(element => {
           const key = element.getAttribute('data-i18n');
           const translation = this.translate(key);
@@ -379,6 +392,7 @@
           if (element.children.length === 0) {
             element.textContent = translation;
           } else {
+            // 子要素がいる場合、最初のテキストノードだけを置き換える
             for (let node of element.childNodes) {
               if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
                 node.textContent = translation;
@@ -387,16 +401,16 @@
             }
           }
         });
-
-        // Placeholder
+        
+        // data-i18n-placeholder 属性を持つ要素（inputなど）のplaceholderを翻訳
         document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
-          const key = element.getAttribute('data-i18n-placeholder');
-          element.placeholder = this.translate(key);
+            const key = element.getAttribute('data-i18n-placeholder');
+            element.placeholder = this.translate(key);
         });
         
-        // Title
-        const titleElement = document.querySelector('title');
-        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+        // <title> タグの翻訳
+        const titleElement = document.querySelector('title[data-i18n]');
+        if (titleElement) {
           const key = titleElement.getAttribute('data-i18n');
           document.title = this.translate(key);
         }
@@ -405,23 +419,25 @@
       updateLanguageButtons() {
         document.querySelectorAll('.lang-btn').forEach(btn => {
           const lang = btn.getAttribute('data-lang');
-          if (lang === this.currentLanguage) {
-            btn.classList.add('active');
-            btn.classList.remove('inactive');
-          } else {
-            btn.classList.remove('active');
-            btn.classList.add('inactive');
-          }
+          btn.classList.toggle('active', lang === this.currentLanguage);
+          btn.classList.toggle('inactive', lang !== this.currentLanguage);
         });
       }
       
       init() {
         document.querySelectorAll('.lang-btn').forEach(btn => {
           btn.addEventListener('click', () => {
-            const lang = btn.getAttribute('data-lang'); // ★修正済★
+            const lang = btn.getAttribute('data-lang');
             this.setLanguage(lang);
           });
         });
+        // ★ 初期言語を設定しておく
+        this.setLanguage(this.currentLanguage); 
+      }
+
+      // 現在の言語を取得するヘルパー関数
+      getCurrentLanguage() {
+        return this.currentLanguage;
       }
     }
     
@@ -433,47 +449,150 @@
 
     // --- ページ固有のスクリプト ---
     let questionCount = 1;
+    let fpStart, fpEnd; // Flatpickr インスタンスを保持する変数
 
     function addQuestion() {
       questionCount++;
       const questionsList = document.getElementById('questionsList');
-      const newQuestion = document.querySelector('.question-item').cloneNode(true);
+      // テンプレート要素を取得（常に最初の要素をクローン元とする）
+      const template = document.querySelector('.question-item'); 
+      if (!template) return; // 念のためチェック
+
+      const newQuestion = template.cloneNode(true);
       
-      // ▼ 質問番号を翻訳対応で設定
-      const questionLabel = window.i18n('survey.create.question');
-      newQuestion.querySelector('h3').textContent = `${questionLabel}${questionCount}`;
+      // クローンした要素の内容を初期化・更新
+      const questionLabelText = window.i18n('survey.create.question');
+      newQuestion.querySelector('h3').textContent = `${questionLabelText} ${questionCount}`;
       
-      newQuestion.querySelectorAll('input[type="text"]').forEach(input => input.value = '');
-      
-      // ★ 新しく追加した要素にも翻訳を適用
-      window.languageManager.updatePage();
-      
+      // 入力フィールドをクリア
+      newQuestion.querySelectorAll('input[type="text"]').forEach(input => input.value = ''); 
+      // SelectやCheckboxも必要に応じて初期化
+
+      // 最初の質問以外は削除ボタンを表示 (最初の質問の削除ボタンは非表示のまま)
+      // newQuestion.querySelector('button[onclick^="removeQuestion"]').style.display = ''; // もし隠すなら
+
+      // クローンした要素内の翻訳プレースホルダーなどを更新する必要があればここで行う
+      // (今回は updatePage で一括処理するので不要)
+
       questionsList.appendChild(newQuestion);
+      
+      // ★ 新しく追加した要素も含めて、ページ全体の翻訳を再適用
+      window.languageManager.updatePage();
     }
 
+
     function removeQuestion(button) {
-      if (document.querySelectorAll('.question-item').length > 1) {
+      const questionItems = document.querySelectorAll('.question-item');
+      if (questionItems.length > 1) {
         button.closest('.question-item').remove();
+        // 削除後に質問番号を再採番 (オプション)
+        // updateQuestionNumbers(); 
       } else {
-        alert(window.i18n('alert.min_one_question')); // ★翻訳★
+        alert(window.i18n('alert.min_one_question'));
       }
+    }
+    
+    // (オプション) 質問番号を再採番する関数
+    function updateQuestionNumbers() {
+        const questionItems = document.querySelectorAll('.question-item');
+        const questionLabelText = window.i18n('survey.create.question');
+        questionItems.forEach((item, index) => {
+            item.querySelector('h3').textContent = `${questionLabelText} ${index + 1}`;
+        });
+        questionCount = questionItems.length; // カウンターも更新
     }
 
     function handlePreview() {
-      alert(window.i18n('alert.preview_demo')); // ★翻訳★
+      alert(window.i18n('alert.preview_demo'));
     }
 
     function handleSubmit(event) {
       event.preventDefault();
-      alert(window.i18n('alert.survey_created')); // ★翻訳★
+      
+      // Flatpickrから日付を取得する例 (必要に応じて)
+      // const startDateValue = fpStart ? fpStart.selectedDates[0] : null;
+      // const endDateValue = fpEnd ? fpEnd.selectedDates[0] : null;
+      // console.log("Start:", startDateValue, "End:", endDateValue);
+      
+      alert(window.i18n('alert.survey_created'));
       window.location.href = 'survey-manage.html';
     }
+    
+    // ★ Flatpickr を初期化/再初期化する関数
+    function initializeDatePickers() {
+        const currentLang = window.languageManager.getCurrentLanguage();
+        let locale;
+        let dateFormat;
+        let placeholderFormat;
 
-    // DOMContentLoaded で翻訳を初期化
+        switch (currentLang) {
+            case 'ja':
+                locale = flatpickr.l10ns.ja;
+                dateFormat = 'Y/m/d';
+                placeholderFormat = 'YYYY/MM/DD';
+                break;
+            case 'zh':
+                locale = flatpickr.l10ns.zh ? flatpickr.l10ns.zh : 'default'; // 中国語ロケール
+                dateFormat = 'Y/m/d';
+                placeholderFormat = 'YYYY/MM/DD';
+                break;
+            case 'en':
+            default:
+                locale = 'default'; // 'default' uses English
+                dateFormat = 'Y-m-d'; // ISO 8601 format for English
+                placeholderFormat = 'YYYY-MM-DD';
+                break;
+        }
+
+        const commonConfig = {
+            locale: locale,
+            dateFormat: dateFormat,
+            allowInput: true // 手動入力を許可 (フォーマットに合わせる必要あり)
+        };
+
+        // 既存のインスタンスがあれば破棄
+        if (fpStart) fpStart.destroy();
+        if (fpEnd) fpEnd.destroy();
+        
+        // 新しい設定で初期化
+        fpStart = flatpickr("#startDate", {
+             ...commonConfig,
+             // 必要であれば開始日特有のオプションを追加 (例: minDate)
+        });
+
+        fpEnd = flatpickr("#endDate", {
+             ...commonConfig,
+             // 必要であれば終了日特有のオプションを追加 (例: minDateはstartDateに依存など)
+             minDate: fpStart ? fpStart.selectedDates[0] : null // 開始日以降を選択可能に
+        });
+        
+        // 開始日が変更されたら、終了日の最小日付を更新するイベントリスナー (オプション)
+        if(fpStart){
+            fpStart.config.onChange.push(function(selectedDates) {
+                if(fpEnd) {
+                    fpEnd.set('minDate', selectedDates[0]);
+                }
+            });
+        }
+
+        // プレースホルダーを更新
+        const startInput = document.getElementById('startDate');
+        const endInput = document.getElementById('endDate');
+        if(startInput) startInput.placeholder = placeholderFormat;
+        if(endInput) endInput.placeholder = placeholderFormat;
+    }
+
+
+    // DOMContentLoaded で翻訳とFlatpickrを初期化
     document.addEventListener('DOMContentLoaded', function() {
-      window.languageManager.init();
-      window.languageManager.updatePage();
-      window.languageManager.updateLanguageButtons();
+      window.languageManager.init(); // これが setLanguage を呼び出し、updatePage, updateButtons を実行
+      // window.languageManager.updatePage(); // init内で呼ばれるので不要
+      // window.languageManager.updateLanguageButtons(); // init内で呼ばれるので不要
+      
+      initializeDatePickers(); // Flatpickrを初期化
+      
+      // ★ 言語変更時にも Flatpickr を再初期化するようにフックを登録
+      window.languageManager.dynamicHooks.push(initializeDatePickers);
     });
   </script>
   </body>
