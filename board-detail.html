@@ -6,21 +6,17 @@
   <title>投稿詳細 - セキュレアシティ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css">
-  <!-- ファイル処理ユーティリティ -->
   <script src="data/file-utils.js"></script>
-  <!-- デモモード切り替え -->
   <script src="data/demo-mode.js"></script>
 </head>
 <body class="bg-gray-50">
   
-  <!-- 言語切替ボタン（右上固定） -->
   <div class="fixed top-4 right-4 language-switcher z-50">
     <button class="lang-btn active" data-lang="ja">JA</button>
     <button class="lang-btn" data-lang="en">EN</button>
     <button class="lang-btn" data-lang="zh">ZH</button>
   </div>
   
-  <!-- ヘッダー -->
   <header class="bg-white shadow-sm">
     <div class="max-w-4xl mx-auto px-4 py-4">
       <div class="flex items-center gap-3">
@@ -34,7 +30,6 @@
     </div>
   </header>
 
-  <!-- メインコンテンツ -->
   <main class="max-w-4xl mx-auto px-4 py-6" id="mainContent">
     <div class="text-center py-8">
       <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
@@ -43,7 +38,14 @@
   </main>
 
   <script>
-    // デモデータ
+    // ページ全体で投稿データを保持し、言語切替時に参照できるようにする
+    let currentPost = null;
+    let currentReplies = [];
+    let currentUser = null;
+
+    // ★ 修正点 1: demoData
+    // authorId: 999 -> 'admin' に統一
+    // authorName: '管理組合' -> 削除
     window.demoData = {
       bbsPosts: [
         {
@@ -53,11 +55,11 @@
           authorName: '匿名',
           isAnonymous: true,
           date: '2025/10/18 15:32',
-          title: '道路でのボール遊びについて',
-          content: '最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br>子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br>公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。',
+          titleKey: 'post.1.title',
+          contentKey: 'post.1.content',
           views: 25,
-          tags: ['相談'],
-          officialTags: [],
+          tagKeys: ['tag.consultation'],
+          officialTagKeys: [],
           attachments: []
         },
         {
@@ -67,11 +69,11 @@
           authorName: 'A15',
           isAnonymous: false,
           date: '2025/10/18 16:45',
-          title: 'ゲスト駐車場の利用について',
-          content: 'ゲスト駐車場が長期間利用されているようです。適切に管理していただけないでしょうか。<br><br>本来は来客用のはずですが、一部の方が連続して何週間も使用しているように見受けられます。<br><br>他の住民が利用できず困っています。',
+          titleKey: 'post.2.title',
+          contentKey: 'post.2.content',
           views: 18,
-          tags: ['質問'],
-          officialTags: [],
+          tagKeys: ['tag.question'],
+          officialTagKeys: [],
           attachments: []
         },
         {
@@ -81,11 +83,11 @@
           authorName: 'C08',
           isAnonymous: false,
           date: '2025/10/18 18:10',
-          title: '夜間のBBQについて',
-          content: 'BBQの煙と騒音が気になります。夜22時以降も続いていることがあります。<br><br>庭でのBBQは楽しい時間だと理解していますが、深夜まで続くのは近隣への配慮が欠けていると感じます。<br><br>ルールの明確化と周知をお願いします。',
+          titleKey: 'post.3.title',
+          contentKey: 'post.3.content',
           views: 32,
-          tags: ['相談'],
-          officialTags: [],
+          tagKeys: ['tag.consultation'],
+          officialTagKeys: [],
           attachments: []
         },
         {
@@ -95,11 +97,11 @@
           authorName: '匿名',
           isAnonymous: true,
           date: '2025/10/15 09:15',
-          title: 'ペットの散歩マナーについて',
-          content: 'ペットの排泄物の処理をお願いしたいです。敷地内で放置されているのを見かけました。<br><br>散歩は朝夕の時間帯が多く、特に共用部分の植え込み周辺で目撃しています。<br><br>他の住民の方も気持ちよく利用できるよう、マナーの徹底をお願いします。',
+          titleKey: 'post.4.title',
+          contentKey: 'post.4.content',
           views: 28,
-          tags: ['共有'],
-          officialTags: [],
+          tagKeys: ['tag.share'],
+          officialTagKeys: [],
           attachments: [
             {
               type: 'image',
@@ -116,25 +118,24 @@
           authorName: '匿名',
           isAnonymous: true,
           date: '2025/10/14 16:30',
-          title: '植木の剪定について',
-          content: '隣家の植木が越境してきています。剪定をお願いできないでしょうか。<br><br>特にベランダ側の植木が伸びてきており、洗濯物に触れてしまいます。<br><br>直接お伝えするのも気が引けるため、管理組合から一斉に剪定のお願いを出していただけないでしょうか。',
+          titleKey: 'post.5.title',
+          contentKey: 'post.5.content',
           views: 21,
-          tags: ['質問'],
-          officialTags: [],
+          tagKeys: ['tag.question'],
+          officialTagKeys: [],
           attachments: []
         },
         {
           id: 6,
           category: 'other',
-          authorId: 'admin',
-          authorName: '管理組合',
+          authorId: 'admin', // 'admin' に統一
           isAnonymous: false,
           date: '2025/10/19 09:00',
-          title: 'ゴミ収集日変更のお知らせ',
-          content: '11月より、可燃ゴミの収集日が火曜日・金曜日に変更となります。詳細は添付PDFをご確認ください。<br><br>【変更内容】<br>・可燃ゴミ：月・木曜日 → 火・金曜日<br>・不燃ゴミ：第2・4水曜日（変更なし）<br>・資源ゴミ：毎週土曜日（変更なし）<br><br>ゴミ出しは当日朝8時までにお願いいたします。',
+          titleKey: 'post.6.title',
+          contentKey: 'post.6.content',
           views: 156,
-          tags: [],
-          officialTags: ['回覧板', '重要'],
+          tagKeys: [],
+          officialTagKeys: ['tag.circular', 'tag.important'],
           isOfficial: true,
           attachments: [
             {
@@ -144,49 +145,52 @@
               url: '#'
             }
           ]
+          // authorName: '管理組合' -> 削除
         }
       ],
       bbsReplies: {
         1: [
-          { id: 1, authorId: 'A23', authorName: 'A23', isAnonymous: false, date: '2025/10/18 16:45', content: '同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。' },
-          { id: 2, authorId: 'anonymous', authorName: '匿名', isAnonymous: true, date: '2025/10/18 17:20', content: '親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。' },
-          { id: 3, authorId: 'B71', authorName: 'B71', isAnonymous: false, date: '2025/10/18 18:10', content: '子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。' },
-          { id: 4, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/18 20:30', content: 'ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。' }
+          { id: 1, authorId: 'A23', authorName: 'A23', isAnonymous: false, date: '2025/10/18 16:45', contentKey: 'reply.1.1.content' },
+          { id: 2, authorId: 'anonymous', authorName: '匿名', isAnonymous: true, date: '2025/10/18 17:20', contentKey: 'reply.1.2.content' },
+          { id: 3, authorId: 'B71', authorName: 'B71', isAnonymous: false, date: '2025/10/18 18:10', contentKey: 'reply.1.3.content' },
+          { id: 4, authorId: 'admin', isAnonymous: false, date: '2025/10/18 20:30', contentKey: 'reply.1.4.content' } // 修正
         ],
         2: [
-          { id: 1, authorId: 'D15', authorName: 'D15', isAnonymous: false, date: '2025/10/18 17:00', content: '私も同じ状況を確認しています。ルールの周知徹底をお願いしたいです。' },
-          { id: 2, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/18 18:30', content: 'ご指摘ありがとうございます。ゲスト駐車場の利用状況を確認し、長期利用者には個別に連絡いたします。今後は予約システムの導入も検討します。' }
+          { id: 1, authorId: 'D15', authorName: 'D15', isAnonymous: false, date: '2025/10/18 17:00', contentKey: 'reply.2.1.content' },
+          { id: 2, authorId: 'admin', isAnonymous: false, date: '2025/10/18 18:30', contentKey: 'reply.2.2.content' } // 修正
         ],
         3: [
-          { id: 1, authorId: 'G12', authorName: 'G12', isAnonymous: false, date: '2025/10/18 18:30', content: '私の家も煙の影響を受けています。洗濯物に臭いがついてしまうので困っています。' },
-          { id: 2, authorId: 'H21', authorName: 'H21', isAnonymous: false, date: '2025/10/18 19:15', content: 'BBQを行う際は、事前に近隣へ挨拶することをルール化してはいかがでしょうか。' }
+          { id: 1, authorId: 'G12', authorName: 'G12', isAnonymous: false, date: '2025/10/18 18:30', contentKey: 'reply.3.1.content' },
+          { id: 2, authorId: 'H21', authorName: 'H21', isAnonymous: false, date: '2025/10/18 19:15', contentKey: 'reply.3.2.content' }
         ],
         4: [
-          { id: 1, authorId: 'F33', authorName: 'F33', isAnonymous: false, date: '2025/10/15 10:30', content: '同じ問題で困っています。朝の散歩時に何度か目撃しました。飼い主のマナー向上が必要ですね。' },
-          { id: 2, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/15 14:20', content: 'ご意見ありがとうございます。ペット飼育規約の再周知と、マナー向上を呼びかける掲示を行います。写真のご提供もありがとうございました。' }
+          { id: 1, authorId: 'F33', authorName: 'F33', isAnonymous: false, date: '2025/10/15 10:30', contentKey: 'reply.4.1.content' },
+          { id: 2, authorId: 'admin', isAnonymous: false, date: '2025/10/15 14:20', contentKey: 'reply.4.2.content' } // 修正
         ],
         5: [
-          { id: 1, authorId: 'E18', authorName: 'E18', isAnonymous: false, date: '2025/10/14 17:00', content: '私も同じ状況です。風の強い日は特に気になります。' },
-          { id: 2, authorId: 'D09', authorName: 'D09', isAnonymous: false, date: '2025/10/14 18:15', content: '管理組合から一斉にお願いするのが良いと思います。個別に言うのは角が立ちますよね。' },
-          { id: 3, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/15 09:00', content: '承知いたしました。次回の回覧にて、共用部分への越境植栽の剪定についてお願いする文書を配布いたします。' },
-          { id: 4, authorId: 'anonymous', authorName: '匿名', isAnonymous: true, date: '2025/10/15 10:30', content: 'ありがとうございます。助かります。' }
+          { id: 1, authorId: 'E18', authorName: 'E18', isAnonymous: false, date: '2025/10/14 17:00', contentKey: 'reply.5.1.content' },
+          { id: 2, authorId: 'D09', authorName: 'D09', isAnonymous: false, date: '2025/10/14 18:15', contentKey: 'reply.5.2.content' },
+          { id: 3, authorId: 'admin', isAnonymous: false, date: '2025/10/15 09:00', contentKey: 'reply.5.3.content' }, // 修正
+          { id: 4, authorId: 'anonymous', authorName: '匿名', isAnonymous: true, date: '2025/10/15 10:30', contentKey: 'reply.5.4.content' }
         ],
         6: [
-          { id: 1, authorId: 'A23', authorName: 'A23', isAnonymous: false, date: '2025/10/19 09:30', content: '了解しました。カレンダーに登録します。' },
-          { id: 2, authorId: 'B15', authorName: 'B15', isAnonymous: false, date: '2025/10/19 10:00', content: '火曜日と金曜日ですね。忘れないようにします。' },
-          { id: 3, authorId: 'C08', authorName: 'C08', isAnonymous: false, date: '2025/10/19 10:45', content: 'PDFが開けません。再度アップロードしていただけますか？' },
-          { id: 4, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/19 11:30', content: 'PDFの件、申し訳ございません。後ほど再アップロードいたします。' },
-          { id: 5, authorId: 'D21', authorName: 'D21', isAnonymous: false, date: '2025/10/19 14:20', content: 'つくば市のHPでも確認できますよ。' },
-          { id: 6, authorId: 'E05', authorName: 'E05', isAnonymous: false, date: '2025/10/19 15:00', content: '変更の理由は何でしょうか？' },
-          { id: 7, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/19 16:00', content: '市の収集ルート変更に伴うものです。詳細は市から配布される資料をご確認ください。' },
-          { id: 8, authorId: 'F12', authorName: 'F12', isAnonymous: false, date: '2025/10/19 17:30', content: '分かりました。ありがとうございます。' }
+          { id: 1, authorId: 'A23', authorName: 'A23', isAnonymous: false, date: '2025/10/19 09:30', contentKey: 'reply.6.1.content' },
+          { id: 2, authorId: 'B15', authorName: 'B15', isAnonymous: false, date: '2025/10/19 10:00', contentKey: 'reply.6.2.content' },
+          { id: 3, authorId: 'C08', authorName: 'C08', isAnonymous: false, date: '2025/10/19 10:45', contentKey: 'reply.6.3.content' },
+          { id: 4, authorId: 'admin', isAnonymous: false, date: '2025/10/19 11:30', contentKey: 'reply.6.4.content' }, // 修正
+          { id: 5, authorId: 'D21', authorName: 'D21', isAnonymous: false, date: '2025/10/19 14:20', contentKey: 'reply.6.5.content' },
+          { id: 6, authorId: 'E05', authorName: 'E05', isAnonymous: false, date: '2025/10/19 15:00', contentKey: 'reply.6.6.content' },
+          { id: 7, authorId: 'admin', isAnonymous: false, date: '2025/10/19 16:00', contentKey: 'reply.6.7.content' }, // 修正
+          { id: 8, authorId: 'F12', authorName: 'F12', isAnonymous: false, date: '2025/10/19 17:30', contentKey: 'reply.6.8.content' }
         ]
       }
     };
 
-    // 多言語データ
+    // ★ 修正点 2: translations
+    // 'author.admin' キーを追加
     const translations = {
       ja: {
+        // --- UIキー ---
         'board.detail.title': '投稿詳細',
         'board.detail.back': '戻る',
         'board.detail.delete': '削除',
@@ -194,15 +198,64 @@
         'board.detail.anonymous': '匿名',
         'board.detail.views': '閲覧',
         'board.detail.replies': '返信',
+        'board.detail.replies.count': '件',
         'board.detail.reply.placeholder': '返信を入力...',
         'board.detail.reply.submit': '返信する',
+        'board.detail.attach': 'ファイルを添付',
+        'board.detail.attach.desc': '画像(JPG/PNG/GIF)、PDF、Office(Word/Excel/PowerPoint)が添付できます',
+        'board.detail.attach.limit': '※ 1ファイル最大10MB、合計5ファイルまで',
+        'board.detail.attached': '添付ファイル',
         'board.detail.no.replies': 'まだ返信がありません',
         'category.noise': '騒音',
         'category.parking': '駐車',
         'category.pet': 'ペット',
-        'category.other': 'その他'
+        'category.other': 'その他',
+        'author.admin': '管理組合', // ★ 追加
+        // --- タグキー ---
+        'tag.consultation': '相談',
+        'tag.question': '質問',
+        'tag.share': '共有',
+        'tag.circular': '回覧板',
+        'tag.important': '重要',
+        // --- 動的コンテンツ (投稿) ---
+        'post.1.title': '道路でのボール遊びについて',
+        'post.1.content': `最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br>子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br>公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。`,
+        'post.2.title': 'ゲスト駐車場の利用について',
+        'post.2.content': `ゲスト駐車場が長期間利用されているようです。適切に管理していただけないでしょうか。<br><br>本来は来客用のはずですが、一部の方が連続して何週間も使用しているように見受けられます。<br><br>他の住民が利用できず困っています。`,
+        'post.3.title': '夜間のBBQについて',
+        'post.3.content': `BBQの煙と騒音が気になります。夜22時以降も続いていることがあります。<br><br>庭でのBBQは楽しい時間だと理解していますが、深夜まで続くのは近隣への配慮が欠けていると感じます。<br><br>ルールの明確化と周知をお願いします。`,
+        'post.4.title': 'ペットの散歩マナーについて',
+        'post.4.content': `ペットの排泄物の処理をお願いしたいです。敷地内で放置されているのを見かけました。<br><br>散歩は朝夕の時間帯が多く、特に共用部分の植え込み周辺で目撃しています。<br><br>他の住民の方も気持ちよく利用できるよう、マナーの徹底をお願いします。`,
+        'post.5.title': '植木の剪定について',
+        'post.5.content': `隣家の植木が越境してきています。剪定をお願いできないでしょうか。<br><br>特にベランダ側の植木が伸びてきており、洗濯物に触れてしまいます。<br><br>直接お伝えするのも気が引けるため、管理組合から一斉に剪定のお願いを出していただけないでしょうか。`,
+        'post.6.title': 'ゴミ収集日変更のお知らせ',
+        'post.6.content': `11月より、可燃ゴミの収集日が火曜日・金曜日に変更となります。詳細は添付PDFをご確認ください。<br><br>【変更内容】<br>・可燃ゴミ：月・木曜日 → 火・金曜日<br>・不燃ゴミ：第2・4水曜日（変更なし）<br>・資源ゴミ：毎週土曜日（変更なし）<br><br>ゴミ出しは当日朝8時までにお願いいたします。`,
+        // --- 動的コンテンツ (返信) ---
+        'reply.1.1.content': '同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。',
+        'reply.1.2.content': '親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。',
+        'reply.1.3.content': '子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。',
+        'reply.1.4.content': 'ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。',
+        'reply.2.1.content': '私も同じ状況を確認しています。ルールの周知徹底をお願いしたいです。',
+        'reply.2.2.content': 'ご指摘ありがとうございます。ゲスト駐車場の利用状況を確認し、長期利用者には個別に連絡いたします。今後は予約システムの導入も検討します。',
+        'reply.3.1.content': '私の家も煙の影響を受けています。洗濯物に臭いがついてしまうので困っています。',
+        'reply.3.2.content': 'BBQを行う際は、事前に近隣へ挨拶することをルール化してはいかがでしょうか。',
+        'reply.4.1.content': '同じ問題で困っています。朝の散歩時に何度か目撃しました。飼い主のマナー向上が必要ですね。',
+        'reply.4.2.content': 'ご意見ありがとうございます。ペット飼育規約の再周知と、マナー向上を呼びかける掲示を行います。写真のご提供もありがとうございました。',
+        'reply.5.1.content': '私も同じ状況です。風の強い日は特に気になります。',
+        'reply.5.2.content': '管理組合から一斉にお願いするのが良いと思います。個別に言うのは角が立ちますよね。',
+        'reply.5.3.content': '承知いたしました。次回の回覧にて、共用部分への越境植栽の剪定についてお願いする文書を配布いたします。',
+        'reply.5.4.content': 'ありがとうございます。助かります。',
+        'reply.6.1.content': '了解しました。カレンダーに登録します。',
+        'reply.6.2.content': '火曜日と金曜日ですね。忘れないようにします。',
+        'reply.6.3.content': 'PDFが開けません。再度アップロードしていただけますか？',
+        'reply.6.4.content': 'PDFの件、申し訳ございません。後ほど再アップロードいたします。',
+        'reply.6.5.content': 'つくば市のHPでも確認できますよ。',
+        'reply.6.6.content': '変更の理由は何でしょうか？',
+        'reply.6.7.content': '市の収集ルート変更に伴うものです。詳細は市から配布される資料をご確認ください。',
+        'reply.6.8.content': '分かりました。ありがとうございます。'
       },
       en: {
+        // --- UIキー ---
         'board.detail.title': 'Post Details',
         'board.detail.back': 'Back',
         'board.detail.delete': 'Delete',
@@ -210,15 +263,64 @@
         'board.detail.anonymous': 'Anonymous',
         'board.detail.views': 'Views',
         'board.detail.replies': 'Replies',
+        'board.detail.replies.count': '',
         'board.detail.reply.placeholder': 'Write a reply...',
         'board.detail.reply.submit': 'Submit Reply',
+        'board.detail.attach': 'Attach File',
+        'board.detail.attach.desc': 'Images (JPG/PNG/GIF), PDF, Office (Word/Excel/PowerPoint) supported',
+        'board.detail.attach.limit': '※ Max 10MB per file, 5 files total',
+        'board.detail.attached': 'Attached Files',
         'board.detail.no.replies': 'No replies yet',
         'category.noise': 'Noise',
         'category.parking': 'Parking',
         'category.pet': 'Pet',
-        'category.other': 'Other'
+        'category.other': 'Other',
+        'author.admin': 'Management', // ★ 追加
+        // --- タグキー ---
+        'tag.consultation': 'Consultation',
+        'tag.question': 'Question',
+        'tag.share': 'Share',
+        'tag.circular': 'Circular',
+        'tag.important': 'Important',
+        // --- 動的コンテンツ (投稿) ---
+        'post.1.title': 'About playing ball on the road',
+        'post.1.content': `I'm concerned about the noise from children playing ball on the road recently. It's usually around 5-7 PM.<br><br>I think it's great that children are playing, but playing ball on the road is dangerous and noisy.<br><br>Could you please ask the parents to have them play in the park?`,
+        'post.2.title': 'Regarding guest parking lot usage',
+        'post.2.content': `It seems the guest parking lot is being used for long periods. Could you please manage it properly?<br><br>It's supposed to be for guests, but it looks like some individuals are using it for weeks on end.<br><br>Other residents are inconvenienced as they cannot use it.`,
+        'post.3.title': 'About nighttime BBQ',
+        'post.3.content': `The smoke and noise from BBQs are bothersome. Sometimes it continues past 10 PM.<br><br>I understand that BBQs in the yard are enjoyable, but continuing late into the night shows a lack of consideration for neighbors.<br><br>Please clarify the rules and ensure everyone is aware of them.`,
+        'post.4.title': 'About pet walking etiquette',
+        'post.4.content': `Please clean up after your pets. I have seen waste left on the premises.<br><br>Walks are most common in the morning and evening, and I've particularly noticed it around the common area shrubbery.<br><br>Please follow the etiquette so that other residents can comfortably use the facilities.`,
+        'post.5.title': 'About pruning shrubs',
+        'post.5.content': `My neighbor's shrubs are growing over the property line. Could you please request them to prune them?<br><br>Especially the shrubs on the balcony side are overgrown and touching the laundry.<br><br>I hesitate to say this directly, so could the management association issue a general request for pruning?`,
+        'post.6.title': 'Garbage Collection Schedule Change',
+        'post.6.content': `Starting November, combustible garbage collection days will change to Tuesdays and Fridays. Please see attached PDF for details.<br><br>【Changes】<br>・Combustible: Mon/Thu → Tue/Fri<br>・Non-combustible: 2nd/4th Wed (No change)<br>・Recyclable: Every Sat (No change)<br><br>Please take out the garbage by 8 AM on the collection day.`,
+        // --- 動的コンテンツ (返信) ---
+        'reply.1.1.content': `I have the same concern. Playing ball on the road is indeed dangerous. I'd like to ask the management association to issue a warning.`,
+        'reply.1.2.content': 'As a parent, I apologize. I will remind my children to play in the park.',
+        'reply.1.3.content': `I think children's voices are part of 'lifestyle noise,' but the road is certainly dangerous. The distance to the park might also be an issue.`,
+        'reply.1.4.content': 'Thank you for your feedback. We will discuss this at the next board meeting and plan to circulate a notice to all residents. We ask for continued consideration among residents.',
+        'reply.2.1.content': `I have also noticed this. I request a thorough communication of the rules.`,
+        'reply.2.2.content': 'Thank you for pointing this out. We will check the guest parking usage and contact long-term users individually. We will also consider implementing a reservation system.',
+        'reply.3.1.content': 'My house is also affected by the smoke. It gets on my laundry, which is a problem.',
+        'reply.3.2.content': 'How about making it a rule to notify neighbors before having a BBQ?',
+        'reply.4.1.content': `I'm having the same problem. I've seen it several times during morning walks. Owners need to improve their manners.`,
+        'reply.4.2.content': 'Thank you for your feedback. We will re-circulate the pet ownership bylaws and post notices calling for better manners. Thank you for providing the photo.',
+        'reply.5.1.content': 'I have the same situation. It is especially bothersome on windy days.',
+        'reply.5.2.content': 'I think it is best for the management association to make a general request. It is awkward to say it individually.',
+        'reply.5.3.content': 'Understood. We will distribute a document in the next circular asking for the pruning of encroaching vegetation in common areas.',
+        'reply.5.4.content': 'Thank you. That helps.',
+        'reply.6.1.content': 'Got it. I will add it to my calendar.',
+        'reply.6.2.content': 'Tuesdays and Fridays. I will remember that.',
+        'reply.6.3.content': 'I cannot open the PDF. Could you please re-upload it?',
+        'reply.6.4.content': 'Sorry about the PDF. We will re-upload it shortly.',
+        'reply.6.5.content': 'You can also check it on the Tsukuba City website.',
+        'reply.6.6.content': 'What is the reason for the change?',
+        'reply.6.7.content': 'It is due to a change in the city\'s collection routes. Please check the materials distributed by the city for details.',
+        'reply.6.8.content': 'I see. Thank you.'
       },
       zh: {
+        // --- UIキー ---
         'board.detail.title': '帖子详情',
         'board.detail.back': '返回',
         'board.detail.delete': '删除',
@@ -226,13 +328,61 @@
         'board.detail.anonymous': '匿名',
         'board.detail.views': '浏览',
         'board.detail.replies': '回复',
+        'board.detail.replies.count': '条',
         'board.detail.reply.placeholder': '输入回复...',
         'board.detail.reply.submit': '提交回复',
+        'board.detail.attach': '附加文件',
+        'board.detail.attach.desc': '支持图片(JPG/PNG/GIF)、PDF、Office(Word/Excel/PowerPoint)',
+        'board.detail.attach.limit': '※ 每个文件最大10MB，总共5个文件',
+        'board.detail.attached': '附件',
         'board.detail.no.replies': '暂无回复',
         'category.noise': '噪音',
         'category.parking': '停车',
         'category.pet': '宠物',
-        'category.other': '其他'
+        'category.other': '其他',
+        'author.admin': '管理组合', // ★ 追加
+        // --- タグキー ---
+        'tag.consultation': '咨询',
+        'tag.question': '问题',
+        'tag.share': '分享',
+        'tag.circular': '传阅',
+        'tag.important': '重要',
+        // --- 動的コンテンツ (投稿) ---
+        'post.1.title': '关于在路上玩球',
+        'post.1.content': `最近，在路上玩球的孩子们的声音让我很担心。时间是傍晚17-19点左右。<br><br>孩子们玩耍是好事，但在路上玩球既危险，声音也很大。<br><br>能否请您转告家长，让他们在公园玩耍？`,
+        'post.2.title': '关于访客停车场的利用',
+        'post.2.content': `访客停车场似乎被长期使用。能否请您妥善管理？<br><br>本来应该是给访客用的，但似乎有部分人連続使用好几个星期。<br><br>其他居民无法使用，感到很困扰。`,
+        'post.3.title': '关于夜间BBQ',
+        'post.3.content': `BBQ的烟雾和噪音很吵人。有时会持续到晚上22点以后。<br><br>我理解在院子里BBQ是件开心的事，但持续到深夜，感觉是对邻居缺乏考虑。<br><br>希望能明确规则并通知大家。`,
+        'post.4.title': '关于宠物散步的礼仪',
+        'post.4.content': `希望能处理宠物的排泄物。我看到有遗弃在园区内的。<br><br>散步多在早晚时段，尤其是在公共部分的灌木丛周围看到。<br><br>为了让其他居民也能舒适地使用，请大家彻底遵守礼仪。`,
+        'post.5.title': '关于修剪灌木',
+        'post.5.content': `邻居家的灌木丛越界了。能否请您修剪一下？<br><br>特别是阳台一侧的灌木长过来，会碰到晾晒的衣物。<br><br>我不好意思直接去说，能否请管理组合统一发布修剪灌木的通知？`,
+        'post.6.title': '垃圾收集时间表变更',
+        'post.6.content': `从11月起，可燃垃圾收集日将改为周二和周五。详情请查看附件PDF。<br><br>【变更内容】<br>・可燃垃圾：周一・周四 → 周二・周五<br>・不可燃垃圾：第2・4个周三（无变更）<br>・资源垃圾：每周六（无变更）<br><br>请于当天早上8点前将垃圾扔出。`,
+        // --- 動的コンテンツ (返信) ---
+        'reply.1.1.content': '我也有同样的烦恼。在路上玩球确实很危险。希望管理组合能发出通知提醒大家。',
+        'reply.1.2.content': '作为家长，我感到很抱歉。我会再次告诉孩子要去公园玩。',
+        'reply.1.3.content': '我认为孩子的声音属于“生活噪音”的范围，但在路上玩确实很危险。可能公园有点远也是个问题。',
+        'reply.1.4.content': '感谢您的意见。我们将在下次理事会上讨论，并计划向所有住户发送通知。请大家继续互相关怀。',
+        'reply.2.1.content': '我也确认了同样的情况。希望能彻底宣导规则。',
+        'reply.2.2.content': '感谢您的指正。我们将确认访客停车场的使用情况，并单独联系长期使用者。今后也将考虑引入预约系统。',
+        'reply.3.1.content': '我家里也受到烟雾的影响。气味会沾到晾晒的衣物上，很困扰。',
+        'reply.3.2.content': '是否可以规定在BBQ之前，必须先和附近的邻居打个招呼？',
+        'reply.4.1.content': '我也有同样的困扰。早上散步时看到过好几次。饲主需要提高公德心。',
+        'reply.4.2.content': '感谢您的意见。我们将再次宣导宠物饲养规定，并张贴布告呼吁大家遵守礼仪。也感谢您提供的照片。',
+        'reply.5.1.content': '我也遇到了同样的情况。刮大风的时候尤其在意。',
+        'reply.5.2.content': '我认为由管理组合统一发通知比较好。单独去说会很尴尬。',
+        'reply.5.3.content': '明白了。我们将在下次的传阅通知中，发放关于修剪越界到公共区域植物的请求文件。',
+        'reply.5.4.content': '谢谢，帮大忙了。',
+        'reply.6.1.content': '收到了。我添加到日历里。',
+        'reply.6.2.content': '是周二和周五对吧。我会记住的。',
+        'reply.6.3.content': 'PDF打不开。能请您重新上传吗？',
+        'reply.6.4.content': '关于PDF的问题，非常抱歉。我们稍后会重新上传。',
+        'reply.6.5.content': '在筑波市的官网上也可以查到哦。',
+        'reply.6.6.content': '请问变更的理由是什么？',
+        'reply.6.7.content': '这是因为市里的收集路线变更了。详情请确认市政府发放的资料。',
+        'reply.6.8.content': '明白了。谢谢。'
       }
     };
 
@@ -244,43 +394,56 @@
       }
 
       init() {
-        // 言語ボタンの初期化
+        if (!this.initialized) {
+          document.querySelectorAll('.lang-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+              this.setLanguage(btn.dataset.lang);
+            });
+          });
+          this.initialized = true;
+        }
+        this.updateButtonStates();
+        this.translatePage();
+      }
+      
+      updateButtonStates() {
         document.querySelectorAll('.lang-btn').forEach(btn => {
           btn.classList.remove('active');
           if (btn.dataset.lang === this.currentLang) {
             btn.classList.add('active');
           }
-          
-          btn.addEventListener('click', () => {
-            this.setLanguage(btn.dataset.lang);
-          });
         });
-
-        // 初期翻訳
-        this.translatePage();
       }
 
       setLanguage(lang) {
         this.currentLang = lang;
         localStorage.setItem('language', lang);
+        this.updateButtonStates();
         
-        // ボタンのアクティブ状態を更新
-        document.querySelectorAll('.lang-btn').forEach(btn => {
-          btn.classList.remove('active');
-          if (btn.dataset.lang === lang) {
-            btn.classList.add('active');
-          }
-        });
-
+        const currentContent = document.getElementById('replyContent')?.value || '';
+        
+        renderPage(currentPost, currentReplies, currentUser); 
+        
+        if (currentContent) {
+          document.getElementById('replyContent').value = currentContent;
+          updateCharCount();
+        }
+        if (attachedFiles.length > 0) {
+          updateFilePreview();
+        }
+        
         this.translatePage();
       }
 
       translate(key) {
-        return translations[this.currentLang]?.[key] || key;
+        const translation = translations[this.currentLang];
+        if (translation && Object.prototype.hasOwnProperty.call(translation, key)) {
+          return translation[key];
+        }
+        return key;
       }
 
       translatePage() {
-        // data-i18n属性を持つ要素を翻訳
         document.querySelectorAll('[data-i18n]').forEach(element => {
           const key = element.getAttribute('data-i18n');
           element.textContent = this.translate(key);
@@ -290,32 +453,20 @@
 
     // メイン処理
     function initializePage() {
-      // 多言語マネージャーの初期化
       window.i18n = new EmbeddedLanguageManager();
       
-      // デモモードの初期化
       if (typeof initDemoMode === 'function') {
         initDemoMode();
       }
-      const currentUser = typeof getDemoUser === 'function' ? getDemoUser() : { id: 'guest', isAdmin: false };
+      currentUser = typeof getDemoUser === 'function' ? getDemoUser() : { id: 'guest', isAdmin: false };
       
-      // URLパラメータから投稿IDを取得
       const urlParams = new URLSearchParams(window.location.search);
       const postId = parseInt(urlParams.get('id')) || 1;
       
-      // データ取得
-      const post = window.demoData.bbsPosts.find(p => p.id === postId);
-      const replies = window.demoData.bbsReplies[postId] || [];
+      currentPost = window.demoData.bbsPosts.find(p => p.id === postId);
+      currentReplies = window.demoData.bbsReplies[postId] || [];
       
-      console.log('=== Board Detail Debug Info ===');
-      console.log('URL Parameter ID:', postId);
-      console.log('Post Data:', post);
-      console.log('Replies:', replies);
-      console.log('Current User:', currentUser);
-      
-      // 投稿が見つからない場合
-      if (!post) {
-        console.error('投稿が見つかりません: ID:', postId);
+      if (!currentPost) {
         document.getElementById('mainContent').innerHTML = `
           <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
             <h3 class="text-red-900 font-bold mb-2">❌ 投稿が見つかりません</h3>
@@ -328,8 +479,7 @@
         return;
       }
       
-      // ページを描画
-      renderPage(post, replies, currentUser);
+      renderPage(currentPost, currentReplies, currentUser);
     }
 
     // カテゴリーバッジクラス取得
@@ -351,35 +501,37 @@
 
     // タグレンダリング
     function renderTags(post) {
-      if (!post.tags && !post.officialTags) return '';
+      if ((!post.tagKeys || post.tagKeys.length === 0) && 
+          (!post.officialTagKeys || post.officialTagKeys.length === 0)) {
+        return '';
+      }
 
       let tagsHtml = '';
 
       // 管理者専用タグ
-      if (post.officialTags && post.officialTags.length > 0) {
-        post.officialTags.forEach(tag => {
+      if (post.officialTagKeys && post.officialTagKeys.length > 0) {
+        post.officialTagKeys.forEach(tagKey => {
+          const translatedTag = window.i18n.translate(tagKey);
           let badgeClass = '';
           let icon = '';
           
-          if (tag === '回覧板') {
+          if (tagKey === 'tag.circular') {
             badgeClass = 'bg-red-600 text-white';
             icon = '🔴';
-          } else if (tag === '重要') {
+          } else if (tagKey === 'tag.important') {
             badgeClass = 'bg-blue-600 text-white';
             icon = '🔵';
-          } else if (tag === '公式') {
-            badgeClass = 'bg-green-600 text-white';
-            icon = '🟢';
           }
           
-          tagsHtml += `<span class="badge ${badgeClass}">${icon} ${tag}</span>`;
+          tagsHtml += `<span class="badge ${badgeClass}">${icon} ${translatedTag}</span>`;
         });
       }
 
       // 一般タグ
-      if (post.tags && post.tags.length > 0) {
-        post.tags.forEach(tag => {
-          tagsHtml += `<span class="badge bg-purple-100 text-purple-800">🏷️ ${tag}</span>`;
+      if (post.tagKeys && post.tagKeys.length > 0) {
+        post.tagKeys.forEach(tagKey => {
+          const translatedTag = window.i18n.translate(tagKey);
+          tagsHtml += `<span class="badge bg-purple-100 text-purple-800">🏷️ ${translatedTag}</span>`;
         });
       }
 
@@ -433,7 +585,8 @@
       `;
     }
 
-    // 投稿本文のレンダリング
+    // ★ 修正点 3: renderPost
+    // 投稿者名の表示ロジックを修正
     function renderPost(post, currentUser) {
       const categoryClass = getCategoryBadgeClass(post.category);
       const categoryName = getCategoryName(post.category);
@@ -441,8 +594,20 @@
       const deleteButton = getDeleteButton(post.authorId, currentUser);
       const reportButton = getReportButton();
       const anonymousText = window.i18n ? window.i18n.translate('board.detail.anonymous') : '匿名';
-      const viewsText = window.i18n ? window.i18n.translate('board.detail.views') : '閲覧';
       
+      const postTitle = window.i18n.translate(post.titleKey);
+      const postContent = window.i18n.translate(post.contentKey);
+
+      // ★ 投稿者名の表示ロジック
+      let authorDisplayName = '';
+      if (post.isAnonymous) {
+        authorDisplayName = anonymousText;
+      } else if (post.authorId === 'admin') {
+        authorDisplayName = window.i18n.translate('author.admin');
+      } else {
+        authorDisplayName = post.authorName; // 'A15', 'C08' など
+      }
+
       return `
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
           <div class="flex items-start justify-between mb-4">
@@ -456,26 +621,28 @@
             </div>
           </div>
           
-          <h1 class="text-2xl font-bold text-gray-900 mb-4">${post.title}</h1>
+          <h1 class="text-2xl font-bold text-gray-900 mb-4">${postTitle}</h1>
           
           <div class="flex items-center text-sm text-gray-600 mb-6">
             <span class="mr-4">
-              ${post.isAnonymous ? anonymousText : post.authorName}
+              ${authorDisplayName}
             </span>
             <span class="mr-4">${post.date}</span>
             <span>👁 ${post.views}</span>
           </div>
           
           <div class="prose max-w-none mb-6">
-            <p class="whitespace-pre-wrap">${post.content}</p>
+            <p class="whitespace-pre-wrap">${postContent}</p>
           </div>
         </div>
       `;
     }
 
-    // 返信一覧のレンダリング
+    // ★ 修正点 3: renderReplies
+    // 返信者名の表示ロジックを修正
     function renderReplies(replies, currentUser) {
       const repliesText = window.i18n ? window.i18n.translate('board.detail.replies') : '返信';
+      const repliesCountText = window.i18n ? window.i18n.translate('board.detail.replies.count') : '件';
       const noRepliesText = window.i18n ? window.i18n.translate('board.detail.no.replies') : 'まだ返信がありません';
       const anonymousText = window.i18n ? window.i18n.translate('board.detail.anonymous') : '匿名';
       
@@ -483,7 +650,7 @@
         return `
           <div class="bg-white rounded-lg shadow-md p-6 mb-6">
             <h3 class="text-lg font-bold text-gray-900 mb-4">
-              ${repliesText} 0 件
+              ${repliesText} 0 ${repliesCountText}
             </h3>
             <p class="text-gray-600 text-center py-8">${noRepliesText}</p>
           </div>
@@ -493,25 +660,37 @@
       let repliesHtml = `
         <div class="bg-white rounded-lg shadow-md p-6 mb-6">
           <h3 class="text-lg font-bold text-gray-900 mb-4">
-            ${repliesText} ${replies.length} 件
+            ${repliesText} ${replies.length}${repliesCountText}
           </h3>
           <div class="space-y-4">
       `;
 
       replies.forEach(reply => {
         const deleteButton = getDeleteButton(reply.authorId, currentUser, true, reply.id);
+        const replyContent = window.i18n.translate(reply.contentKey);
+        
+        // ★ 返信者名の表示ロジック
+        let replierDisplayName = '';
+        if (reply.isAnonymous) {
+          replierDisplayName = anonymousText;
+        } else if (reply.authorId === 'admin') {
+          replierDisplayName = window.i18n.translate('author.admin');
+        } else {
+          replierDisplayName = reply.authorName; // 'A23', 'B71' など
+        }
+
         repliesHtml += `
           <div class="border-l-4 border-blue-200 pl-4 py-2" data-reply-id="${reply.id}">
             <div class="flex items-start justify-between mb-2">
               <div class="flex items-center gap-3 text-sm">
                 <span class="font-semibold text-gray-900">
-                  ${reply.isAnonymous ? anonymousText : reply.authorName}
+                  ${replierDisplayName}
                 </span>
                 <span class="text-gray-500">${reply.date}</span>
               </div>
               ${deleteButton}
             </div>
-            <p class="text-gray-700 whitespace-pre-wrap">${reply.content}</p>
+            <p class="text-gray-700 whitespace-pre-wrap">${replyContent}</p>
           </div>
         `;
       });
@@ -528,10 +707,14 @@
     function renderReplyForm() {
       const placeholderText = window.i18n ? window.i18n.translate('board.detail.reply.placeholder') : '返信を入力...';
       const submitText = window.i18n ? window.i18n.translate('board.detail.reply.submit') : '返信する';
+      const attachText = window.i18n ? window.i18n.translate('board.detail.attach') : 'ファイルを添付';
+      const attachDescText = window.i18n ? window.i18n.translate('board.detail.attach.desc') : '画像(JPG/PNG/GIF)、PDF、Office(Word/Excel/PowerPoint)が添付できます';
+      const attachLimitText = window.i18n ? window.i18n.translate('board.detail.attach.limit') : '※ 1ファイル最大10MB、合計5ファイルまで';
+      const attachedText = window.i18n ? window.i18n.translate('board.detail.attached') : '添付ファイル';
       
       return `
-        <div class="bg-white rounded-lg shadow-md p-6">
-          <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="board.detail.reply.submit">${submitText}</h3>
+        <div id="replyFormContainer" class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">${submitText}</h3>
           <textarea 
             id="replyContent"
             class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
@@ -539,6 +722,30 @@
             placeholder="${placeholderText}"
             oninput="updateCharCount()"
           ></textarea>
+          
+          <div class="mt-4">
+            <input type="file" id="fileInput" accept=".jpg,.jpeg,.png,.gif,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" multiple style="display: none;" onchange="handleFileSelect(event)">
+            <button 
+              type="button"
+              onclick="document.getElementById('fileInput').click()"
+              class="flex items-center gap-2 px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+              </svg>
+              <span>${attachText}</span>
+            </button>
+            <p class="text-xs text-gray-500 mt-2">
+              <span>${attachDescText}</span><br>
+              <span>${attachLimitText}</span>
+            </p>
+          </div>
+          
+          <div id="attachedFilesList" class="mt-4 space-y-2" style="display: none;">
+            <h4 class="text-sm font-bold text-gray-700">${attachedText}</h4>
+            <div id="filePreviewContainer"></div>
+          </div>
+          
           <div class="flex items-center justify-between mt-4">
             <span class="text-sm text-gray-500">
               <span id="replyCharCount">0</span> / 500
@@ -547,7 +754,7 @@
               onclick="submitReply()"
               class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
             >
-              <span data-i18n="board.detail.reply.submit">${submitText}</span>
+              <span>${submitText}</span>
             </button>
           </div>
         </div>
@@ -568,23 +775,117 @@
       }
     }
 
+    // ===== ファイル添付機能 (変更なし) =====
+    let attachedFiles = [];
+    const MAX_FILES = 5;
+    const MAX_FILE_SIZE = 10 * 1024 * 1024;
+    
+    function handleFileSelect(event) {
+      const files = Array.from(event.target.files);
+      if (attachedFiles.length + files.length > MAX_FILES) {
+        alert(`ファイルは最大${MAX_FILES}個まで添付できます`);
+        event.target.value = '';
+        return;
+      }
+      files.forEach(file => {
+        if (file.size > MAX_FILE_SIZE) {
+          alert(`${file.name} は10MBを超えています`);
+          return;
+        }
+        attachedFiles.push(file);
+      });
+      updateFilePreview();
+      event.target.value = '';
+    }
+    
+    function updateFilePreview() {
+      const container = document.getElementById('filePreviewContainer');
+      const listArea = document.getElementById('attachedFilesList');
+      if (attachedFiles.length === 0) {
+        listArea.style.display = 'none';
+        return;
+      }
+      listArea.style.display = 'block';
+      container.innerHTML = '';
+      attachedFiles.forEach((file, index) => {
+        const fileDiv = document.createElement('div');
+        fileDiv.className = 'flex items-center gap-3 p-3 bg-gray-50 rounded-lg';
+        const ext = file.name.split('.').pop().toLowerCase();
+        const isImage = ['jpg', 'jpeg', 'png', 'gif'].includes(ext);
+        if (isImage) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            const img = fileDiv.querySelector('.file-thumbnail');
+            if (img) {
+              img.src = e.target.result;
+            }
+          };
+          reader.readAsDataURL(file);
+          fileDiv.innerHTML = `
+            <img class="file-thumbnail w-12 h-12 object-cover rounded" src="" alt="thumbnail">
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 truncate">${file.name}</p>
+              <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+            </div>
+            <button type="button" onclick="removeFile(${index})" class="text-red-600 hover:text-red-800 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>`;
+        } else {
+          const icon = getFileIcon(file.name);
+          fileDiv.innerHTML = `
+            <div class="text-3xl">${icon}</div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-medium text-gray-900 truncate">${file.name}</p>
+              <p class="text-xs text-gray-500">${formatFileSize(file.size)}</p>
+            </div>
+            <button type="button" onclick="removeFile(${index})" class="text-red-600 hover:text-red-800 transition">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>`;
+        }
+        container.appendChild(fileDiv);
+      });
+    }
+    
+    function removeFile(index) {
+      attachedFiles.splice(index, 1);
+      updateFilePreview();
+    }
+    
+    function getFileIcon(filename) {
+      const ext = filename.split('.').pop().toLowerCase();
+      if (['jpg', 'jpeg', 'png', 'gif'].includes(ext)) { return '🖼️'; }
+      else if (ext === 'pdf') { return '📄'; }
+      else if (['doc', 'docx'].includes(ext)) { return '📝'; }
+      else if (['xls', 'xlsx'].includes(ext)) { return '📊'; }
+      else if (['ppt', 'pptx'].includes(ext)) { return '📽️'; }
+      else { return '📎'; }
+    }
+    
+    function formatFileSize(bytes) {
+      if (bytes === 0) return '0 Bytes';
+      const k = 1024;
+      const sizes = ['Bytes', 'KB', 'MB'];
+      const i = Math.floor(Math.log(bytes) / Math.log(k));
+      return Math.round(bytes / Math.pow(k, i) * 10) / 10 + ' ' + sizes[i];
+    }
+    // ===== ファイル添付機能ここまで =====
+
     // 返信投稿
     function submitReply() {
       const content = document.getElementById('replyContent').value.trim();
-      
       if (!content) {
         alert('返信内容を入力してください');
         return;
       }
-      
       if (content.length > 500) {
         alert('500文字以内で入力してください');
         return;
       }
-      
       alert('返信しました (デモ)');
       document.getElementById('replyContent').value = '';
       updateCharCount();
+      attachedFiles = [];
+      updateFilePreview();
     }
 
     // 投稿削除ハンドラー
@@ -602,7 +903,6 @@
         if (replyElement) {
           replyElement.style.transition = 'opacity 0.3s';
           replyElement.style.opacity = '0';
-          
           setTimeout(() => {
             replyElement.remove();
             alert('削除しました (デモ)');
