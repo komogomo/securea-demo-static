@@ -6,6 +6,8 @@
   <title data-i18n="board.title">掲示板 - セキュレアシティ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css">
+  <!-- デモモード切り替え -->
+  <script src="data/demo-mode.js"></script>
   
   <script>
     window.i18nData = {
@@ -24,6 +26,7 @@
         'board.description': '住民同士のコミュニケーション',
         'board.subtitle': '相談・情報共有の場です。匿名での投稿も可能です。',
         'board.category.all': 'すべて',
+        'board.category.circular': '🔴 回覧板',
         'board.category.noise': '騒音',
         'board.category.parking': '駐車',
         'board.category.pet': 'ペット',
@@ -35,19 +38,16 @@
         // --- ★board.html 動的データキー★ ---
         'post.1.title': '道路でのボール遊びについて',
         'post.1.content': '最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。',
-        'post.1.author': '匿名',
         'post.2.title': 'ゲスト駐車場の利用について',
         'post.2.content': 'ゲスト駐車場が長期間利用されているようです。適切に管理していただけないでしょうか。',
-        'post.2.author': 'C12',
         'post.3.title': '夜間のBBQについて',
         'post.3.content': 'BBQの煙と騒音が気になります。夜22時以降も続いていることがあります。',
-        'post.3.author': '匿名',
         'post.4.title': 'ペットの散歩マナーについて',
         'post.4.content': 'ペットの排泄物の処理をお願いしたいです。敷地内で放置されているのを見かけました。',
-        'post.4.author': 'A05',
         'post.5.title': '植木の剪定について',
         'post.5.content': '隣家の植木が越境してきています。剪定をお願いできないでしょうか。',
-        'post.5.author': '匿名'
+        'post.6.title': 'ゴミ収集日変更のお知らせ',
+        'post.6.content': '11月より、可燃ゴミの収集日が火曜日・金曜日に変更となります。詳細は添付PDFをご確認ください。'
       },
       en: {
         // --- 共通キー ---
@@ -64,6 +64,7 @@
         'board.description': 'Resident Communication',
         'board.subtitle': 'A place for consultation and information sharing. Anonymous posting is available.',
         'board.category.all': 'All',
+        'board.category.circular': '🔴 Circular',
         'board.category.noise': 'Noise',
         'board.category.parking': 'Parking',
         'board.category.pet': 'Pet',
@@ -75,19 +76,16 @@
         // --- ★board.html 動的データキー★ ---
         'post.1.title': 'About playing ball on the road',
         'post.1.content': 'I am concerned about the voices of children playing ball on the road recently. The time is around 17:00-19:00 in the evening.',
-        'post.1.author': 'Anonymous',
         'post.2.title': 'Regarding guest parking lot usage',
         'post.2.content': 'It seems the guest parking lot is being used for a long period. Could you please manage it properly?',
-        'post.2.author': 'C12',
         'post.3.title': 'About nighttime BBQ',
         'post.3.content': 'I am concerned about the smoke and noise from BBQ. It sometimes continues after 22:00 at night.',
-        'post.3.author': 'Anonymous',
         'post.4.title': 'About pet walking etiquette',
         'post.4.content': 'I would like to ask you to please clean up after your pets. I have seen waste left on the premises.',
-        'post.4.author': 'A05',
         'post.5.title': 'About pruning shrubs',
         'post.5.content': "The neighbor's shrubs are crossing the property line. Could you please ask them to prune them?",
-        'post.5.author': 'Anonymous'
+        'post.6.title': 'Garbage Collection Schedule Change',
+        'post.6.content': 'Starting November, combustible garbage collection days will change to Tuesdays and Fridays. Please see attached PDF for details.'
       },
       zh: {
         // --- 共通キー ---
@@ -104,6 +102,7 @@
         'board.description': '居民交流',
         'board.subtitle': '这是一个咨询和信息共享的场所。可以匿名发帖。',
         'board.category.all': '全部',
+        'board.category.circular': '🔴 传阅通知',
         'board.category.noise': '噪音',
         'board.category.parking': '停车',
         'board.category.pet': '宠物',
@@ -115,19 +114,16 @@
         // --- ★board.html 動的データキー★ ---
         'post.1.title': '关于在路上玩球',
         'post.1.content': '最近，在路上玩球的孩子们的声音让我很担心。时间是傍晚17-19点左右。',
-        'post.1.author': '匿名',
         'post.2.title': '关于访客停车场的利用',
         'post.2.content': '访客停车场似乎被长期使用。能否请您妥善管理？',
-        'post.2.author': 'C12',
         'post.3.title': '关于夜间BBQ',
         'post.3.content': 'BBQ的烟雾和噪音很吵人。有时会持续到晚上22点以后。',
-        'post.3.author': '匿名',
         'post.4.title': '关于宠物散步的礼仪',
         'post.4.content': '希望能处理宠物的排泄物。我看到有遗弃在园区内的。',
-        'post.4.author': 'A05',
         'post.5.title': '关于修剪灌木',
         'post.5.content': '邻居家的灌木丛越界了。能否请您修剪一下？',
-        'post.5.author': '匿名'
+        'post.6.title': '垃圾收集时间表变更',
+        'post.6.content': '从11月起，可燃垃圾收集日将改为周二和周五。详情请查看附件PDF。'
       }
     };
     console.log('✅ i18nData embedded for board.html (v2)');
@@ -153,7 +149,7 @@
           <h1 class="text-xl font-bold text-gray-900" data-i18n="board.title">掲示板</h1>
         </div>
         <button 
-          onclick="alert(window.i18n ? window.i18n('board.new_post') : '新規投稿画面（デモ）')" 
+          onclick="window.location.href='board-new.html'" 
           class="bg-blue-600 text-white px-4 py-2 rounded-lg font-bold hover:bg-blue-700 transition flex items-center gap-2"
         >
           <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -177,6 +173,9 @@
       <div class="flex gap-2 overflow-x-auto">
         <button onclick="filterPosts('all')" id="filter-all" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap" data-i18n="board.category.all">
           すべて
+        </button>
+        <button onclick="filterPosts('circular')" id="filter-circular" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.circular">
+          🔴 回覧板
         </button>
         <button onclick="filterPosts('noise')" id="filter-noise" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.noise">
           騒音
@@ -312,63 +311,130 @@
   </script>
 
 
-  <script src="data/demo-data.js"></script>
-  <script src="js/app.js"></script>
   
   <script>
-    // ▼ 投稿データを「キー」で定義
-    const posts = [
-      {
-        id: 1,
-        category: 'noise',
-        titleKey: 'post.1.title',
-        contentKey: 'post.1.content',
-        authorKey: 'post.1.author',
-        date: '2025/10/18',
-        replies: 5,
-        isAnonymous: true
+    // ▼ データを直接埋め込み（パス問題を回避）
+    window.demoData = {
+      currentUser: {
+        roomNumber: 'B71',
+        isAdmin: false
       },
-      {
-        id: 2,
-        category: 'parking',
-        titleKey: 'post.2.title',
-        contentKey: 'post.2.content',
-        authorKey: 'post.2.author',
-        date: '2025/10/17',
-        replies: 3,
-        isAnonymous: false
-      },
-      {
-        id: 3,
-        category: 'noise',
-        titleKey: 'post.3.title',
-        contentKey: 'post.3.content',
-        authorKey: 'post.3.author',
-        date: '2025/10/16',
-        replies: 8,
-        isAnonymous: true
-      },
-      {
-        id: 4,
-        category: 'pet',
-        titleKey: 'post.4.title',
-        contentKey: 'post.4.content',
-        authorKey: 'post.4.author',
-        date: '2025/10/15',
-        replies: 2,
-        isAnonymous: false
-      },
-      {
-        id: 5,
-        category: 'other',
-        titleKey: 'post.5.title',
-        contentKey: 'post.5.content',
-        authorKey: 'post.5.author',
-        date: '2025/10/14',
-        replies: 4,
-        isAnonymous: true
-      }
-    ];
+      bbsPosts: [
+        {
+          id: 1,
+          category: 'noise',
+          authorId: 'anonymous',
+          authorName: '匿名',
+          isAnonymous: true,
+          date: '2025/10/18',
+          datetime: '2025/10/18 15:32',
+          replies: 5,
+          attachments: [],
+          tags: ['相談'],
+          officialTags: []
+        },
+        {
+          id: 2,
+          category: 'parking',
+          authorId: 'C12',
+          authorName: 'C12',
+          isAnonymous: false,
+          date: '2025/10/17',
+          datetime: '2025/10/17 14:20',
+          replies: 3,
+          attachments: [],
+          tags: ['質問'],
+          officialTags: []
+        },
+        {
+          id: 3,
+          category: 'noise',
+          authorId: 'anonymous',
+          authorName: '匿名',
+          isAnonymous: true,
+          date: '2025/10/16',
+          datetime: '2025/10/16 21:45',
+          replies: 8,
+          attachments: [
+            {
+              type: 'image',
+              name: 'bbq_photo.jpg',
+              size: '2.3MB',
+              url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E🔥 BBQの様子（デモ画像）%3C/text%3E%3C/svg%3E'
+            }
+          ],
+          tags: ['相談'],
+          officialTags: []
+        },
+        {
+          id: 4,
+          category: 'pet',
+          authorId: 'A05',
+          authorName: 'A05',
+          isAnonymous: false,
+          date: '2025/10/15',
+          datetime: '2025/10/15 09:15',
+          replies: 2,
+          attachments: [
+            {
+              type: 'image',
+              name: 'pet_waste.jpg',
+              size: '1.8MB',
+              url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E🐕 現場の写真（デモ画像）%3C/text%3E%3C/svg%3E'
+            }
+          ],
+          tags: ['共有'],
+          officialTags: []
+        },
+        {
+          id: 5,
+          category: 'other',
+          authorId: 'anonymous',
+          authorName: '匿名',
+          isAnonymous: true,
+          date: '2025/10/14',
+          datetime: '2025/10/14 16:30',
+          replies: 4,
+          attachments: [],
+          tags: ['質問'],
+          officialTags: []
+        },
+        {
+          id: 6,
+          category: 'other',
+          authorId: 'admin',
+          authorName: '管理組合',
+          isAnonymous: false,
+          date: '2025/10/19',
+          datetime: '2025/10/19 09:00',
+          replies: 8,
+          attachments: [
+            {
+              type: 'document',
+              name: 'garbage_schedule.pdf',
+              size: '450KB',
+              url: '#'
+            }
+          ],
+          tags: [],
+          officialTags: ['回覧板', '重要'],
+          isOfficial: true
+        }
+      ]
+    };
+    
+    // ▼ 投稿データを読み込み
+    const posts = window.demoData ? window.demoData.bbsPosts.map(post => ({
+      id: post.id,
+      category: post.category,
+      titleKey: `post.${post.id}.title`,
+      contentKey: `post.${post.id}.content`,
+      authorKey: post.isAnonymous ? 'board.anonymous' : null,
+      authorName: post.authorName,
+      date: post.date,
+      replies: post.replies,
+      isAnonymous: post.isAnonymous
+    })) : [];
 
     let currentFilter = 'all';
 
@@ -414,7 +480,7 @@
         // ★動的データをキーで翻訳
         const postTitle = window.i18n(post.titleKey);
         const postContent = window.i18n(post.contentKey);
-        const postAuthor = window.i18n(post.authorKey);
+        const postAuthor = post.isAnonymous ? anonymousText : post.authorName;
         // ---
         
         postCard.innerHTML = `
@@ -463,11 +529,51 @@
 
     // DOM読み込み完了時に、翻訳システムの初期化とリストの初回描画を行う
     document.addEventListener('DOMContentLoaded', function() {
+      // デモモードの初期化
+      initDemoMode();
+      
       window.languageManager.init();
       window.languageManager.updatePage();
       window.languageManager.updateLanguageButtons();
       renderPosts(); // 初回描画
     });
   </script>
+
+  <style>
+    /* 言語切替ボタンのスタイル */
+    .language-switcher {
+      display: flex;
+      gap: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .lang-btn {
+      padding: 8px 16px;
+      background: white;
+      color: #4B5563;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      border-right: 1px solid #E5E7EB;
+    }
+    
+    .lang-btn:last-child {
+      border-right: none;
+    }
+    
+    .lang-btn:hover {
+      background: #F3F4F6;
+    }
+    
+    .lang-btn.active {
+      background: #2563EB;
+      color: white;
+    }
+  </style>
   </body>
 </html>

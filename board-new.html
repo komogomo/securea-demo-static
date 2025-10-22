@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新規投稿 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  <!-- ファイル処理ユーティリティ -->
+  <script src="data/file-utils.js"></script>
+  <!-- デモモード切り替え -->
+  <script src="data/demo-mode.js"></script>
+  
+  <style>
+    /* 言語切替ボタンのスタイル */
+    .language-switcher {
+      display: flex;
+      gap: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .lang-btn {
+      padding: 8px 16px;
+      background: white;
+      color: #4B5563;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      border-right: 1px solid #E5E7EB;
+    }
+    
+    .lang-btn:last-child {
+      border-right: none;
+    }
+    
+    .lang-btn:hover {
+      background: #F3F4F6;
+    }
+    
+    .lang-btn.active {
+      background: #2563EB;
+      color: white;
+    }
+
+    /* 高さ自動調整（最大高を制限） */
+    textarea {
+      min-height: 120px;
+      max-height: 300px;
+    }
+
+    /* 管理者専用タグのスタイル */
+    .admin-tag-hidden {
+      display: none;
+    }
+  </style>
+  
+  <script>
+    window.i18nData = {
+      ja: {
+        'board.new.title': '新規投稿',
+        'board.new.page_title': '新規投稿',
+        'board.new.post_title': '投稿タイトル',
+        'board.new.title_placeholder': 'タイトルを入力してください',
+        'board.new.category': 'カテゴリ',
+        'board.new.category_select': 'カテゴリを選択',
+        'board.new.content': '本文',
+        'board.new.content_placeholder': '本文を入力してください...',
+        'board.new.tags': 'タグ',
+        'board.new.tags_general': '一般タグ（複数選択可）',
+        'board.new.tags_official': '管理者専用タグ（複数選択可）',
+        'board.new.tag_consultation': '相談',
+        'board.new.tag_question': '質問',
+        'board.new.tag_sharing': '共有',
+        'board.new.tag_suggestion': '提案',
+        'board.new.tag_circular': '回覧板',
+        'board.new.tag_important': '重要',
+        'board.new.tag_official': '公式',
+        'board.new.files': 'ファイル添付',
+        'board.new.files_hint': '画像・ドキュメントファイルを添付できます（最大5ファイル、1ファイル5MB以内）',
+        'board.new.anonymous': '匿名で投稿',
+        'board.new.cancel': 'キャンセル',
+        'board.new.preview': '確認画面へ',
+        'board.new.submit': '投稿する',
+        'board.category.noise': '騒音',
+        'board.category.parking': '駐車',
+        'board.category.pet': 'ペット',
+        'board.category.other': 'その他',
+        'alert.fill_required': 'タイトル、カテゴリ、本文は必須です',
+        'alert.posted': '投稿しました！ (デモ)',
+        'alert.file_count_exceeded': 'ファイルは最大5個まで添付できます',
+        'alert.file_size_exceeded': 'ファイルサイズは1ファイルあたり5MB以内にしてください',
+        'common.char_unit': '文字',
+        'common.download': 'ダウンロード'
+      },
+      en: {
+        'board.new.title': 'New Post',
+        'board.new.page_title': 'New Post',
+        'board.new.post_title': 'Post Title',
+        'board.new.title_placeholder': 'Enter title',
+        'board.new.category': 'Category',
+        'board.new.category_select': 'Select category',
+        'board.new.content': 'Content',
+        'board.new.content_placeholder': 'Enter content...',
+        'board.new.tags': 'Tags',
+        'board.new.tags_general': 'General Tags (multiple selection)',
+        'board.new.tags_official': 'Admin Only Tags (multiple selection)',
+        'board.new.tag_consultation': 'Consultation',
+        'board.new.tag_question': 'Question',
+        'board.new.tag_sharing': 'Sharing',
+        'board.new.tag_suggestion': 'Suggestion',
+        'board.new.tag_circular': 'Circular',
+        'board.new.tag_important': 'Important',
+        'board.new.tag_official': 'Official',
+        'board.new.files': 'Attach Files',
+        'board.new.files_hint': 'You can attach images and documents (Max 5 files, 5MB per file)',
+        'board.new.anonymous': 'Post anonymously',
+        'board.new.cancel': 'Cancel',
+        'board.new.preview': 'Preview',
+        'board.new.submit': 'Post',
+        'board.category.noise': 'Noise',
+        'board.category.parking': 'Parking',
+        'board.category.pet': 'Pet',
+        'board.category.other': 'Other',
+        'alert.fill_required': 'Title, category, and content are required',
+        'alert.posted': 'Posted! (Demo)',
+        'alert.file_count_exceeded': 'You can attach up to 5 files',
+        'alert.file_size_exceeded': 'File size must be within 5MB per file',
+        'common.char_unit': 'chars',
+        'common.download': 'Download'
+      },
+      zh: {
+        'board.new.title': '新发帖',
+        'board.new.page_title': '新发帖',
+        'board.new.post_title': '帖子标题',
+        'board.new.title_placeholder': '请输入标题',
+        'board.new.category': '类别',
+        'board.new.category_select': '选择类别',
+        'board.new.content': '正文',
+        'board.new.content_placeholder': '请输入正文...',
+        'board.new.tags': '标签',
+        'board.new.tags_general': '普通标签（可多选）',
+        'board.new.tags_official': '管理员专用标签（可多选）',
+        'board.new.tag_consultation': '咨询',
+        'board.new.tag_question': '问题',
+        'board.new.tag_sharing': '共享',
+        'board.new.tag_suggestion': '建议',
+        'board.new.tag_circular': '传阅通知',
+        'board.new.tag_important': '重要',
+        'board.new.tag_official': '官方',
+        'board.new.files': '附件',
+        'board.new.files_hint': '可以添加图片和文档（最多5个文件，每个文件5MB以内）',
+        'board.new.anonymous': '匿名发帖',
+        'board.new.cancel': '取消',
+        'board.new.preview': '预览',
+        'board.new.submit': '发帖',
+        'board.category.noise': '噪音',
+        'board.category.parking': '停车',
+        'board.category.pet': '宠物',
+        'board.category.other': '其他',
+        'alert.fill_required': '标题、类别和正文为必填项',
+        'alert.posted': '已发帖！（演示）',
+        'alert.file_count_exceeded': '最多可以添加5个文件',
+        'alert.file_size_exceeded': '每个文件大小必须在5MB以内',
+        'common.char_unit': '字符',
+        'common.download': '下载'
+      }
+    };
+  </script>
+</head>
+<body class="bg-gray-50">
+  
+  <!-- 言語切替ボタン（右上固定） -->
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn active" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <button onclick="window.location.href='board.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="board.new.page_title">新規投稿</h1>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-4xl mx-auto px-4 py-6">
+    <form id="postForm" class="bg-white rounded-lg shadow-md p-6 space-y-6">
+      
+      <!-- タイトル -->
+      <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="board.new.post_title">投稿タイトル</label>
+        <input 
+          type="text" 
+          id="postTitle"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+          placeholder="タイトルを入力してください"
+          data-i18n-placeholder="board.new.title_placeholder"
+          maxlength="100"
+        >
+        <div class="text-right text-sm text-gray-500 mt-1">
+          <span id="titleCharCount">0</span> / 100 <span data-i18n="common.char_unit">文字</span>
+        </div>
+      </div>
+
+      <!-- カテゴリ -->
+      <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="board.new.category">カテゴリ</label>
+        <select 
+          id="postCategory"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+        >
+          <option value="" data-i18n="board.new.category_select">カテゴリを選択</option>
+          <option value="noise" data-i18n="board.category.noise">騒音</option>
+          <option value="parking" data-i18n="board.category.parking">駐車</option>
+          <option value="pet" data-i18n="board.category.pet">ペット</option>
+          <option value="other" data-i18n="board.category.other">その他</option>
+        </select>
+      </div>
+
+      <!-- 本文 -->
+      <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="board.new.content">本文</label>
+        <textarea 
+          id="postContent"
+          class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+          placeholder="本文を入力してください..."
+          data-i18n-placeholder="board.new.content_placeholder"
+          rows="8"
+          maxlength="2000"
+        ></textarea>
+        <div class="text-right text-sm text-gray-500 mt-1">
+          <span id="contentCharCount">0</span> / 2000 <span data-i18n="common.char_unit">文字</span>
+        </div>
+      </div>
+
+      <!-- タグ -->
+      <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="board.new.tags">タグ</label>
+        
+        <!-- 一般タグ -->
+        <div class="mb-4">
+          <p class="text-sm text-gray-600 mb-2" data-i18n="board.new.tags_general">一般タグ（複数選択可）</p>
+          <div class="flex flex-wrap gap-2">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="generalTags" value="相談" class="form-checkbox h-5 w-5 text-blue-600">
+              <span class="ml-2 text-sm" data-i18n="board.new.tag_consultation">相談</span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="generalTags" value="質問" class="form-checkbox h-5 w-5 text-blue-600">
+              <span class="ml-2 text-sm" data-i18n="board.new.tag_question">質問</span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="generalTags" value="共有" class="form-checkbox h-5 w-5 text-blue-600">
+              <span class="ml-2 text-sm" data-i18n="board.new.tag_sharing">共有</span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="generalTags" value="提案" class="form-checkbox h-5 w-5 text-blue-600">
+              <span class="ml-2 text-sm" data-i18n="board.new.tag_suggestion">提案</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 管理者専用タグ -->
+        <div id="adminTagsSection" class="admin-tag-hidden">
+          <p class="text-sm text-red-600 font-bold mb-2" data-i18n="board.new.tags_official">管理者専用タグ（複数選択可）</p>
+          <div class="flex flex-wrap gap-2">
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="officialTags" value="回覧板" class="form-checkbox h-5 w-5 text-red-600">
+              <span class="ml-2 text-sm font-bold text-red-600" data-i18n="board.new.tag_circular">🔴 回覧板</span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="officialTags" value="重要" class="form-checkbox h-5 w-5 text-blue-600">
+              <span class="ml-2 text-sm font-bold text-blue-600" data-i18n="board.new.tag_important">🔵 重要</span>
+            </label>
+            <label class="inline-flex items-center cursor-pointer">
+              <input type="checkbox" name="officialTags" value="公式" class="form-checkbox h-5 w-5 text-green-600">
+              <span class="ml-2 text-sm font-bold text-green-600" data-i18n="board.new.tag_official">🟢 公式</span>
+            </label>
+          </div>
+        </div>
+      </div>
+
+      <!-- ファイル添付 -->
+      <div>
+        <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="board.new.files">ファイル添付</label>
+        <p class="text-sm text-gray-600 mb-2" data-i18n="board.new.files_hint">画像・ドキュメントファイルを添付できます（複数可）</p>
+        <input 
+          type="file" 
+          id="fileInput"
+          class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+          multiple
+          accept="image/*,.pdf,.doc,.docx,.xls,.xlsx,.zip,.txt"
+        >
+        <div id="filePreview" class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+      </div>
+
+      <!-- 匿名投稿オプション -->
+      <div class="flex items-center">
+        <input 
+          type="checkbox" 
+          id="anonymousPost"
+          class="form-checkbox h-5 w-5 text-blue-600"
+        >
+        <label for="anonymousPost" class="ml-2 text-sm text-gray-700" data-i18n="board.new.anonymous">匿名で投稿</label>
+      </div>
+
+      <!-- ボタン -->
+      <div class="flex gap-3 pt-4">
+        <button 
+          type="button"
+          onclick="window.location.href='board.html'"
+          class="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-bold hover:bg-gray-50 transition-colors"
+        >
+          <span data-i18n="board.new.cancel">キャンセル</span>
+        </button>
+        <button 
+          type="submit"
+          class="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg font-bold hover:bg-blue-700 transition-colors"
+        >
+          <span data-i18n="board.new.submit">投稿する</span>
+        </button>
+      </div>
+    </form>
+  </main>
+
+  <script>
+    // 簡易多言語マネージャー
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLang = localStorage.getItem('language') || 'ja';
+        this.init();
+      }
+
+      init() {
+        // 言語ボタンの初期化
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.lang === this.currentLang) {
+            btn.classList.add('active');
+          }
+          
+          btn.addEventListener('click', () => {
+            this.setLanguage(btn.dataset.lang);
+          });
+        });
+
+        // 初期翻訳
+        this.translatePage();
+      }
+
+      setLanguage(lang) {
+        this.currentLang = lang;
+        localStorage.setItem('language', lang);
+        
+        // ボタンのアクティブ状態を更新
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
+          }
+        });
+
+        this.translatePage();
+      }
+
+      translate(key) {
+        return window.i18nData[this.currentLang]?.[key] || key;
+      }
+
+      translatePage() {
+        // data-i18n属性を持つ要素を翻訳
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          element.textContent = this.translate(key);
+        });
+
+        // placeholder属性の翻訳
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+      }
+    }
+
+    // 文字数カウント
+    function updateCharCount(element, countElement, maxLength) {
+      const count = element.value.length;
+      countElement.textContent = count;
+      
+      if (count > maxLength * 0.9) {
+        countElement.classList.add('text-red-600');
+      } else {
+        countElement.classList.remove('text-red-600');
+      }
+    }
+
+    // ファイルプレビュー
+    function handleFileSelect(event) {
+      const files = Array.from(event.target.files);
+      const preview = document.getElementById('filePreview');
+      
+      // ファイル数チェック（最大5ファイル）
+      if (files.length > 5) {
+        const alertText = window.i18n ? window.i18n.translate('alert.file_count_exceeded') : 'ファイルは最大5個まで添付できます';
+        alert(alertText);
+        event.target.value = ''; // 入力をクリア
+        return;
+      }
+      
+      // ファイルサイズチェック（1ファイル5MB以内）
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      const oversizedFiles = files.filter(file => file.size > maxSize);
+      if (oversizedFiles.length > 0) {
+        const alertText = window.i18n ? window.i18n.translate('alert.file_size_exceeded') : 'ファイルサイズは1ファイルあたり5MB以内にしてください';
+        alert(alertText + '\n\n' + oversizedFiles.map(f => `${f.name}: ${(f.size / 1024 / 1024).toFixed(2)}MB`).join('\n'));
+        event.target.value = ''; // 入力をクリア
+        return;
+      }
+      
+      preview.innerHTML = '';
+
+      files.forEach((file, index) => {
+        const fileItem = document.createElement('div');
+        const fileName = file.name;
+        const fileSize = (file.size / 1024).toFixed(1) + ' KB';
+        
+        // 画像ファイルの場合
+        if (file.type.startsWith('image/')) {
+          fileItem.className = 'relative border border-gray-300 rounded-lg overflow-hidden';
+          
+          const reader = new FileReader();
+          reader.onload = function(e) {
+            fileItem.innerHTML = `
+              <img src="${e.target.result}" alt="${fileName}" class="w-full h-48 object-cover">
+              <div class="absolute top-2 right-2">
+                <button 
+                  type="button"
+                  onclick="removeFile(${index})"
+                  class="bg-red-600 text-white p-2 rounded-full hover:bg-red-700 shadow-lg"
+                  title="削除"
+                >
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                  </svg>
+                </button>
+              </div>
+              <div class="p-3 bg-gray-50">
+                <p class="text-sm font-medium text-gray-900 truncate">${fileName}</p>
+                <p class="text-xs text-gray-500">${fileSize}</p>
+              </div>
+            `;
+          };
+          reader.readAsDataURL(file);
+        } else {
+          // その他のファイルの場合
+          fileItem.className = 'flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-300';
+          const fileIcon = getFileIcon(file.type);
+          
+          fileItem.innerHTML = `
+            <span class="text-2xl">${fileIcon}</span>
+            <div class="flex-1">
+              <p class="text-sm font-medium text-gray-900">${fileName}</p>
+              <p class="text-xs text-gray-500">${fileSize}</p>
+            </div>
+            <button 
+              type="button"
+              onclick="removeFile(${index})"
+              class="text-red-600 hover:text-red-800"
+            >
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+              </svg>
+            </button>
+          `;
+        }
+        
+        preview.appendChild(fileItem);
+      });
+    }
+
+    function getFileIcon(mimeType) {
+      if (mimeType.startsWith('image/')) return '🖼️';
+      if (mimeType === 'application/pdf') return '📄';
+      if (mimeType.includes('word')) return '📝';
+      if (mimeType.includes('excel') || mimeType.includes('spreadsheet')) return '📊';
+      if (mimeType.includes('zip')) return '📦';
+      return '📎';
+    }
+
+    function removeFile(index) {
+      const fileInput = document.getElementById('fileInput');
+      const dt = new DataTransfer();
+      const files = Array.from(fileInput.files);
+      
+      files.forEach((file, i) => {
+        if (i !== index) dt.items.add(file);
+      });
+      
+      fileInput.files = dt.files;
+      handleFileSelect({ target: fileInput });
+    }
+
+    // フォーム送信
+    function handleSubmit(event) {
+      event.preventDefault();
+      
+      const title = document.getElementById('postTitle').value.trim();
+      const category = document.getElementById('postCategory').value;
+      const content = document.getElementById('postContent').value.trim();
+      
+      if (!title || !category || !content) {
+        const alertText = window.i18n ? window.i18n.translate('alert.fill_required') : 'タイトル、カテゴリ、本文は必須です';
+        alert(alertText);
+        return;
+      }
+      
+      const postedText = window.i18n ? window.i18n.translate('alert.posted') : '投稿しました！ (デモ)';
+      alert(postedText);
+      window.location.href = 'board.html';
+    }
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      // 多言語マネージャーの初期化
+      window.i18n = new EmbeddedLanguageManager();
+      
+      // デモモードの初期化
+      if (typeof initDemoMode === 'function') {
+        initDemoMode();
+      }
+      const currentUser = typeof getDemoUser === 'function' ? getDemoUser() : { id: 'guest', isAdmin: false };
+      
+      // 管理者専用タグの表示/非表示
+      if (currentUser.isAdmin) {
+        document.getElementById('adminTagsSection').classList.remove('admin-tag-hidden');
+      }
+      
+      // イベントリスナー
+      document.getElementById('postTitle').addEventListener('input', function() {
+        updateCharCount(this, document.getElementById('titleCharCount'), 100);
+      });
+      
+      document.getElementById('postContent').addEventListener('input', function() {
+        updateCharCount(this, document.getElementById('contentCharCount'), 2000);
+      });
+      
+      document.getElementById('fileInput').addEventListener('change', handleFileSelect);
+      
+      document.getElementById('postForm').addEventListener('submit', handleSubmit);
+    });
+  </script>
+
+</body>
+</html>

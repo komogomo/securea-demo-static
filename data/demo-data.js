@@ -117,9 +117,449 @@ const currentUser = {
   isAdmin: false
 };
 
+// 掲示板投稿データ（タグシステム対応版）
+const bbsPosts = [
+  {
+    id: 1,
+    category: 'noise',
+    authorId: 'anonymous',
+    authorName: '匿名',
+    isAnonymous: true,
+    date: '2025/10/18',
+    datetime: '2025/10/18 15:32',
+    replies: 5,
+    attachments: [],
+    tags: ['相談'],  // 一般タグ
+    officialTags: []  // 管理者専用タグ
+  },
+  {
+    id: 2,
+    category: 'parking',
+    authorId: 'C12',
+    authorName: 'C12',
+    isAnonymous: false,
+    date: '2025/10/17',
+    datetime: '2025/10/17 14:20',
+    replies: 3,
+    attachments: [],
+    tags: ['質問'],
+    officialTags: []
+  },
+  {
+    id: 3,
+    category: 'noise',
+    authorId: 'anonymous',
+    authorName: '匿名',
+    isAnonymous: true,
+    date: '2025/10/16',
+    datetime: '2025/10/16 21:45',
+    replies: 8,
+    attachments: [
+      {
+        type: 'image',
+        name: 'bbq_photo.jpg',
+        size: '2.3MB',
+        url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E🔥 BBQの様子（デモ画像）%3C/text%3E%3C/svg%3E'
+      }
+    ],
+    tags: ['相談'],
+    officialTags: []
+  },
+  {
+    id: 4,
+    category: 'pet',
+    authorId: 'A05',
+    authorName: 'A05',
+    isAnonymous: false,
+    date: '2025/10/15',
+    datetime: '2025/10/15 09:15',
+    replies: 2,
+    attachments: [
+      {
+        type: 'image',
+        name: 'pet_waste.jpg',
+        size: '1.8MB',
+        url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E🐕 現場の写真（デモ画像）%3C/text%3E%3C/svg%3E'
+      }
+    ],
+    tags: ['共有'],
+    officialTags: []
+  },
+  {
+    id: 5,
+    category: 'other',
+    authorId: 'anonymous',
+    authorName: '匿名',
+    isAnonymous: true,
+    date: '2025/10/14',
+    datetime: '2025/10/14 16:30',
+    replies: 4,
+    attachments: [],
+    tags: ['質問'],
+    officialTags: []
+  },
+  {
+    id: 6,
+    category: 'other',
+    authorId: 'admin',
+    authorName: '管理組合',
+    isAnonymous: false,
+    date: '2025/10/19',
+    datetime: '2025/10/19 09:00',
+    replies: 8,
+    attachments: [
+      {
+        type: 'document',
+        name: 'garbage_schedule.pdf',
+        size: '450KB',
+        url: '#'
+      }
+    ],
+    tags: [],  // 一般タグなし
+    officialTags: ['回覧板', '重要'],  // 管理者専用タグ
+    isOfficial: true
+  }
+];
+
+// 掲示板返信データ（attachments配列対応版）
+const bbsReplies = {
+  1: [ // 投稿1: 道路でのボール遊びについて（5件）
+    {
+      id: 1,
+      authorId: 'A15',
+      authorName: 'A15',
+      isAnonymous: false,
+      date: '2025/10/18 16:45',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 2,
+      authorId: 'anonymous',
+      authorName: '匿名',
+      isAnonymous: true,
+      date: '2025/10/18 17:20',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 3,
+      authorId: 'C08',
+      authorName: 'C08',
+      isAnonymous: false,
+      date: '2025/10/18 18:10',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 4,
+      authorId: 'admin',
+      authorName: '管理組合',
+      isAnonymous: false,
+      date: '2025/10/19 10:00',
+      isOfficial: true,
+      attachments: []
+    },
+    {
+      id: 5,
+      authorId: 'B71', // 現在のユーザー（削除可能）
+      authorName: '匿名',
+      isAnonymous: true,
+      date: '2025/10/19 14:30',
+      isOfficial: false,
+      attachments: []
+    }
+  ],
+  2: [ // 投稿2: ゲスト駐車場の利用について（3件）
+    {
+      id: 1,
+      authorId: 'D23',
+      authorName: 'D23',
+      isAnonymous: false,
+      date: '2025/10/17 15:30',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 2,
+      authorId: 'admin',
+      authorName: '管理組合',
+      isAnonymous: false,
+      date: '2025/10/17 16:45',
+      isOfficial: true,
+      attachments: [
+        {
+          type: 'document',
+          name: 'parking_rules.pdf',
+          size: '450KB',
+          url: '#'
+        }
+      ]
+    },
+    {
+      id: 3,
+      authorId: 'C12', // 投稿者本人（削除可能）
+      authorName: 'C12',
+      isAnonymous: false,
+      date: '2025/10/17 17:20',
+      isOfficial: false,
+      attachments: []
+    }
+  ],
+  3: [ // 投稿3: 夜間のBBQについて（8件）
+    {
+      id: 1,
+      authorId: 'E45',
+      authorName: 'E45',
+      isAnonymous: false,
+      date: '2025/10/16 22:10',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 2,
+      authorId: 'anonymous',
+      authorName: '匿名',
+      isAnonymous: true,
+      date: '2025/10/16 22:35',
+      isOfficial: false,
+      attachments: [
+        {
+          type: 'image',
+          name: 'smoke_evidence.jpg',
+          size: '3.1MB',
+          url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E💨 煙の様子（デモ画像）%3C/text%3E%3C/svg%3E'
+        }
+      ]
+    },
+    {
+      id: 3,
+      authorId: 'F12',
+      authorName: 'F12',
+      isAnonymous: false,
+      date: '2025/10/17 08:20',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 4,
+      authorId: 'B71', // 現在のユーザー（削除可能）
+      authorName: 'B71',
+      isAnonymous: false,
+      date: '2025/10/17 09:45',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 5,
+      authorId: 'anonymous',
+      authorName: '匿名',
+      isAnonymous: true,
+      date: '2025/10/17 12:15',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 6,
+      authorId: 'admin',
+      authorName: '管理組合',
+      isAnonymous: false,
+      date: '2025/10/17 14:00',
+      isOfficial: true,
+      attachments: [
+        {
+          type: 'document',
+          name: 'bbq_guidelines.pdf',
+          size: '320KB',
+          url: '#'
+        },
+        {
+          type: 'document',
+          name: 'community_rules.docx',
+          size: '125KB',
+          url: '#'
+        }
+      ]
+    },
+    {
+      id: 7,
+      authorId: 'G34',
+      authorName: 'G34',
+      isAnonymous: false,
+      date: '2025/10/17 15:30',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 8,
+      authorId: 'anonymous',
+      authorName: '匿名',
+      isAnonymous: true,
+      date: '2025/10/17 18:45',
+      isOfficial: false,
+      attachments: []
+    }
+  ],
+  4: [ // 投稿4: ペットの散歩マナーについて（2件）
+    {
+      id: 1,
+      authorId: 'H56',
+      authorName: 'H56',
+      isAnonymous: false,
+      date: '2025/10/15 10:30',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 2,
+      authorId: 'admin',
+      authorName: '管理組合',
+      isAnonymous: false,
+      date: '2025/10/15 14:20',
+      isOfficial: true,
+      attachments: [
+        {
+          type: 'document',
+          name: 'pet_rules.pdf',
+          size: '280KB',
+          url: '#'
+        }
+      ]
+    }
+  ],
+  5: [ // 投稿5: 植木の剪定について（4件）
+    {
+      id: 1,
+      authorId: 'I78',
+      authorName: 'I78',
+      isAnonymous: false,
+      date: '2025/10/14 17:15',
+      isOfficial: false,
+      attachments: [
+        {
+          type: 'image',
+          name: 'tree_boundary.jpg',
+          size: '2.7MB',
+          url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E🌳 越境の様子（デモ画像）%3C/text%3E%3C/svg%3E'
+        }
+      ]
+    },
+    {
+      id: 2,
+      authorId: 'anonymous',
+      authorName: '匿名',
+      isAnonymous: true,
+      date: '2025/10/14 18:40',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 3,
+      authorId: 'B71', // 現在のユーザー（削除可能）
+      authorName: 'B71',
+      isAnonymous: false,
+      date: '2025/10/15 09:10',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 4,
+      authorId: 'admin',
+      authorName: '管理組合',
+      isAnonymous: false,
+      date: '2025/10/15 11:30',
+      isOfficial: true,
+      attachments: [
+        {
+          type: 'document',
+          name: 'tree_maintenance_guide.pdf',
+          size: '510KB',
+          url: '#'
+        }
+      ]
+    }
+  ],
+  6: [ // 投稿6: ゴミ収集日変更のお知らせ（回覧板）（8件）
+    {
+      id: 1,
+      authorId: 'A10',
+      authorName: 'A10',
+      isAnonymous: false,
+      date: '2025/10/19 09:30',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 2,
+      authorId: 'B25',
+      authorName: 'B25',
+      isAnonymous: false,
+      date: '2025/10/19 10:15',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 3,
+      authorId: 'C33',
+      authorName: 'C33',
+      isAnonymous: false,
+      date: '2025/10/19 11:20',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 4,
+      authorId: 'D42',
+      authorName: 'D42',
+      isAnonymous: false,
+      date: '2025/10/19 13:45',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 5,
+      authorId: 'admin',
+      authorName: '管理組合',
+      isAnonymous: false,
+      date: '2025/10/19 14:30',
+      isOfficial: true,
+      attachments: []
+    },
+    {
+      id: 6,
+      authorId: 'E51',
+      authorName: 'E51',
+      isAnonymous: false,
+      date: '2025/10/19 15:10',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 7,
+      authorId: 'B71',
+      authorName: 'B71',
+      isAnonymous: false,
+      date: '2025/10/19 16:00',
+      isOfficial: false,
+      attachments: []
+    },
+    {
+      id: 8,
+      authorId: 'F62',
+      authorName: 'F62',
+      isAnonymous: false,
+      date: '2025/10/19 17:20',
+      isOfficial: false,
+      attachments: []
+    }
+  ]
+};
+
 // データをグローバルに公開
 window.demoData = {
   notices,
   survey,
-  currentUser
+  currentUser,
+  bbsPosts,
+  bbsReplies
 };

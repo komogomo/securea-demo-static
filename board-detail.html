@@ -3,96 +3,679 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title data-i18n="board.detail.title">投稿詳細 - セキュレアシティ</title>
+  <title>投稿詳細 - セキュレアシティ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css">
-  
-  <script>
-    window.i18nData = {
-      ja: {
-        'board.detail.title': '投稿詳細', 'board.category.noise': '騒音', 'board.anonymous': '匿名', 'board.author': '投稿者',
-        'post.1.title': '道路でのボール遊びについて', 'post.1.content.full': '最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br>子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br>公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。',
-        'post.1.author': '匿名', 'board.detail.replies_count': '返信（5件）',
-        'reply.1.author': 'A15', 'reply.1.content': '同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。',
-        'reply.2.author': '匿名', 'reply.2.content': '親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。',
-        'reply.3.author': 'C08', 'reply.3.content': '子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。',
-        'reply.4.author': '管理組合', 'reply.4.official': '公式', 'reply.4.content': 'ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。',
-        'reply.5.author': '匿名', 'reply.5.content': '管理組合の対応に感謝します。住みやすい環境になることを期待しています。',
-        'board.detail.reply': '返信する', 'board.detail.reply.placeholder': '返信を入力してください...',
-        'board.detail.reply.anonymous': '匿名で投稿', 'common.char_unit': '文字', 'common.back': '戻る',
-        'board.detail.reply.submit': '返信を投稿', 'alert.reply_submitted': '返信を投稿しました！ (デモ)'
-      },
-      en: {
-        'board.detail.title': 'Post Details', 'board.category.noise': 'Noise', 'board.anonymous': 'Anonymous', 'board.author': 'Author',
-        'post.1.title': 'About playing ball on the road', 'post.1.content.full': 'I am concerned about the voices of children playing ball on the road recently. The time is around 17:00-19:00 in the evening.<br><br>I think it\'s good for children to play, but playing ball on the road is dangerous and noisy.<br><br>Could we ask the parents to have them play in the park?',
-        'post.1.author': 'Anonymous', 'board.detail.replies_count': 'Replies (5)',
-        'reply.1.author': 'A15', 'reply.1.content': 'I have the same concern. Playing ball on the road is indeed dangerous. I would like to ask the management association to issue a warning.',
-        'reply.2.author': 'Anonymous', 'reply.2.content': 'As a parent, I apologize. I will tell my children again to play in the park.',
-        'reply.3.author': 'C08', 'reply.3.content': 'I think children\'s voices are part of "living noise," but the road is definitely dangerous. The distance to the park might also be an issue.',
-        'reply.4.author': 'Management', 'reply.4.official': 'Official', 'reply.4.content': 'Thank you for your feedback. We will discuss this at the next board meeting and plan to circulate a notice to all residents. We ask for your continued consideration for one another.',
-        'reply.5.author': 'Anonymous', 'reply.5.content': 'Thank you for the management\'s response. I hope this will lead to a more comfortable living environment.',
-        'board.detail.reply': 'Reply', 'board.detail.reply.placeholder': 'Enter your reply...',
-        'board.detail.reply.anonymous': 'Post anonymously', 'common.char_unit': ' chars', 'common.back': 'Back',
-        'board.detail.reply.submit': 'Post Reply', 'alert.reply_submitted': 'Reply posted! (Demo)'
-      },
-      zh: {
-        'board.detail.title': '帖子详情', 'board.category.noise': '噪音', 'board.anonymous': '匿名', 'board.author': '发帖人',
-        'post.1.title': '关于在路上玩球', 'post.1.content.full': '最近，在路上玩球的孩子们的声音让我很担心。时间是傍晚17-19点左右。<br><br>孩子们玩耍是好事，但在路上玩球很危险，声音也很大。<br><br>能否请家长们让他们在公园玩？',
-        'post.1.author': '匿名', 'board.detail.replies_count': '回复 (5)',
-        'reply.1.author': 'A15', 'reply.1.content': '我也有同样的困扰。在路上玩球确实很危险。希望管理组合能发出提醒。',
-        'reply.2.author': '匿名', 'reply.2.content': '作为家长，我表示歉意。我会再次告诉孩子去公园玩。',
-        'reply.3.author': 'C08', 'reply.3.content': '我认为孩子的声音属于“生活噪音”的范围，但在路上玩确实很危险。到公园有点距离可能也是个问题。',
-        'reply.4.author': '管理组合', 'reply.4.official': '官方', 'reply.4.content': '感谢您的意见。我们将在下次理事会上讨论，并计划向所有住户分发通知。请大家继续相互体谅。',
-        'reply.5.author': '匿名', 'reply.5.content': '感谢管理组合的回应。期待能有一个更宜居的环境。',
-        'board.detail.reply': '回复', 'board.detail.reply.placeholder': '请输入您的回复...',
-        'board.detail.reply.anonymous': '匿名发帖', 'common.char_unit': '字', 'common.back': '返回',
-        'board.detail.reply.submit': '发表回复', 'alert.reply_submitted': '回复已发表！ (演示)'
-      },
-    };
-  </script>
+  <!-- ファイル処理ユーティリティ -->
+  <script src="data/file-utils.js"></script>
+  <!-- デモモード切り替え -->
+  <script src="data/demo-mode.js"></script>
 </head>
 <body class="bg-gray-50">
-  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg"> <button class="lang-btn" data-lang="ja">JA</button> <button class="lang-btn" data-lang="en">EN</button> <button class="lang-btn" data-lang="zh">ZH</button> </div>
-  <header class="bg-white shadow-sm"> <div class="max-w-4xl mx-auto px-4 py-4"> <div class="flex items-center gap-3"> <button onclick="window.location.href='board.html'" class="text-gray-600 hover:text-gray-900"> <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg> </button> <h1 class="text-xl font-bold text-gray-900" data-i18n="board.detail.title">投稿詳細</h1> </div> </div> </div> </header>
-  <main class="max-w-4xl mx-auto px-4 py-6 pb-32"> <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in"> <div class="flex items-center gap-2 mb-4"> <span class="badge bg-red-100 text-red-800" data-i18n="board.category.noise">騒音</span> <span class="badge bg-purple-100 text-purple-800" data-i18n="board.anonymous">匿名</span> <span class="text-sm text-gray-500">2025/10/18 15:32</span> </div> <h2 class="text-2xl font-bold text-gray-900 mb-4" data-i18n="post.1.title"> 道路でのボール遊びについて </h2> <p class="text-gray-700 leading-relaxed mb-4" data-i18n="post.1.content.full"> 最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br> 子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br> 公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。 </p> <div class="text-sm text-gray-500"> <span data-i18n="board.author">投稿者</span>: <span data-i18n="post.1.author">匿名</span> </div> </div> <div class="mb-6"> <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2"> <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/></svg> <span data-i18n="board.detail.replies_count">返信（5件）</span> </h3> <div class="space-y-4"> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.1.author">A15</span> <span class="text-xs text-gray-500">2025/10/18 16:45</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.1.content"> 同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。 </p> </div> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.2.author">匿名</span> <span class="text-xs text-gray-500">2025/10/18 17:20</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.2.content"> 親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。 </p> </div> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.3.author">C08</span> <span class="text-xs text-gray-500">2025/10/18 18:10</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.3.content"> 子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。 </p> </div> <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-blue-900" data-i18n="reply.4.author">管理組合</span> <span class="bg-blue-600 text-white text-xs px-2 py-0.5 rounded font-bold" data-i18n="reply.4.official">公式</span> <span class="text-xs text-blue-700">2025/10/19 10:00</span> </div> <p class="text-blue-900 text-sm" data-i18n="reply.4.content"> ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。 </p> </div> <div class="bg-gray-50 rounded-lg p-4 fade-in"> <div class="flex items-center gap-2 mb-2"> <span class="text-sm font-bold text-gray-900" data-i18n="reply.5.author">匿名</span> <span class="text-xs text-gray-500">2025/10/19 14:30</span> </div> <p class="text-gray-700 text-sm" data-i18n="reply.5.content"> 管理組合の対応に感謝します。住みやすい環境になることを期待しています。 </p> </div> </div> </div> <div class="bg-white rounded-lg shadow-sm p-6 fade-in"> <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="board.detail.reply">返信する</h3> <form onsubmit="handleReply(event)"> <div class="mb-4"> <textarea id="replyContent" rows="4" class="w-full px-4 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none" data-i18n-placeholder="board.detail.reply.placeholder" placeholder="返信を入力してください..." required ></textarea> </div> <div class="flex items-center justify-between mb-4"> <label class="flex items-center cursor-pointer"> <input type="checkbox" name="anonymous" class="w-4 h-4 text-blue-600 rounded"> <span class="ml-2 text-gray-900" data-i18n="board.detail.reply.anonymous">匿名で投稿</span> </label> <span class="text-sm text-gray-500" id="charCountWrapper"> <span id="charCountNum">0</span> / 500<span data-i18n="common.char_unit">文字</span> </span> </div> <div class="flex gap-4"> <button type="button" onclick="window.location.href='board.html'" class="flex-1 bg-gray-100 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-200 transition" data-i18n="common.back">戻る</button> <button type="submit" class="flex-1 bg-blue-600 text-white py-3 rounded-lg font-bold btn-primary" > <span data-i18n="board.detail.reply.submit">返信を投稿</span> </button> </div> </form> </div> </main>
+  
+  <!-- 言語切替ボタン（右上固定） -->
+  <div class="fixed top-4 right-4 language-switcher z-50">
+    <button class="lang-btn active" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+  
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center gap-3">
+        <button onclick="window.location.href='board.html'" class="text-gray-600 hover:text-gray-900">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        <h1 class="text-xl font-bold text-gray-900" data-i18n="board.detail.title">投稿詳細</h1>
+      </div>
+    </div>
+  </header>
+
+  <!-- メインコンテンツ -->
+  <main class="max-w-4xl mx-auto px-4 py-6" id="mainContent">
+    <div class="text-center py-8">
+      <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto"></div>
+      <p class="mt-2 text-gray-600">読み込み中...</p>
+    </div>
+  </main>
 
   <script>
-    class EmbeddedLanguageManager{constructor(){this.currentLanguage=localStorage.getItem('language')||'ja';this.translations=window.i18nData;this.dynamicHooks=[]}setLanguage(a){if(this.translations[a]){this.currentLanguage=a;localStorage.setItem('language',a);this.updatePage();this.updateLanguageButtons();this.dynamicHooks.forEach(b=>b())}}translate(a){const b=this.translations[this.currentLanguage];return b&&b[a]?b[a]:a}updatePage(){document.querySelectorAll('[data-i18n]').forEach(a=>{const b=a.getAttribute('data-i18n'),c=this.translate(b);if(b==='post.1.content.full'){a.innerHTML=c}else if(a.children.length===0)a.textContent=c;else for(let d of a.childNodes)if(d.nodeType===Node.TEXT_NODE&&d.textContent.trim()){d.textContent=c;break}});document.querySelectorAll('[data-i18n-placeholder]').forEach(a=>{const b=a.getAttribute('data-i18n-placeholder');a.placeholder=this.translate(b)});const a=document.querySelector('title[data-i18n]');if(a){const b=a.getAttribute('data-i18n');document.title=this.translate(b)}}updateLanguageButtons(){document.querySelectorAll('.lang-btn').forEach(a=>{const b=a.getAttribute('data-lang');a.classList.toggle('active',b===this.currentLanguage);a.classList.toggle('inactive',b!==this.currentLanguage)})}init(){document.querySelectorAll('.lang-btn').forEach(a=>{a.addEventListener('click',()=>{const b=a.getAttribute('data-lang');this.setLanguage(b)})})}getCurrentLanguage(){return this.currentLanguage}}
-    window.languageManager = new EmbeddedLanguageManager(); window.i18n = function(key) { return window.languageManager.translate(key); };
+    // デモデータ
+    window.demoData = {
+      bbsPosts: [
+        {
+          id: 1,
+          category: 'noise',
+          authorId: 'B71',
+          authorName: '匿名',
+          isAnonymous: true,
+          date: '2025/10/18 15:32',
+          title: '道路でのボール遊びについて',
+          content: '最近、道路でボール遊びをする子供たちの声が気になります。時間帯は夕方17-19時頃です。<br><br>子供たちが遊ぶのは良いことだと思いますが、道路でのボール遊びは危険ですし、音も響きます。<br><br>公園で遊んでもらうよう、保護者の方にお願いできないでしょうか。',
+          views: 25,
+          tags: ['相談'],
+          officialTags: [],
+          attachments: []
+        },
+        {
+          id: 2,
+          category: 'parking',
+          authorId: 'A15',
+          authorName: 'A15',
+          isAnonymous: false,
+          date: '2025/10/18 16:45',
+          title: 'ゲスト駐車場の利用について',
+          content: 'ゲスト駐車場が長期間利用されているようです。適切に管理していただけないでしょうか。<br><br>本来は来客用のはずですが、一部の方が連続して何週間も使用しているように見受けられます。<br><br>他の住民が利用できず困っています。',
+          views: 18,
+          tags: ['質問'],
+          officialTags: [],
+          attachments: []
+        },
+        {
+          id: 3,
+          category: 'noise',
+          authorId: 'C08',
+          authorName: 'C08',
+          isAnonymous: false,
+          date: '2025/10/18 18:10',
+          title: '夜間のBBQについて',
+          content: 'BBQの煙と騒音が気になります。夜22時以降も続いていることがあります。<br><br>庭でのBBQは楽しい時間だと理解していますが、深夜まで続くのは近隣への配慮が欠けていると感じます。<br><br>ルールの明確化と周知をお願いします。',
+          views: 32,
+          tags: ['相談'],
+          officialTags: [],
+          attachments: []
+        },
+        {
+          id: 4,
+          category: 'pet',
+          authorId: 'anonymous',
+          authorName: '匿名',
+          isAnonymous: true,
+          date: '2025/10/15 09:15',
+          title: 'ペットの散歩マナーについて',
+          content: 'ペットの排泄物の処理をお願いしたいです。敷地内で放置されているのを見かけました。<br><br>散歩は朝夕の時間帯が多く、特に共用部分の植え込み周辺で目撃しています。<br><br>他の住民の方も気持ちよく利用できるよう、マナーの徹底をお願いします。',
+          views: 28,
+          tags: ['共有'],
+          officialTags: [],
+          attachments: [
+            {
+              type: 'image',
+              name: 'pet_waste.jpg',
+              size: '1.8MB',
+              url: 'data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="400" height="300"%3E%3Crect fill="%23f0f0f0" width="400" height="300"/%3E%3Ctext x="50%25" y="50%25" dominant-baseline="middle" text-anchor="middle" font-family="sans-serif" font-size="18" fill="%23999"%3E🐕 現場の写真（デモ画像）%3C/text%3E%3C/svg%3E'
+            }
+          ]
+        },
+        {
+          id: 5,
+          category: 'other',
+          authorId: 'anonymous',
+          authorName: '匿名',
+          isAnonymous: true,
+          date: '2025/10/14 16:30',
+          title: '植木の剪定について',
+          content: '隣家の植木が越境してきています。剪定をお願いできないでしょうか。<br><br>特にベランダ側の植木が伸びてきており、洗濯物に触れてしまいます。<br><br>直接お伝えするのも気が引けるため、管理組合から一斉に剪定のお願いを出していただけないでしょうか。',
+          views: 21,
+          tags: ['質問'],
+          officialTags: [],
+          attachments: []
+        },
+        {
+          id: 6,
+          category: 'other',
+          authorId: 'admin',
+          authorName: '管理組合',
+          isAnonymous: false,
+          date: '2025/10/19 09:00',
+          title: 'ゴミ収集日変更のお知らせ',
+          content: '11月より、可燃ゴミの収集日が火曜日・金曜日に変更となります。詳細は添付PDFをご確認ください。<br><br>【変更内容】<br>・可燃ゴミ：月・木曜日 → 火・金曜日<br>・不燃ゴミ：第2・4水曜日（変更なし）<br>・資源ゴミ：毎週土曜日（変更なし）<br><br>ゴミ出しは当日朝8時までにお願いいたします。',
+          views: 156,
+          tags: [],
+          officialTags: ['回覧板', '重要'],
+          isOfficial: true,
+          attachments: [
+            {
+              type: 'document',
+              name: 'garbage_schedule.pdf',
+              size: '450KB',
+              url: '#'
+            }
+          ]
+        }
+      ],
+      bbsReplies: {
+        1: [
+          { id: 1, authorId: 'A23', authorName: 'A23', isAnonymous: false, date: '2025/10/18 16:45', content: '同じ悩みを持っています。確かに道路でのボール遊びは危険ですね。管理組合から注意喚起をお願いしたいです。' },
+          { id: 2, authorId: 'anonymous', authorName: '匿名', isAnonymous: true, date: '2025/10/18 17:20', content: '親として申し訳ございません。子供には公園で遊ぶよう改めて伝えます。' },
+          { id: 3, authorId: 'B71', authorName: 'B71', isAnonymous: false, date: '2025/10/18 18:10', content: '子供の声は「生活音」の範囲だと思いますが、道路は確かに危ないですね。公園まで少し距離があるのも問題かもしれません。' },
+          { id: 4, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/18 20:30', content: 'ご意見ありがとうございます。次回の理事会で協議し、全戸へ注意喚起の回覧を行う予定です。引き続き、住民同士の思いやりをお願いいたします。' }
+        ],
+        2: [
+          { id: 1, authorId: 'D15', authorName: 'D15', isAnonymous: false, date: '2025/10/18 17:00', content: '私も同じ状況を確認しています。ルールの周知徹底をお願いしたいです。' },
+          { id: 2, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/18 18:30', content: 'ご指摘ありがとうございます。ゲスト駐車場の利用状況を確認し、長期利用者には個別に連絡いたします。今後は予約システムの導入も検討します。' }
+        ],
+        3: [
+          { id: 1, authorId: 'G12', authorName: 'G12', isAnonymous: false, date: '2025/10/18 18:30', content: '私の家も煙の影響を受けています。洗濯物に臭いがついてしまうので困っています。' },
+          { id: 2, authorId: 'H21', authorName: 'H21', isAnonymous: false, date: '2025/10/18 19:15', content: 'BBQを行う際は、事前に近隣へ挨拶することをルール化してはいかがでしょうか。' }
+        ],
+        4: [
+          { id: 1, authorId: 'F33', authorName: 'F33', isAnonymous: false, date: '2025/10/15 10:30', content: '同じ問題で困っています。朝の散歩時に何度か目撃しました。飼い主のマナー向上が必要ですね。' },
+          { id: 2, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/15 14:20', content: 'ご意見ありがとうございます。ペット飼育規約の再周知と、マナー向上を呼びかける掲示を行います。写真のご提供もありがとうございました。' }
+        ],
+        5: [
+          { id: 1, authorId: 'E18', authorName: 'E18', isAnonymous: false, date: '2025/10/14 17:00', content: '私も同じ状況です。風の強い日は特に気になります。' },
+          { id: 2, authorId: 'D09', authorName: 'D09', isAnonymous: false, date: '2025/10/14 18:15', content: '管理組合から一斉にお願いするのが良いと思います。個別に言うのは角が立ちますよね。' },
+          { id: 3, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/15 09:00', content: '承知いたしました。次回の回覧にて、共用部分への越境植栽の剪定についてお願いする文書を配布いたします。' },
+          { id: 4, authorId: 'anonymous', authorName: '匿名', isAnonymous: true, date: '2025/10/15 10:30', content: 'ありがとうございます。助かります。' }
+        ],
+        6: [
+          { id: 1, authorId: 'A23', authorName: 'A23', isAnonymous: false, date: '2025/10/19 09:30', content: '了解しました。カレンダーに登録します。' },
+          { id: 2, authorId: 'B15', authorName: 'B15', isAnonymous: false, date: '2025/10/19 10:00', content: '火曜日と金曜日ですね。忘れないようにします。' },
+          { id: 3, authorId: 'C08', authorName: 'C08', isAnonymous: false, date: '2025/10/19 10:45', content: 'PDFが開けません。再度アップロードしていただけますか？' },
+          { id: 4, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/19 11:30', content: 'PDFの件、申し訳ございません。後ほど再アップロードいたします。' },
+          { id: 5, authorId: 'D21', authorName: 'D21', isAnonymous: false, date: '2025/10/19 14:20', content: 'つくば市のHPでも確認できますよ。' },
+          { id: 6, authorId: 'E05', authorName: 'E05', isAnonymous: false, date: '2025/10/19 15:00', content: '変更の理由は何でしょうか？' },
+          { id: 7, authorId: 999, authorName: '管理組合', isAnonymous: false, date: '2025/10/19 16:00', content: '市の収集ルート変更に伴うものです。詳細は市から配布される資料をご確認ください。' },
+          { id: 8, authorId: 'F12', authorName: 'F12', isAnonymous: false, date: '2025/10/19 17:30', content: '分かりました。ありがとうございます。' }
+        ]
+      }
+    };
 
-    function handleReply(event){event.preventDefault();alert(window.i18n('alert.reply_submitted'));window.location.href='board.html'}
+    // 多言語データ
+    const translations = {
+      ja: {
+        'board.detail.title': '投稿詳細',
+        'board.detail.back': '戻る',
+        'board.detail.delete': '削除',
+        'board.detail.report': '通報',
+        'board.detail.anonymous': '匿名',
+        'board.detail.views': '閲覧',
+        'board.detail.replies': '返信',
+        'board.detail.reply.placeholder': '返信を入力...',
+        'board.detail.reply.submit': '返信する',
+        'board.detail.no.replies': 'まだ返信がありません',
+        'category.noise': '騒音',
+        'category.parking': '駐車',
+        'category.pet': 'ペット',
+        'category.other': 'その他'
+      },
+      en: {
+        'board.detail.title': 'Post Details',
+        'board.detail.back': 'Back',
+        'board.detail.delete': 'Delete',
+        'board.detail.report': 'Report',
+        'board.detail.anonymous': 'Anonymous',
+        'board.detail.views': 'Views',
+        'board.detail.replies': 'Replies',
+        'board.detail.reply.placeholder': 'Write a reply...',
+        'board.detail.reply.submit': 'Submit Reply',
+        'board.detail.no.replies': 'No replies yet',
+        'category.noise': 'Noise',
+        'category.parking': 'Parking',
+        'category.pet': 'Pet',
+        'category.other': 'Other'
+      },
+      zh: {
+        'board.detail.title': '帖子详情',
+        'board.detail.back': '返回',
+        'board.detail.delete': '删除',
+        'board.detail.report': '举报',
+        'board.detail.anonymous': '匿名',
+        'board.detail.views': '浏览',
+        'board.detail.replies': '回复',
+        'board.detail.reply.placeholder': '输入回复...',
+        'board.detail.reply.submit': '提交回复',
+        'board.detail.no.replies': '暂无回复',
+        'category.noise': '噪音',
+        'category.parking': '停车',
+        'category.pet': '宠物',
+        'category.other': '其他'
+      }
+    };
 
-    // 文字数カウンター更新用関数
-    function updateCharCount() {
-        const textarea = document.getElementById('replyContent');
-        const charCountNum = document.getElementById('charCountNum');
-        const charCountWrapper = document.getElementById('charCountWrapper');
-        if(!textarea || !charCountNum || !charCountWrapper) return; 
+    // 簡易多言語マネージャー
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLang = localStorage.getItem('language') || 'ja';
+        this.init();
+      }
 
-        const length = textarea.value.length;
-        const unit = window.i18n('common.char_unit'); // ★単位を翻訳
+      init() {
+        // 言語ボタンの初期化
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.lang === this.currentLang) {
+            btn.classList.add('active');
+          }
+          
+          btn.addEventListener('click', () => {
+            this.setLanguage(btn.dataset.lang);
+          });
+        });
+
+        // 初期翻訳
+        this.translatePage();
+      }
+
+      setLanguage(lang) {
+        this.currentLang = lang;
+        localStorage.setItem('language', lang);
         
-        charCountNum.textContent = length; 
-        // ★ ラッパー要素全体ではなく、単位部分だけを更新する方が安全
-        const unitSpan = charCountWrapper.querySelector('[data-i18n="common.char_unit"]');
-        if (unitSpan) unitSpan.textContent = unit;
+        // ボタンのアクティブ状態を更新
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
+          }
+        });
 
-        charCountWrapper.classList.toggle('text-red-600', length > 500);
+        this.translatePage();
+      }
+
+      translate(key) {
+        return translations[this.currentLang]?.[key] || key;
+      }
+
+      translatePage() {
+        // data-i18n属性を持つ要素を翻訳
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          element.textContent = this.translate(key);
+        });
+      }
     }
 
-    document.addEventListener('DOMContentLoaded', function() {
-      window.languageManager.init();
-      window.languageManager.updatePage(); 
-      window.languageManager.updateLanguageButtons(); 
-
-      // ★文字数カウンターを動的フックに登録 & 初期化
-      window.languageManager.dynamicHooks.push(updateCharCount);
-      const textarea = document.getElementById('replyContent');
-      if (textarea) {
-          textarea.addEventListener('input', updateCharCount);
-          updateCharCount(); // 初回表示
+    // メイン処理
+    function initializePage() {
+      // 多言語マネージャーの初期化
+      window.i18n = new EmbeddedLanguageManager();
+      
+      // デモモードの初期化
+      if (typeof initDemoMode === 'function') {
+        initDemoMode();
       }
+      const currentUser = typeof getDemoUser === 'function' ? getDemoUser() : { id: 'guest', isAdmin: false };
+      
+      // URLパラメータから投稿IDを取得
+      const urlParams = new URLSearchParams(window.location.search);
+      const postId = parseInt(urlParams.get('id')) || 1;
+      
+      // データ取得
+      const post = window.demoData.bbsPosts.find(p => p.id === postId);
+      const replies = window.demoData.bbsReplies[postId] || [];
+      
+      console.log('=== Board Detail Debug Info ===');
+      console.log('URL Parameter ID:', postId);
+      console.log('Post Data:', post);
+      console.log('Replies:', replies);
+      console.log('Current User:', currentUser);
+      
+      // 投稿が見つからない場合
+      if (!post) {
+        console.error('投稿が見つかりません: ID:', postId);
+        document.getElementById('mainContent').innerHTML = `
+          <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+            <h3 class="text-red-900 font-bold mb-2">❌ 投稿が見つかりません</h3>
+            <p class="text-red-700 mb-4">ID: ${postId}</p>
+            <button onclick="window.location.href='board.html'" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+              掲示板一覧に戻る
+            </button>
+          </div>
+        `;
+        return;
+      }
+      
+      // ページを描画
+      renderPage(post, replies, currentUser);
+    }
+
+    // カテゴリーバッジクラス取得
+    function getCategoryBadgeClass(category) {
+      const classes = {
+        'noise': 'bg-red-100 text-red-800',
+        'parking': 'bg-blue-100 text-blue-800',
+        'pet': 'bg-green-100 text-green-800',
+        'other': 'bg-gray-100 text-gray-800'
+      };
+      return classes[category] || 'bg-gray-100 text-gray-800';
+    }
+
+    // カテゴリー名取得
+    function getCategoryName(category) {
+      const key = `category.${category}`;
+      return window.i18n ? window.i18n.translate(key) : category;
+    }
+
+    // タグレンダリング
+    function renderTags(post) {
+      if (!post.tags && !post.officialTags) return '';
+
+      let tagsHtml = '';
+
+      // 管理者専用タグ
+      if (post.officialTags && post.officialTags.length > 0) {
+        post.officialTags.forEach(tag => {
+          let badgeClass = '';
+          let icon = '';
+          
+          if (tag === '回覧板') {
+            badgeClass = 'bg-red-600 text-white';
+            icon = '🔴';
+          } else if (tag === '重要') {
+            badgeClass = 'bg-blue-600 text-white';
+            icon = '🔵';
+          } else if (tag === '公式') {
+            badgeClass = 'bg-green-600 text-white';
+            icon = '🟢';
+          }
+          
+          tagsHtml += `<span class="badge ${badgeClass}">${icon} ${tag}</span>`;
+        });
+      }
+
+      // 一般タグ
+      if (post.tags && post.tags.length > 0) {
+        post.tags.forEach(tag => {
+          tagsHtml += `<span class="badge bg-purple-100 text-purple-800">🏷️ ${tag}</span>`;
+        });
+      }
+
+      return tagsHtml;
+    }
+
+    // 削除権限チェック
+    function canDelete(authorId, currentUser) {
+      return currentUser.isAdmin || currentUser.id.toString() === authorId.toString();
+    }
+
+    // 削除ボタン生成
+    function getDeleteButton(authorId, currentUser, isReply = false, replyId = null) {
+      if (!canDelete(authorId, currentUser)) return '';
+      
+      const clickHandler = isReply 
+        ? `handleDeleteReply(${replyId})`
+        : `handleDeletePost()`;
+      
+      const deleteText = window.i18n ? window.i18n.translate('board.detail.delete') : '削除';
+      
+      return `
+        <button 
+          onclick="${clickHandler}"
+          class="text-red-600 hover:text-red-800 text-sm flex items-center gap-1"
+          title="${deleteText}"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+          </svg>
+          <span data-i18n="board.detail.delete">${deleteText}</span>
+        </button>
+      `;
+    }
+
+    // 通報ボタン生成
+    function getReportButton() {
+      const reportText = window.i18n ? window.i18n.translate('board.detail.report') : '通報';
+      
+      return `
+        <button 
+          onclick="handleReport()"
+          class="text-orange-600 hover:text-orange-800 text-sm flex items-center gap-1"
+          title="${reportText}"
+        >
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.924-.833-2.464 0L3.34 16.5c-.77.833.192 2.5 1.732 2.5z"/>
+          </svg>
+          <span data-i18n="board.detail.report">${reportText}</span>
+        </button>
+      `;
+    }
+
+    // 投稿本文のレンダリング
+    function renderPost(post, currentUser) {
+      const categoryClass = getCategoryBadgeClass(post.category);
+      const categoryName = getCategoryName(post.category);
+      const tags = renderTags(post);
+      const deleteButton = getDeleteButton(post.authorId, currentUser);
+      const reportButton = getReportButton();
+      const anonymousText = window.i18n ? window.i18n.translate('board.detail.anonymous') : '匿名';
+      const viewsText = window.i18n ? window.i18n.translate('board.detail.views') : '閲覧';
+      
+      return `
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <div class="flex items-start justify-between mb-4">
+            <div class="flex items-center gap-3">
+              <span class="px-3 py-1 text-sm rounded-full ${categoryClass}">${categoryName}</span>
+              ${tags}
+            </div>
+            <div class="flex items-center gap-2">
+              ${deleteButton}
+              ${reportButton}
+            </div>
+          </div>
+          
+          <h1 class="text-2xl font-bold text-gray-900 mb-4">${post.title}</h1>
+          
+          <div class="flex items-center text-sm text-gray-600 mb-6">
+            <span class="mr-4">
+              ${post.isAnonymous ? anonymousText : post.authorName}
+            </span>
+            <span class="mr-4">${post.date}</span>
+            <span>👁 ${post.views}</span>
+          </div>
+          
+          <div class="prose max-w-none mb-6">
+            <p class="whitespace-pre-wrap">${post.content}</p>
+          </div>
+        </div>
+      `;
+    }
+
+    // 返信一覧のレンダリング
+    function renderReplies(replies, currentUser) {
+      const repliesText = window.i18n ? window.i18n.translate('board.detail.replies') : '返信';
+      const noRepliesText = window.i18n ? window.i18n.translate('board.detail.no.replies') : 'まだ返信がありません';
+      const anonymousText = window.i18n ? window.i18n.translate('board.detail.anonymous') : '匿名';
+      
+      if (replies.length === 0) {
+        return `
+          <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+            <h3 class="text-lg font-bold text-gray-900 mb-4">
+              ${repliesText} 0 件
+            </h3>
+            <p class="text-gray-600 text-center py-8">${noRepliesText}</p>
+          </div>
+        `;
+      }
+
+      let repliesHtml = `
+        <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-4">
+            ${repliesText} ${replies.length} 件
+          </h3>
+          <div class="space-y-4">
+      `;
+
+      replies.forEach(reply => {
+        const deleteButton = getDeleteButton(reply.authorId, currentUser, true, reply.id);
+        repliesHtml += `
+          <div class="border-l-4 border-blue-200 pl-4 py-2" data-reply-id="${reply.id}">
+            <div class="flex items-start justify-between mb-2">
+              <div class="flex items-center gap-3 text-sm">
+                <span class="font-semibold text-gray-900">
+                  ${reply.isAnonymous ? anonymousText : reply.authorName}
+                </span>
+                <span class="text-gray-500">${reply.date}</span>
+              </div>
+              ${deleteButton}
+            </div>
+            <p class="text-gray-700 whitespace-pre-wrap">${reply.content}</p>
+          </div>
+        `;
+      });
+
+      repliesHtml += `
+          </div>
+        </div>
+      `;
+
+      return repliesHtml;
+    }
+
+    // 返信フォームのレンダリング
+    function renderReplyForm() {
+      const placeholderText = window.i18n ? window.i18n.translate('board.detail.reply.placeholder') : '返信を入力...';
+      const submitText = window.i18n ? window.i18n.translate('board.detail.reply.submit') : '返信する';
+      
+      return `
+        <div class="bg-white rounded-lg shadow-md p-6">
+          <h3 class="text-lg font-bold text-gray-900 mb-4" data-i18n="board.detail.reply.submit">${submitText}</h3>
+          <textarea 
+            id="replyContent"
+            class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+            rows="4"
+            placeholder="${placeholderText}"
+            oninput="updateCharCount()"
+          ></textarea>
+          <div class="flex items-center justify-between mt-4">
+            <span class="text-sm text-gray-500">
+              <span id="replyCharCount">0</span> / 500
+            </span>
+            <button 
+              onclick="submitReply()"
+              class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+            >
+              <span data-i18n="board.detail.reply.submit">${submitText}</span>
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    // ページ全体をレンダリング
+    function renderPage(post, replies, currentUser) {
+      const postHtml = renderPost(post, currentUser);
+      const repliesHtml = renderReplies(replies, currentUser);
+      const replyFormHtml = renderReplyForm();
+      
+      document.getElementById('mainContent').innerHTML = postHtml + repliesHtml + replyFormHtml;
+      
+      // 翻訳を再適用
+      if (window.i18n) {
+        window.i18n.translatePage();
+      }
+    }
+
+    // 返信投稿
+    function submitReply() {
+      const content = document.getElementById('replyContent').value.trim();
+      
+      if (!content) {
+        alert('返信内容を入力してください');
+        return;
+      }
+      
+      if (content.length > 500) {
+        alert('500文字以内で入力してください');
+        return;
+      }
+      
+      alert('返信しました (デモ)');
+      document.getElementById('replyContent').value = '';
+      updateCharCount();
+    }
+
+    // 投稿削除ハンドラー
+    function handleDeletePost() {
+      if (confirm('本当に削除しますか?')) {
+        alert('投稿を削除しました (デモ)');
+        window.location.href = 'board.html';
+      }
+    }
+    
+    // 返信削除ハンドラー
+    function handleDeleteReply(replyId) {
+      if (confirm('本当に削除しますか?')) {
+        const replyElement = document.querySelector(`[data-reply-id="${replyId}"]`);
+        if (replyElement) {
+          replyElement.style.transition = 'opacity 0.3s';
+          replyElement.style.opacity = '0';
+          
+          setTimeout(() => {
+            replyElement.remove();
+            alert('削除しました (デモ)');
+          }, 300);
+        } else {
+          alert('削除しました (デモ)');
+        }
+      }
+    }
+    
+    // 通報ハンドラー
+    function handleReport() {
+      alert('通報を受け付けました (デモ)');
+    }
+
+    // 文字数カウント
+    function updateCharCount() {
+      const content = document.getElementById('replyContent').value;
+      document.getElementById('replyCharCount').textContent = content.length;
+    }
+
+    // 初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      initializePage();
     });
   </script>
+
+  <style>
+    /* バッジスタイル */
+    .badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-right: 8px;
+    }
+    
+    /* 言語切替ボタンのスタイル */
+    .language-switcher {
+      display: flex;
+      gap: 0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    }
+    
+    .lang-btn {
+      padding: 8px 16px;
+      background: white;
+      color: #4B5563;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: all 0.2s;
+      border-right: 1px solid #E5E7EB;
+    }
+    
+    .lang-btn:last-child {
+      border-right: none;
+    }
+    
+    .lang-btn:hover {
+      background: #F3F4F6;
+    }
+    
+    .lang-btn.active {
+      background: #2563EB;
+      color: white;
+    }
+  </style>
+
 </body>
 </html>
