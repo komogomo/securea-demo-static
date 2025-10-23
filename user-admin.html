@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="user.admin.title">ユーザー管理 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <!-- 多言語データ（埋め込み） -->
+  <script>
+    window.i18nData = {
+      ja: {
+        // 共通
+        'logout': 'ログアウト',
+        'common.back': '戻る',
+        
+        // ユーザー管理画面
+        'user.admin.title': 'ユーザー管理',
+        'user.admin.stats.total': '名',
+        'user.admin.stats.active': '名',
+        'user.admin.stats.inactive': '名',
+        'user.admin.stats.total.label': '総ユーザー数',
+        'user.admin.stats.active.label': '有効アカウント',
+        'user.admin.stats.inactive.label': '無効アカウント',
+        
+        // 検索・フィルター
+        'user.admin.search.placeholder': '住戸番号または氏名で検索',
+        'user.admin.search.button': '検索',
+        'user.admin.filter.all': 'すべて',
+        'user.admin.filter.active': '有効のみ',
+        'user.admin.filter.inactive': '無効のみ',
+        'user.admin.button.register': '新規登録',
+        
+        // テーブル
+        'user.admin.table.room': '住戸',
+        'user.admin.table.name': '氏名',
+        'user.admin.table.nickname': 'ニックネーム',
+        'user.admin.table.email': 'メール',
+        'user.admin.table.startdate': '利用開始日',
+        'user.admin.table.status': 'ステータス',
+        'user.admin.table.actions': '操作',
+        'user.admin.status.active': '有効',
+        'user.admin.status.inactive': '無効',
+        'user.admin.nickname.none': '未設定',
+        'user.admin.button.detail': '詳細',
+        'user.admin.no.users': 'ユーザーが見つかりません'
+      },
+      en: {
+        // 共通
+        'logout': 'Logout',
+        'common.back': 'Back',
+        
+        // ユーザー管理画面
+        'user.admin.title': 'User Management',
+        'user.admin.stats.total': '',
+        'user.admin.stats.active': '',
+        'user.admin.stats.inactive': '',
+        'user.admin.stats.total.label': 'Total Users',
+        'user.admin.stats.active.label': 'Active Accounts',
+        'user.admin.stats.inactive.label': 'Inactive Accounts',
+        
+        // 検索・フィルター
+        'user.admin.search.placeholder': 'Search by room number or name',
+        'user.admin.search.button': 'Search',
+        'user.admin.filter.all': 'All',
+        'user.admin.filter.active': 'Active Only',
+        'user.admin.filter.inactive': 'Inactive Only',
+        'user.admin.button.register': 'New Registration',
+        
+        // テーブル
+        'user.admin.table.room': 'Room',
+        'user.admin.table.name': 'Name',
+        'user.admin.table.nickname': 'Nickname',
+        'user.admin.table.email': 'Email',
+        'user.admin.table.startdate': 'Start Date',
+        'user.admin.table.status': 'Status',
+        'user.admin.table.actions': 'Actions',
+        'user.admin.status.active': 'Active',
+        'user.admin.status.inactive': 'Inactive',
+        'user.admin.nickname.none': 'Not Set',
+        'user.admin.button.detail': 'Detail',
+        'user.admin.no.users': 'No users found'
+      },
+      zh: {
+        // 共通
+        'logout': '登出',
+        'common.back': '返回',
+        
+        // ユーザー管理画面
+        'user.admin.title': '用户管理',
+        'user.admin.stats.total': ' 名',
+        'user.admin.stats.active': ' 名',
+        'user.admin.stats.inactive': ' 名',
+        'user.admin.stats.total.label': '总用户数',
+        'user.admin.stats.active.label': '有效账户',
+        'user.admin.stats.inactive.label': '无效账户',
+        
+        // 検索・フィルター
+        'user.admin.search.placeholder': '按住户编号或姓名搜索',
+        'user.admin.search.button': '搜索',
+        'user.admin.filter.all': '全部',
+        'user.admin.filter.active': '仅有效',
+        'user.admin.filter.inactive': '仅无效',
+        'user.admin.button.register': '新用户注册',
+        
+        // テーブル
+        'user.admin.table.room': '住户',
+        'user.admin.table.name': '姓名',
+        'user.admin.table.nickname': '昵称',
+        'user.admin.table.email': '邮箱',
+        'user.admin.table.startdate': '开始日期',
+        'user.admin.table.status': '状态',
+        'user.admin.table.actions': '操作',
+        'user.admin.status.active': '有效',
+        'user.admin.status.inactive': '无效',
+        'user.admin.nickname.none': '未设置',
+        'user.admin.button.detail': '详情',
+        'user.admin.no.users': '未找到用户'
+      }
+    };
+    console.log('✅ i18nData embedded for user-admin.html');
+  </script>
+</head>
+
+<body class="bg-gray-50">
+  <!-- 言語切替ボタン -->
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-6xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- 戻るボタン：管理者画面TOPへ -->
+          <button onclick="window.location.href='admin-home.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="user.admin.title">ユーザー管理</h1>
+        </div>
+        <button onclick="logout()" class="text-sm text-gray-600 hover:text-gray-900">
+          <span data-i18n="logout">ログアウト</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4 py-6 pb-32">
+    <!-- 統計情報 -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+      <div class="bg-white rounded-lg shadow-sm p-6 text-center fade-in">
+        <div class="text-3xl font-bold text-cyan-600" id="stat-total">171</div>
+        <div class="text-sm text-gray-600 mt-1">
+          <span data-i18n="user.admin.stats.total.label">総ユーザー数</span>
+          <span data-i18n="user.admin.stats.total"></span>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm p-6 text-center fade-in">
+        <div class="text-3xl font-bold text-green-600" id="stat-active">168</div>
+        <div class="text-sm text-gray-600 mt-1">
+          <span data-i18n="user.admin.stats.active.label">有効アカウント</span>
+          <span data-i18n="user.admin.stats.active"></span>
+        </div>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm p-6 text-center fade-in">
+        <div class="text-3xl font-bold text-red-600" id="stat-inactive">3</div>
+        <div class="text-sm text-gray-600 mt-1">
+          <span data-i18n="user.admin.stats.inactive.label">無効アカウント</span>
+          <span data-i18n="user.admin.stats.inactive"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 検索・フィルター・新規登録 -->
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-6 fade-in">
+      <div class="flex flex-col sm:flex-row gap-3">
+        <!-- 検索バー＋検索ボタン -->
+        <div class="flex-1 flex gap-2">
+          <input 
+            type="text" 
+            id="searchInput"
+            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+            data-i18n-placeholder="user.admin.search.placeholder"
+            placeholder="住戸番号または氏名で検索"
+            onkeypress="if(event.key === 'Enter') filterUsers()"
+          >
+          <button 
+            onclick="filterUsers()"
+            class="bg-cyan-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-cyan-700 transition flex items-center gap-2 whitespace-nowrap"
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+            </svg>
+            <span data-i18n="user.admin.search.button">検索</span>
+          </button>
+        </div>
+        
+        <!-- ステータスフィルター -->
+        <select 
+          id="statusFilter"
+          class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+          onchange="filterUsers()"
+        >
+          <option value="all" data-i18n="user.admin.filter.all">すべて</option>
+          <option value="active" data-i18n="user.admin.filter.active">有効のみ</option>
+          <option value="inactive" data-i18n="user.admin.filter.inactive">無効のみ</option>
+        </select>
+        
+        <!-- 新規登録ボタン -->
+        <button 
+          onclick="window.location.href='user-register.html'"
+          class="bg-green-600 text-white px-6 py-2 rounded-lg font-bold hover:bg-green-700 transition flex items-center gap-2 whitespace-nowrap"
+        >
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+          </svg>
+          <span data-i18n="user.admin.button.register">新規登録</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ユーザー一覧テーブル -->
+    <div class="bg-white rounded-lg shadow-sm overflow-hidden fade-in">
+      <div class="overflow-x-auto">
+        <table class="w-full">
+          <thead class="bg-gray-50 border-b border-gray-200">
+            <tr>
+              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.room">住戸</th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.name">氏名</th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.nickname">ニックネーム</th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.email">メール</th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.startdate">利用開始日</th>
+              <th class="px-4 py-3 text-left text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.status">ステータス</th>
+              <th class="px-4 py-3 text-center text-xs font-bold text-gray-700 uppercase" data-i18n="user.admin.table.actions">操作</th>
+            </tr>
+          </thead>
+          <tbody id="userTableBody" class="divide-y divide-gray-200">
+            <!-- JavaScriptで動的に生成 -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- 翻訳システム（埋め込み版） -->
+  <script>
+    // 多言語管理クラス
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+          // テーブルも再描画
+          renderUserTable();
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        // data-i18n属性を持つ全ての要素を翻訳
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          // 子要素がない場合はtextContentを直接更新
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            // 子要素がある場合はテキストノードのみを更新
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+        
+        // placeholder属性の翻訳
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
+        // タイトルタグの翻訳
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        // 言語切替ボタンのイベントリスナー設定
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+        this.updatePage();
+        this.updateLanguageButtons();
+      }
+    }
+    
+    // DOMロード時に初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager = new EmbeddedLanguageManager();
+      window.languageManager.init();
+      
+      // グローバルな翻訳関数
+      window.i18n = function(key) {
+        return window.languageManager.translate(key);
+      };
+      
+      // 初回描画
+      renderUserTable();
+    });
+
+    // ログアウト処理
+    function logout() {
+      if (confirm('ログアウトしますか？')) {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('roomNumber');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // デモ用ユーザーデータ（171名分を簡易生成）
+    const demoUsers = [];
+    const buildings = ['A', 'B', 'C', 'D', 'E'];
+    const lastNames = ['田中', '山田', '佐藤', '鈴木', '高橋', '渡辺', '伊藤', '中村', '小林', '加藤'];
+    const firstNames = ['太郎', '花子', '次郎', '三郎', '美咲', '健一', '由美', '翔太', '愛', '優'];
+    const nicknames = ['タナカ', 'ヤマダ', 'サトウ', 'スズキ', 'タカハシ', 'ワタナベ', 'イトウ', 'ナカムラ', 'コバヤシ', 'カトウ'];
+    
+    // 171名のユーザーデータを生成
+    for (let i = 0; i < 171; i++) {
+      const building = buildings[i % buildings.length];
+      const roomNum = String(101 + Math.floor(i / buildings.length)).padStart(3, '0');
+      const lastName = lastNames[i % lastNames.length];
+      const firstName = firstNames[i % firstNames.length];
+      const nickname = i % 10 === 0 ? null : nicknames[i % nicknames.length]; // 10%は未設定
+      const isActive = i >= 168 ? false : true; // 最後の3名は無効
+      
+      demoUsers.push({
+        roomNumber: `${building}${roomNum}`,
+        name: `${lastName} ${firstName}`,
+        nickname: nickname,
+        email: `${lastName.toLowerCase()}${i}@example.com`,
+        startDate: `2025/${String(9 + Math.floor(i / 60)).padStart(2, '0')}/${String(1 + (i % 30)).padStart(2, '0')}`,
+        status: isActive ? 'active' : 'inactive'
+      });
+    }
+
+    // 現在の表示データ（フィルタリング用）
+    let filteredUsers = [...demoUsers];
+
+    // ユーザーテーブルの描画
+    function renderUserTable() {
+      const tbody = document.getElementById('userTableBody');
+      tbody.innerHTML = '';
+      
+      // 翻訳キーを取得
+      const statusActiveText = window.i18n('user.admin.status.active');
+      const statusInactiveText = window.i18n('user.admin.status.inactive');
+      const nicknameNoneText = window.i18n('user.admin.nickname.none');
+      const detailButtonText = window.i18n('user.admin.button.detail');
+      const noUsersText = window.i18n('user.admin.no.users');
+      
+      if (filteredUsers.length === 0) {
+        tbody.innerHTML = `
+          <tr>
+            <td colspan="7" class="px-4 py-8 text-center text-gray-500">
+              ${noUsersText}
+            </td>
+          </tr>
+        `;
+        return;
+      }
+      
+      filteredUsers.forEach(user => {
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-gray-50 transition';
+        
+        const statusClass = user.status === 'active' 
+          ? 'bg-green-100 text-green-800' 
+          : 'bg-red-100 text-red-800';
+        const statusText = user.status === 'active' ? statusActiveText : statusInactiveText;
+        const nicknameDisplay = user.nickname || `<span class="text-gray-400 italic">${nicknameNoneText}</span>`;
+        
+        row.innerHTML = `
+          <td class="px-4 py-3 text-sm font-medium text-gray-900">${user.roomNumber}</td>
+          <td class="px-4 py-3 text-sm text-gray-700">${user.name}</td>
+          <td class="px-4 py-3 text-sm text-gray-700">${nicknameDisplay}</td>
+          <td class="px-4 py-3 text-sm text-gray-700">${user.email}</td>
+          <td class="px-4 py-3 text-sm text-gray-700">${user.startDate}</td>
+          <td class="px-4 py-3">
+            <span class="inline-flex px-2 py-1 text-xs font-semibold rounded-full ${statusClass}">
+              ${statusText}
+            </span>
+          </td>
+          <td class="px-4 py-3 text-center">
+            <button 
+              onclick="showUserDetail('${user.roomNumber}')"
+              class="text-cyan-600 hover:text-cyan-800 font-medium text-sm"
+            >
+              ${detailButtonText}
+            </button>
+          </td>
+        `;
+        
+        tbody.appendChild(row);
+      });
+    }
+
+    // フィルタリング処理
+    function filterUsers() {
+      const searchInput = document.getElementById('searchInput').value.toLowerCase();
+      const statusFilter = document.getElementById('statusFilter').value;
+      
+      filteredUsers = demoUsers.filter(user => {
+        // 検索条件
+        const matchesSearch = 
+          user.roomNumber.toLowerCase().includes(searchInput) ||
+          user.name.toLowerCase().includes(searchInput);
+        
+        // ステータスフィルター
+        const matchesStatus = 
+          statusFilter === 'all' ||
+          (statusFilter === 'active' && user.status === 'active') ||
+          (statusFilter === 'inactive' && user.status === 'inactive');
+        
+        return matchesSearch && matchesStatus;
+      });
+      
+      // 統計情報を更新
+      updateStats();
+      
+      // テーブルを再描画
+      renderUserTable();
+    }
+
+    // 統計情報の更新
+    function updateStats() {
+      const total = filteredUsers.length;
+      const active = filteredUsers.filter(u => u.status === 'active').length;
+      const inactive = filteredUsers.filter(u => u.status === 'inactive').length;
+      
+      document.getElementById('stat-total').textContent = total;
+      document.getElementById('stat-active').textContent = active;
+      document.getElementById('stat-inactive').textContent = inactive;
+    }
+
+    // ユーザー詳細表示（デモ）
+    function showUserDetail(roomNumber) {
+      alert(`ユーザー詳細画面（デモ）\n\n住戸番号：${roomNumber}\n\n実装後、詳細情報を表示します。`);
+    }
+  </script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

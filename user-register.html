@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="user.register.title">ユーザー登録 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <!-- 多言語データ（埋め込み） -->
+  <script>
+    window.i18nData = {
+      ja: {
+        // 共通
+        'logout': 'ログアウト',
+        'common.back': '戻る',
+        
+        // ユーザー登録画面
+        'user.register.title': 'ユーザー登録',
+        'user.register.subtitle': '新規ユーザーの登録',
+        'user.register.description': '入居者の情報を登録します。ニックネームは初回ログイン時に本人が設定します。',
+        
+        // フォーム項目
+        'user.register.form.room': '住戸番号',
+        'user.register.form.room.placeholder': '例：A101, B71',
+        'user.register.form.room.help': '建物記号と部屋番号を入力してください',
+        
+        'user.register.form.name': '氏名',
+        'user.register.form.name.placeholder': '例：田中 太郎',
+        'user.register.form.name.help': '管理組合のみが閲覧できます（一般画面には表示されません）',
+        
+        'user.register.form.furigana': 'ふりがな',
+        'user.register.form.furigana.placeholder': '例：たなか たろう',
+        'user.register.form.furigana.help': '氏名の読み方をひらがなで入力してください',
+        
+        'user.register.form.nickname': 'ニックネーム',
+        'user.register.form.nickname.placeholder': '例：ヤマダ、タナカ',
+        'user.register.form.nickname.help': '掲示板などで表示される名前です。空欄の場合は初回ログイン時に本人が設定します。',
+        
+        'user.register.form.email': 'メールアドレス',
+        'user.register.form.email.placeholder': 'example@email.com',
+        'user.register.form.email.help': 'マジックリンク認証に使用されます',
+        
+        'user.register.form.startdate': '利用開始日',
+        'user.register.form.startdate.help': 'この日付以降にログインが可能になります',
+        
+        'user.register.form.status': 'ステータス',
+        'user.register.form.status.active': '有効',
+        'user.register.form.status.inactive': '無効',
+        'user.register.form.status.help': '通常は「有効」を選択してください',
+        
+        // ボタン
+        'user.register.button.cancel': 'キャンセル',
+        'user.register.button.submit': '登録する',
+        
+        // 注意事項
+        'user.register.notes.title': '登録後の流れ',
+        'user.register.notes.1': '1. 登録完了後、入居者にQRコードと利用開始日を書面で配布',
+        'user.register.notes.2': '2. 利用開始日以降、入居者はQRコードからログイン画面へアクセス',
+        'user.register.notes.3': '3. ニックネーム未設定の場合、初回ログイン時に本人が設定',
+        'user.register.notes.4': '4. ニックネームは掲示板などで表示されます（実名は非表示）'
+      },
+      en: {
+        // 共通
+        'logout': 'Logout',
+        'common.back': 'Back',
+        
+        // ユーザー登録画面
+        'user.register.title': 'User Registration',
+        'user.register.subtitle': 'New User Registration',
+        'user.register.description': 'Register resident information. Nicknames will be set by users on first login.',
+        
+        // フォーム項目
+        'user.register.form.room': 'Room Number',
+        'user.register.form.room.placeholder': 'e.g., A101, B71',
+        'user.register.form.room.help': 'Enter building letter and room number',
+        
+        'user.register.form.name': 'Name',
+        'user.register.form.name.placeholder': 'e.g., Taro Tanaka',
+        'user.register.form.name.help': 'Visible to management only (not shown to general users)',
+        
+        'user.register.form.furigana': 'Furigana (Reading)',
+        'user.register.form.furigana.placeholder': 'e.g., tanaka tarou',
+        'user.register.form.furigana.help': 'Enter name reading in hiragana',
+        
+        'user.register.form.nickname': 'Nickname',
+        'user.register.form.nickname.placeholder': 'e.g., Yamada, Tanaka',
+        'user.register.form.nickname.help': 'Displayed on bulletin board. If left blank, user will set it on first login.',
+        
+        'user.register.form.email': 'Email Address',
+        'user.register.form.email.placeholder': 'example@email.com',
+        'user.register.form.email.help': 'Used for magic link authentication',
+        
+        'user.register.form.startdate': 'Start Date',
+        'user.register.form.startdate.help': 'Login will be available from this date',
+        
+        'user.register.form.status': 'Status',
+        'user.register.form.status.active': 'Active',
+        'user.register.form.status.inactive': 'Inactive',
+        'user.register.form.status.help': 'Usually select "Active"',
+        
+        // ボタン
+        'user.register.button.cancel': 'Cancel',
+        'user.register.button.submit': 'Register',
+        
+        // 注意事項
+        'user.register.notes.title': 'Post-Registration Process',
+        'user.register.notes.1': '1. Distribute QR code and start date to residents in writing',
+        'user.register.notes.2': '2. Residents access login screen via QR code after start date',
+        'user.register.notes.3': '3. If nickname not set, user will set it on first login',
+        'user.register.notes.4': '4. Nicknames are shown on bulletin board (real names hidden)'
+      },
+      zh: {
+        // 共通
+        'logout': '登出',
+        'common.back': '返回',
+        
+        // ユーザー登録画面
+        'user.register.title': '用户注册',
+        'user.register.subtitle': '新用户注册',
+        'user.register.description': '注册居民信息。昵称将在首次登录时由用户设置。',
+        
+        // フォーム項目
+        'user.register.form.room': '住户编号',
+        'user.register.form.room.placeholder': '例如：A101, B71',
+        'user.register.form.room.help': '输入建筑物字母和房间号',
+        
+        'user.register.form.name': '姓名',
+        'user.register.form.name.placeholder': '例如：田中太郎',
+        'user.register.form.name.help': '仅管理组合可见（不向一般用户显示）',
+        
+        'user.register.form.furigana': '假名（读音）',
+        'user.register.form.furigana.placeholder': '例如：たなか たろう',
+        'user.register.form.furigana.help': '用平假名输入姓名读音',
+        
+        'user.register.form.nickname': '昵称',
+        'user.register.form.nickname.placeholder': '例如：山田、田中',
+        'user.register.form.nickname.help': '显示在留言板上。如果留空，用户将在首次登录时设置。',
+        
+        'user.register.form.email': '电子邮箱',
+        'user.register.form.email.placeholder': 'example@email.com',
+        'user.register.form.email.help': '用于魔法链接认证',
+        
+        'user.register.form.startdate': '开始日期',
+        'user.register.form.startdate.help': '从此日期起可登录',
+        
+        'user.register.form.status': '状态',
+        'user.register.form.status.active': '有效',
+        'user.register.form.status.inactive': '无效',
+        'user.register.form.status.help': '通常选择"有效"',
+        
+        // ボタン
+        'user.register.button.cancel': '取消',
+        'user.register.button.submit': '注册',
+        
+        // 注意事項
+        'user.register.notes.title': '注册后流程',
+        'user.register.notes.1': '1. 以书面形式向居民分发二维码和开始日期',
+        'user.register.notes.2': '2. 居民在开始日期后通过二维码访问登录页面',
+        'user.register.notes.3': '3. 如果未设置昵称，用户将在首次登录时设置',
+        'user.register.notes.4': '4. 昵称显示在留言板上（真实姓名隐藏）'
+      }
+    };
+    console.log('✅ i18nData embedded for user-register.html');
+  </script>
+</head>
+
+<body class="bg-gray-50">
+  <!-- 言語切替ボタン -->
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- 戻るボタン：ユーザー管理画面へ -->
+          <button onclick="window.location.href='user-admin.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="user.register.title">ユーザー登録</h1>
+        </div>
+        <button onclick="logout()" class="text-sm text-gray-600 hover:text-gray-900">
+          <span data-i18n="logout">ログアウト</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    <!-- 説明 -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 fade-in">
+      <h3 class="font-bold text-blue-900 mb-2" data-i18n="user.register.subtitle">新規ユーザーの登録</h3>
+      <p class="text-sm text-blue-800" data-i18n="user.register.description">
+        入居者の情報を登録します。ニックネームは初回ログイン時に本人が設定します。
+      </p>
+    </div>
+
+    <!-- 登録フォーム -->
+    <div class="bg-white rounded-lg shadow-sm p-6 mb-6 fade-in">
+      <form id="registerForm" onsubmit="handleSubmit(event)">
+        <!-- 住戸番号 -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.room">
+            住戸番号 <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="roomNumber"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+            data-i18n-placeholder="user.register.form.room.placeholder"
+            placeholder="例：A101, B71"
+          >
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.room.help">
+            建物記号と部屋番号を入力してください
+          </p>
+        </div>
+
+        <!-- 氏名 -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.name">
+            氏名 <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="name"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+            data-i18n-placeholder="user.register.form.name.placeholder"
+            placeholder="例：田中 太郎"
+          >
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.name.help">
+            管理組合のみが閲覧できます（一般画面には表示されません）
+          </p>
+        </div>
+
+        <!-- ふりがな -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.furigana">
+            ふりがな <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="furigana"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+            data-i18n-placeholder="user.register.form.furigana.placeholder"
+            placeholder="例：たなか たろう"
+          >
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.furigana.help">
+            氏名の読み方をひらがなで入力してください
+          </p>
+        </div>
+
+        <!-- ニックネーム -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.nickname">
+            ニックネーム
+          </label>
+          <input 
+            type="text" 
+            id="nickname"
+            maxlength="20"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+            data-i18n-placeholder="user.register.form.nickname.placeholder"
+            placeholder="例：ヤマダ、タナカ"
+          >
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.nickname.help">
+            掲示板などで表示される名前です。空欄の場合は初回ログイン時に本人が設定します。
+          </p>
+        </div>
+
+        <!-- メールアドレス -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.email">
+            メールアドレス <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="email"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+            data-i18n-placeholder="user.register.form.email.placeholder"
+            placeholder="example@email.com"
+          >
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.email.help">
+            マジックリンク認証に使用されます
+          </p>
+        </div>
+
+        <!-- 利用開始日 -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.startdate">
+            利用開始日 <span class="text-red-500">*</span>
+          </label>
+          <input 
+            type="date" 
+            id="startDate"
+            required
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+          >
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.startdate.help">
+            この日付以降にログインが可能になります
+          </p>
+        </div>
+
+        <!-- ステータス -->
+        <div class="mb-6">
+          <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="user.register.form.status">
+            ステータス
+          </label>
+          <select 
+            id="status"
+            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500"
+          >
+            <option value="active" data-i18n="user.register.form.status.active">有効</option>
+            <option value="inactive" data-i18n="user.register.form.status.inactive">無効</option>
+          </select>
+          <p class="mt-1 text-xs text-gray-500" data-i18n="user.register.form.status.help">
+            通常は「有効」を選択してください
+          </p>
+        </div>
+
+        <!-- ボタン -->
+        <div class="flex gap-3 pt-4">
+          <button 
+            type="button"
+            onclick="window.location.href='user-admin.html'"
+            class="flex-1 bg-gray-200 text-gray-700 py-3 rounded-lg font-bold hover:bg-gray-300 transition"
+            data-i18n="user.register.button.cancel"
+          >
+            キャンセル
+          </button>
+          <button 
+            type="submit"
+            class="flex-1 bg-cyan-600 text-white py-3 rounded-lg font-bold hover:bg-cyan-700 transition"
+            data-i18n="user.register.button.submit"
+          >
+            登録する
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- 登録後の流れ -->
+    <div class="bg-amber-50 border border-amber-200 rounded-lg p-6 fade-in">
+      <h3 class="font-bold text-amber-900 mb-3 flex items-center gap-2">
+        <span>💡</span>
+        <span data-i18n="user.register.notes.title">登録後の流れ</span>
+      </h3>
+      <ol class="space-y-2 text-sm text-amber-800">
+        <li data-i18n="user.register.notes.1">1. 登録完了後、入居者にQRコードと利用開始日を書面で配布</li>
+        <li data-i18n="user.register.notes.2">2. 利用開始日以降、入居者はQRコードからログイン画面へアクセス</li>
+        <li data-i18n="user.register.notes.3">3. 初回ログイン時に、入居者自身がニックネームを設定</li>
+        <li data-i18n="user.register.notes.4">4. ニックネームは掲示板などで表示されます（実名は非表示）</li>
+      </ol>
+    </div>
+  </main>
+
+  <!-- 翻訳システム（埋め込み版） -->
+  <script>
+    // 多言語管理クラス
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        // data-i18n属性を持つ全ての要素を翻訳
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          // 子要素がない場合はtextContentを直接更新
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            // 子要素がある場合はテキストノードのみを更新
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+        
+        // placeholder属性の翻訳
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
+        // タイトルタグの翻訳
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        // 言語切替ボタンのイベントリスナー設定
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+        this.updatePage();
+        this.updateLanguageButtons();
+      }
+    }
+    
+    // DOMロード時に初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager = new EmbeddedLanguageManager();
+      window.languageManager.init();
+      
+      // グローバルな翻訳関数
+      window.i18n = function(key) {
+        return window.languageManager.translate(key);
+      };
+      
+      // 本日の日付をデフォルト値として設定
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('startDate').value = today;
+    });
+
+    // ログアウト処理
+    function logout() {
+      if (confirm('ログアウトしますか？')) {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('roomNumber');
+        window.location.href = 'index.html';
+      }
+    }
+
+    // フォーム送信処理
+    function handleSubmit(event) {
+      event.preventDefault();
+      
+      // フォームデータの取得
+      const formData = {
+        roomNumber: document.getElementById('roomNumber').value,
+        name: document.getElementById('name').value,
+        furigana: document.getElementById('furigana').value,
+        nickname: document.getElementById('nickname').value || '（未設定）',
+        email: document.getElementById('email').value,
+        startDate: document.getElementById('startDate').value,
+        status: document.getElementById('status').value
+      };
+      
+      // デモ版：登録成功メッセージ
+      const statusText = formData.status === 'active' ? '有効' : '無効';
+      alert(`ユーザー登録（デモ）\n\n実装後、以下の情報でデータベースに保存されます：\n\n住戸番号：${formData.roomNumber}\n氏名：${formData.name}\nふりがな：${formData.furigana}\nニックネーム：${formData.nickname}\nメール：${formData.email}\n利用開始日：${formData.startDate}\nステータス：${statusText}`);
+      
+      // ユーザー管理画面に戻る
+      window.location.href = 'user-admin.html';
+    }
+  </script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -348,20 +348,23 @@
       };
     });
 
-    // ページ遷移関数（デモ用アラート付き）
+    // ページ遷移関数
     function navigateTo(page) {
-      // デモ版なので、未実装画面へのアラートを表示
+      // user-admin.htmlは実装済み
+      if (page === 'user-admin.html') {
+        window.location.href = page;
+        return;
+      }
+      
+      // その他の画面はデモアラート
       const pageNames = {
         'board-admin.html': '掲示板管理画面',
         'notice-admin.html': 'お知らせ管理画面',
         'survey-admin.html': 'アンケート管理画面',
-        'user-admin.html': 'ユーザー管理画面',
         'settings-admin.html': 'その他設定画面'
       };
       
       alert(`${pageNames[page]}（デモ）\n\n実装後、この画面に遷移します。`);
-      // 実装後は以下のコメントを外す
-      // window.location.href = page;
     }
 
     // ログアウト処理（既存のapp.jsと同じ）
