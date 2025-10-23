@@ -164,3 +164,55 @@ button:focus-visible {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
+
+/* ========================================
+   掲示板バッジのスマホ対応（追加部分）
+   ======================================== */
+
+/* 掲示板の投稿カード内のバッジをレスポンシブ対応 */
+.badge {
+  /* フォントサイズを可変にする（clamp: 最小値, 推奨値, 最大値） */
+  font-size: clamp(9px, 2.5vw, 12px) !important;
+  
+  /* レイアウト調整 */
+  display: inline-block !important;
+  margin-right: 6px;
+  margin-left: 0 !important;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+/* 小型スマートフォン対応（iPhone SE、古いAndroid等） */
+@media (max-width: 375px) {
+  .badge {
+    font-size: 9px !important;
+    padding: 1px 4px !important;
+    min-width: 16px !important;
+    height: 16px !important;
+  }
+}
+
+/* 中型スマートフォン対応（iPhone 12/13、一般的なAndroid） */
+@media (min-width: 376px) and (max-width: 414px) {
+  .badge {
+    font-size: 10px !important;
+    padding: 2px 5px !important;
+    min-width: 18px !important;
+    height: 18px !important;
+  }
+}
+
+/* 大型スマートフォン対応（iPhone 13 Pro Max、Galaxy S21+等） */
+@media (min-width: 415px) and (max-width: 768px) {
+  .badge {
+    font-size: 11px !important;
+    padding: 2px 6px !important;
+  }
+}
+
+/* タブレット・PC対応 */
+@media (min-width: 769px) {
+  .badge {
+    font-size: 12px !important;
+  }
+}

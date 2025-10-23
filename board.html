@@ -6,6 +6,7 @@
   <title data-i18n="board.title">掲示板 - セキュレアシティ</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css">
+  <!-- デモモード切り替え -->
   <script src="data/demo-mode.js"></script>
   
   <script>
@@ -171,22 +172,22 @@
 
     <div class="bg-white rounded-lg shadow-sm p-4 mb-6 fade-in">
       <div class="flex gap-2 overflow-x-auto">
-        <button onclick="filterPosts('all')" id="filter-all" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap **category-filter-btn**" data-i18n="board.category.all">
+        <button onclick="filterPosts('all')" id="filter-all" class="px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap" data-i18n="board.category.all">
           すべて
         </button>
-        <button onclick="filterPosts('circular')" id="filter-circular" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap **category-filter-btn**" data-i18n="board.category.circular">
+        <button onclick="filterPosts('circular')" id="filter-circular" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.circular">
           🔴 回覧板
         </button>
-        <button onclick="filterPosts('noise')" id="filter-noise" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap **category-filter-btn**" data-i18n="board.category.noise">
+        <button onclick="filterPosts('noise')" id="filter-noise" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.noise">
           騒音
         </button>
-        <button onclick="filterPosts('parking')" id="filter-parking" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap **category-filter-btn**" data-i18n="board.category.parking">
+        <button onclick="filterPosts('parking')" id="filter-parking" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.parking">
           駐車
         </button>
-        <button onclick="filterPosts('pet')" id="filter-pet" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap **category-filter-btn**" data-i18n="board.category.pet">
+        <button onclick="filterPosts('pet')" id="filter-pet" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.pet">
           ペット
         </button>
-        <button onclick="filterPosts('other')" id="filter-other" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap **category-filter-btn**" data-i18n="board.category.other">
+        <button onclick="filterPosts('other')" id="filter-other" class="px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap" data-i18n="board.category.other">
           その他
         </button>
       </div>
@@ -520,9 +521,9 @@
       currentFilter = filter;
       
       document.querySelectorAll('[id^="filter-"]').forEach(btn => {
-        btn.className = 'px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap **category-filter-btn**';
+        btn.className = 'px-4 py-2 rounded-lg bg-gray-100 text-gray-700 font-bold whitespace-nowrap';
       });
-      document.getElementById('filter-' + filter).className = 'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap **category-filter-btn**';
+      document.getElementById('filter-' + filter).className = 'px-4 py-2 rounded-lg bg-blue-600 text-white font-bold whitespace-nowrap';
       
       renderPosts();
     }
@@ -574,29 +575,6 @@
       background: #2563EB;
       color: white;
     }
-
-    /* 👇 追加したスタイル：カテゴリフィルターボタンのレスポンシブ調整 */
-    @media (max-width: 640px) {
-      .category-filter-btn {
-        /* px-4 (1rem) から px-3 (0.75rem) 相当にパディングを減らす */
-        padding-left: 0.75rem !important;
-        padding-right: 0.75rem !important;
-        /* py-2 (0.5rem) から py-1 (0.25rem) 相当にパディングを減らす */
-        padding-top: 0.25rem !important;
-        padding-bottom: 0.25rem !important;
-        /* フォントサイズを小さくする: text-base から text-sm (0.875rem) 相当に */
-        font-size: 0.875rem !important; 
-      }
-      
-      /* `🔴 回覧板` のような長いテキストを持つボタンに対応するため、
-         必要に応じてさらにパディングを調整することも検討 */
-      #filter-circular.category-filter-btn {
-         /* 必要であればさらに微調整 */
-         /* padding-left: 0.6rem !important;
-         padding-right: 0.6rem !important; */
-      }
-    }
-    /* 👆 追加したスタイル：カテゴリフィルターボタンのレスポンシブ調整 */
   </style>
   </body>
 </html>
