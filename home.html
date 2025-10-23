@@ -34,6 +34,7 @@
         'home.menu.booking': '施設予約',
         'home.menu.booking.reserved': '件予約中',
         'home.admin.title': '管理者向け',
+        'home.admin.panel': '管理者画面を開く',
         'home.admin.survey': 'アンケート管理',
         'home.admin.result': 'アンケート集計結果'
       },
@@ -62,6 +63,7 @@
         'home.menu.booking': 'Booking',
         'home.menu.booking.reserved': 'reserved',
         'home.admin.title': 'Admin',
+        'home.admin.panel': 'Open Admin Panel',
         'home.admin.survey': 'Survey Management',
         'home.admin.result': 'Survey Results'
       },
@@ -90,6 +92,7 @@
         'home.menu.booking': '设施预约',
         'home.menu.booking.reserved': '条预约',
         'home.admin.title': '管理员',
+        'home.admin.panel': '打开管理员界面',
         'home.admin.survey': '调查管理',
         'home.admin.result': '调查结果'
       }
@@ -121,8 +124,7 @@
   <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
     <!-- ウェルカムメッセージ -->
     <div class="bg-gradient-to-r from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 mb-6 text-white fade-in">
-
-      <p class="text-blue-100" data-i18n="home.subtitle">SECUREA City つくば研究学園</p>
+      <h2 class="text-2xl font-bold mb-2" data-i18n="home.subtitle">SECUREA City つくば研究学園</h2>
     </div>
 
     <!-- 重要なお知らせ -->
@@ -196,24 +198,22 @@
     </div>
 
     <!-- 管理者向けリンク -->
-    <div class="bg-orange-50 border border-orange-200 rounded-lg p-6 fade-in">
-      <h3 class="text-lg font-bold text-orange-900 mb-4 flex items-center gap-2">
+    <div class="bg-cyan-50 border border-cyan-200 rounded-lg p-6 fade-in">
+      <h3 class="text-lg font-bold text-cyan-900 mb-4 flex items-center gap-2">
         <span>👔</span>
         <span data-i18n="home.admin.title">管理者向け</span>
       </h3>
 
       <div class="space-y-3">
         <button 
-          onclick="window.location.href='survey-manage.html'" 
-          class="w-full bg-white border border-orange-300 text-orange-900 py-3 rounded-lg font-bold hover:bg-orange-100 transition"
+          onclick="window.location.href='admin-home.html'" 
+          class="w-full bg-cyan-600 text-white py-3 rounded-lg font-bold hover:bg-cyan-700 transition flex items-center justify-center gap-2"
         >
-          <span data-i18n="home.admin.survey">アンケート管理</span>
-        </button>
-        <button 
-          onclick="window.location.href='survey-result.html'" 
-          class="w-full bg-orange-600 text-white py-3 rounded-lg font-bold hover:bg-orange-700 transition"
-        >
-          <span data-i18n="home.admin.result">アンケート集計結果</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+          </svg>
+          <span data-i18n="home.admin.panel">管理者画面を開く</span>
         </button>
       </div>
     </div>

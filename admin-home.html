@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title data-i18n="admin.home.title">管理者画面 - セキュレアシティ</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/custom.css">
+  
+  <!-- 多言語データ（埋め込み） -->
+  <script>
+    window.i18nData = {
+      ja: {
+        // 共通
+        'logout': 'ログアウト',
+        'common.home': 'ホーム',
+        'common.board': '掲示板',
+        'common.booking': '予約',
+        'common.mypage': 'マイページ',
+        'common.back': '戻る',
+        
+        // 管理者画面TOP
+        'admin.home.title': '管理者画面',
+        'admin.home.welcome': '管理者メニュー',
+        'admin.home.subtitle': 'SECUREA City 管理システム',
+        'admin.home.description': '各種管理機能にアクセスできます',
+        
+        // メニュー項目
+        'admin.menu.board': '掲示板管理',
+        'admin.menu.board.desc': '投稿の管理・削除・固定',
+        'admin.menu.notice': 'お知らせ管理',
+        'admin.menu.notice.desc': 'お知らせの作成・編集・公開',
+        'admin.menu.survey': 'アンケート管理',
+        'admin.menu.survey.desc': 'アンケート作成・結果公開設定',
+        'admin.menu.user': 'ユーザー管理',
+        'admin.menu.user.desc': '住民情報の管理',
+        'admin.menu.settings': 'その他設定',
+        'admin.menu.settings.desc': 'システム設定・データ管理',
+        
+        // 統計情報
+        'admin.stats.title': '現在の状況',
+        'admin.stats.posts': '件の投稿',
+        'admin.stats.notices': '件のお知らせ',
+        'admin.stats.surveys': '件のアンケート',
+        'admin.stats.users': '名の住民'
+      },
+      en: {
+        // 共通
+        'logout': 'Logout',
+        'common.home': 'Home',
+        'common.board': 'Board',
+        'common.booking': 'Booking',
+        'common.mypage': 'My Page',
+        'common.back': 'Back',
+        
+        // 管理者画面TOP
+        'admin.home.title': 'Admin Panel',
+        'admin.home.welcome': 'Admin Menu',
+        'admin.home.subtitle': 'SECUREA City Management System',
+        'admin.home.description': 'Access various management functions',
+        
+        // メニュー項目
+        'admin.menu.board': 'Board Management',
+        'admin.menu.board.desc': 'Manage posts, delete, pin',
+        'admin.menu.notice': 'Notice Management',
+        'admin.menu.notice.desc': 'Create, edit, publish notices',
+        'admin.menu.survey': 'Survey Management',
+        'admin.menu.survey.desc': 'Create surveys, set result visibility',
+        'admin.menu.user': 'User Management',
+        'admin.menu.user.desc': 'Manage resident information',
+        'admin.menu.settings': 'Other Settings',
+        'admin.menu.settings.desc': 'System settings, data management',
+        
+        // 統計情報
+        'admin.stats.title': 'Current Status',
+        'admin.stats.posts': ' posts',
+        'admin.stats.notices': ' notices',
+        'admin.stats.surveys': ' surveys',
+        'admin.stats.users': ' residents'
+      },
+      zh: {
+        // 共通
+        'logout': '登出',
+        'common.home': '首页',
+        'common.board': '留言板',
+        'common.booking': '预约',
+        'common.mypage': '我的页面',
+        'common.back': '返回',
+        
+        // 管理者画面TOP
+        'admin.home.title': '管理员界面',
+        'admin.home.welcome': '管理员菜单',
+        'admin.home.subtitle': 'SECUREA City 管理系统',
+        'admin.home.description': '访问各种管理功能',
+        
+        // メニュー項目
+        'admin.menu.board': '留言板管理',
+        'admin.menu.board.desc': '管理帖子、删除、置顶',
+        'admin.menu.notice': '通知管理',
+        'admin.menu.notice.desc': '创建、编辑、发布通知',
+        'admin.menu.survey': '调查管理',
+        'admin.menu.survey.desc': '创建调查、设置结果可见性',
+        'admin.menu.user': '用户管理',
+        'admin.menu.user.desc': '管理居民信息',
+        'admin.menu.settings': '其他设置',
+        'admin.menu.settings.desc': '系统设置、数据管理',
+        
+        // 統計情報
+        'admin.stats.title': '当前状态',
+        'admin.stats.posts': ' 条帖子',
+        'admin.stats.notices': ' 条通知',
+        'admin.stats.surveys': ' 个调查',
+        'admin.stats.users': ' 名居民'
+      }
+    };
+    console.log('✅ i18nData embedded for admin-home.html');
+  </script>
+</head>
+
+<body class="bg-gray-50">
+  <!-- 言語切替ボタン -->
+  <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
+    <button class="lang-btn" data-lang="ja">JA</button>
+    <button class="lang-btn" data-lang="en">EN</button>
+    <button class="lang-btn" data-lang="zh">ZH</button>
+  </div>
+
+  <!-- ヘッダー -->
+  <header class="bg-white shadow-sm">
+    <div class="max-w-4xl mx-auto px-4 py-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <!-- 戻るボタン：住民用ホームへ -->
+          <button onclick="window.location.href='home.html'" class="text-gray-600 hover:text-gray-900">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+          </button>
+          <h1 class="text-xl font-bold text-gray-900" data-i18n="admin.home.title">管理者画面</h1>
+        </div>
+        <button onclick="logout()" class="text-sm text-gray-600 hover:text-gray-900">
+          <span data-i18n="logout">ログアウト</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-6 pb-32">
+    <!-- ウェルカムメッセージ（管理者用：シアングリーン系グラデーション） -->
+    <div class="bg-gradient-to-r from-cyan-500 to-cyan-600 rounded-lg shadow-lg p-6 mb-6 text-white fade-in">
+      <h2 class="text-2xl font-bold mb-2 flex items-center gap-2">
+        <span>👔</span>
+        <span data-i18n="admin.home.welcome">管理者メニュー</span>
+      </h2>
+      <p class="text-cyan-100" data-i18n="admin.home.subtitle">SECUREA City 管理システム</p>
+    </div>
+
+    <!-- 説明文 -->
+    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 fade-in">
+      <p class="text-sm text-blue-800" data-i18n="admin.home.description">
+        各種管理機能にアクセスできます
+      </p>
+    </div>
+
+    <!-- 統計情報サマリー -->
+    <div class="grid grid-cols-4 gap-3 mb-6">
+      <div class="bg-white rounded-lg shadow-sm p-4 text-center fade-in">
+        <div class="text-2xl font-bold text-cyan-600">6</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.stats.posts">件の投稿</div>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm p-4 text-center fade-in">
+        <div class="text-2xl font-bold text-cyan-600">3</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.stats.notices">件のお知らせ</div>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm p-4 text-center fade-in">
+        <div class="text-2xl font-bold text-cyan-600">1</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.stats.surveys">件のアンケート</div>
+      </div>
+      <div class="bg-white rounded-lg shadow-sm p-4 text-center fade-in">
+        <div class="text-2xl font-bold text-cyan-600">171</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.stats.users">名の住民</div>
+      </div>
+    </div>
+
+    <!-- メイン管理メニュー -->
+    <div class="grid grid-cols-2 gap-4 mb-6">
+      <!-- 掲示板管理 -->
+      <button onclick="navigateTo('board-admin.html')" class="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition card-hover">
+        <div class="text-4xl mb-3">💬</div>
+        <div class="font-bold text-gray-900 mb-1" data-i18n="admin.menu.board">掲示板管理</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.menu.board.desc">投稿の管理・削除・固定</div>
+      </button>
+
+      <!-- お知らせ管理 -->
+      <button onclick="navigateTo('notice-admin.html')" class="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition card-hover">
+        <div class="text-4xl mb-3">📢</div>
+        <div class="font-bold text-gray-900 mb-1" data-i18n="admin.menu.notice">お知らせ管理</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.menu.notice.desc">お知らせの作成・編集・公開</div>
+      </button>
+
+      <!-- アンケート管理 -->
+      <button onclick="navigateTo('survey-admin.html')" class="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition card-hover">
+        <div class="text-4xl mb-3">📊</div>
+        <div class="font-bold text-gray-900 mb-1" data-i18n="admin.menu.survey">アンケート管理</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.menu.survey.desc">アンケート作成・結果公開設定</div>
+      </button>
+
+      <!-- ユーザー管理 -->
+      <button onclick="navigateTo('user-admin.html')" class="bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition card-hover">
+        <div class="text-4xl mb-3">👥</div>
+        <div class="font-bold text-gray-900 mb-1" data-i18n="admin.menu.user">ユーザー管理</div>
+        <div class="text-xs text-gray-600" data-i18n="admin.menu.user.desc">住民情報の管理</div>
+      </button>
+    </div>
+
+    <!-- その他設定（フル幅） -->
+    <button onclick="navigateTo('settings-admin.html')" class="w-full bg-white rounded-lg shadow-sm p-6 text-left hover:shadow-md transition card-hover fade-in">
+      <div class="flex items-center gap-4">
+        <div class="text-4xl">⚙️</div>
+        <div class="flex-1">
+          <div class="font-bold text-gray-900 mb-1" data-i18n="admin.menu.settings">その他設定</div>
+          <div class="text-xs text-gray-600" data-i18n="admin.menu.settings.desc">システム設定・データ管理</div>
+        </div>
+        <svg class="w-6 h-6 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+        </svg>
+      </div>
+    </button>
+  </main>
+
+  <!-- ナビゲーションバー（住民用と同じ） -->
+  <nav class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="flex justify-around py-3">
+        <a href="home.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.home">ホーム</span>
+        </a>
+        <a href="board.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.board">掲示板</span>
+        </a>
+        <a href="booking.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.booking">予約</span>
+        </a>
+        <a href="mypage.html" class="flex flex-col items-center text-gray-500">
+          <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/>
+          </svg>
+          <span class="text-xs mt-1" data-i18n="common.mypage">マイページ</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- 翻訳システム（埋め込み版） -->
+  <script>
+    // 多言語管理クラス
+    class EmbeddedLanguageManager {
+      constructor() {
+        this.currentLanguage = localStorage.getItem('language') || 'ja';
+        this.translations = window.i18nData;
+      }
+      
+      setLanguage(lang) {
+        if (this.translations[lang]) {
+          this.currentLanguage = lang;
+          localStorage.setItem('language', lang);
+          this.updatePage();
+          this.updateLanguageButtons();
+        }
+      }
+      
+      translate(key) {
+        const translation = this.translations[this.currentLanguage];
+        return translation && translation[key] ? translation[key] : key;
+      }
+      
+      updatePage() {
+        // data-i18n属性を持つ全ての要素を翻訳
+        document.querySelectorAll('[data-i18n]').forEach(element => {
+          const key = element.getAttribute('data-i18n');
+          const translation = this.translate(key);
+          
+          // 子要素がない場合はtextContentを直接更新
+          if (element.children.length === 0) {
+            element.textContent = translation;
+          } else {
+            // 子要素がある場合はテキストノードのみを更新
+            for (let node of element.childNodes) {
+              if (node.nodeType === Node.TEXT_NODE && node.textContent.trim()) {
+                node.textContent = translation;
+                break;
+              }
+            }
+          }
+        });
+        
+        // タイトルタグの翻訳
+        const titleElement = document.querySelector('title');
+        if (titleElement && titleElement.hasAttribute('data-i18n')) {
+          const key = titleElement.getAttribute('data-i18n');
+          document.title = this.translate(key);
+        }
+      }
+      
+      updateLanguageButtons() {
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          const lang = btn.getAttribute('data-lang');
+          if (lang === this.currentLanguage) {
+            btn.classList.add('active');
+            btn.classList.remove('inactive');
+          } else {
+            btn.classList.remove('active');
+            btn.classList.add('inactive');
+          }
+        });
+      }
+      
+      init() {
+        // 言語切替ボタンのイベントリスナー設定
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const lang = btn.getAttribute('data-lang');
+            this.setLanguage(lang);
+          });
+        });
+        this.updatePage();
+        this.updateLanguageButtons();
+      }
+    }
+    
+    // DOMロード時に初期化
+    document.addEventListener('DOMContentLoaded', function() {
+      window.languageManager = new EmbeddedLanguageManager();
+      window.languageManager.init();
+      
+      // グローバルな翻訳関数
+      window.i18n = function(key) {
+        return window.languageManager.translate(key);
+      };
+    });
+
+    // ページ遷移関数（デモ用アラート付き）
+    function navigateTo(page) {
+      // デモ版なので、未実装画面へのアラートを表示
+      const pageNames = {
+        'board-admin.html': '掲示板管理画面',
+        'notice-admin.html': 'お知らせ管理画面',
+        'survey-admin.html': 'アンケート管理画面',
+        'user-admin.html': 'ユーザー管理画面',
+        'settings-admin.html': 'その他設定画面'
+      };
+      
+      alert(`${pageNames[page]}（デモ）\n\n実装後、この画面に遷移します。`);
+      // 実装後は以下のコメントを外す
+      // window.location.href = page;
+    }
+
+    // ログアウト処理（既存のapp.jsと同じ）
+    function logout() {
+      if (confirm('ログアウトしますか？')) {
+        localStorage.removeItem('isLoggedIn');
+        localStorage.removeItem('roomNumber');
+        window.location.href = 'index.html';
+      }
+    }
+  </script>
+
+  <script src="js/app.js"></script>
+</body>
+</html>
