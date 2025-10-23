@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="css/custom.css">
   
+  <!-- 多言語データ -->
   <script>
     window.i18nData = {
       ja: {
@@ -14,45 +15,63 @@
         'login.site.title': 'SECUREA City つくば研究学園',
         'login.site.subtitle': '入居者専用Webサイト',
         'login.app.title': '住まいコミュニティアプリ',
-        'login.username': 'ユーザー名',
-        'login.password': 'パスワード',
-        'login.remember': 'ログイン状態を保持',
-        'login.button': 'ログイン',
+        'login.email': 'メールアドレス',
+        'login.email.placeholder': 'example@email.com',
+        'login.button': 'ログインリンクを送信',
         'login.demo': 'デモアカウント',
-        'login.demo.text': 'ユーザー名: B71 / パスワード: demo',
+        'login.demo.text': 'メールアドレス: demo@securea-city.jp',
         'login.info.screens': 'このデモは全15画面で構成されています',
         'login.info.language': '🌐 右上のボタンで言語を切り替えられます',
-        'login.error': 'ユーザー名またはパスワードが正しくありません'
+        'login.sent.title': 'メールを送信しました',
+        'login.sent.message': '入力されたメールアドレス宛にログインリンクを送信しました。',
+        'login.sent.check': 'メールボックスをご確認ください。',
+        'login.sent.demo': 'デモ：下のボタンをクリックしてログインをシミュレートできます',
+        'login.sent.demo.button': 'マジックリンクをクリック（デモ）',
+        'login.sent.note': '※ 実際の環境では、メール内のリンクをクリックしてログインします',
+        'login.sent.resend': '再送信する',
+        'login.error.invalid': 'このメールアドレスは登録されていません'
       },
       en: {
         'login.title': 'Login',
         'login.site.title': 'SECUREA City Tsukuba Kenkyugakuen',
         'login.site.subtitle': 'Resident Portal',
         'login.app.title': 'Community Living App',
-        'login.username': 'Username',
-        'login.password': 'Password',
-        'login.remember': 'Remember me',
-        'login.button': 'Login',
+        'login.email': 'Email Address',
+        'login.email.placeholder': 'example@email.com',
+        'login.button': 'Send Login Link',
         'login.demo': 'Demo Account',
-        'login.demo.text': 'Username: B71 / Password: demo',
+        'login.demo.text': 'Email: demo@securea-city.jp',
         'login.info.screens': 'This demo consists of 15 screens',
         'login.info.language': '🌐 Switch language with buttons above',
-        'login.error': 'Invalid username or password'
+        'login.sent.title': 'Email Sent',
+        'login.sent.message': 'We have sent a login link to the email address you entered.',
+        'login.sent.check': 'Please check your inbox.',
+        'login.sent.demo': 'Demo: Click the button below to simulate login',
+        'login.sent.demo.button': 'Click Magic Link (Demo)',
+        'login.sent.note': '* In production, you would click the link in your email to login',
+        'login.sent.resend': 'Resend',
+        'login.error.invalid': 'This email address is not registered'
       },
       zh: {
         'login.title': '登录',
         'login.site.title': 'SECUREA City 筑波研究学园',
         'login.site.subtitle': '住户专用网站',
         'login.app.title': '居住社区应用',
-        'login.username': '用户名',
-        'login.password': '密码',
-        'login.remember': '保持登录状态',
-        'login.button': '登录',
+        'login.email': '电子邮件地址',
+        'login.email.placeholder': 'example@email.com',
+        'login.button': '发送登录链接',
         'login.demo': '演示账户',
-        'login.demo.text': '用户名: B71 / 密码: demo',
+        'login.demo.text': '电子邮件: demo@securea-city.jp',
         'login.info.screens': '此演示由15个界面组成',
         'login.info.language': '🌐 使用上方按钮切换语言',
-        'login.error': '用户名或密码不正确'
+        'login.sent.title': '电子邮件已发送',
+        'login.sent.message': '我们已向您输入的电子邮件地址发送了登录链接。',
+        'login.sent.check': '请检查您的收件箱。',
+        'login.sent.demo': '演示：点击下方按钮模拟登录',
+        'login.sent.demo.button': '点击魔法链接（演示）',
+        'login.sent.note': '* 在实际环境中，您需要点击电子邮件中的链接进行登录',
+        'login.sent.resend': '重新发送',
+        'login.error.invalid': '此电子邮件地址未注册'
       }
     };
     
@@ -61,6 +80,7 @@
   </script>
 </head>
 <body class="bg-gray-50">
+  <!-- 言語切替ボタン -->
   <div class="fixed top-4 right-4 language-switcher z-50 shadow-lg">
     <button class="lang-btn" data-lang="ja">JA</button>
     <button class="lang-btn" data-lang="en">EN</button>
@@ -69,6 +89,7 @@
 
   <div class="min-h-screen flex items-center justify-center p-4">
     <div class="max-w-md w-full">
+      <!-- ヘッダー -->
       <div class="text-center mb-8 fade-in">
         <h1 class="text-3xl font-bold text-gray-900 mb-2" data-i18n="login.site.title">
           SECUREA City つくば研究学園
@@ -79,61 +100,92 @@
         </h2>
       </div>
 
-      <div class="bg-white rounded-lg shadow-lg p-8 fade-in">
+      <!-- メールアドレス入力画面 -->
+      <div id="loginForm" class="bg-white rounded-lg shadow-lg p-8 fade-in">
         <h3 class="text-xl font-bold text-gray-900 mb-6 text-center" data-i18n="login.title">
           ログイン
         </h3>
 
-        <form onsubmit="handleLogin(event)">
-          <div class="mb-4">
-            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="login.username">
-              ユーザー名
+        <form onsubmit="handleMagicLinkRequest(event)">
+          <div class="mb-6">
+            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="login.email">
+              メールアドレス
             </label>
             <input 
-              type="text" 
-              id="username"
+              type="email" 
+              id="email"
               class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value="B71"
+              placeholder="example@email.com"
+              data-i18n-placeholder="login.email.placeholder"
+              value="demo@securea-city.jp"
               required
             >
-          </div>
-
-          <div class="mb-6">
-            <label class="block text-sm font-bold text-gray-700 mb-2" data-i18n="login.password">
-              パスワード
-            </label>
-            <input 
-              type="password" 
-              id="password"
-              class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-              value="demo"
-              required
-            >
-          </div>
-
-          <div class="mb-6">
-            <label class="flex items-center cursor-pointer">
-              <input type="checkbox" class="w-4 h-4 text-blue-600 rounded">
-              <span class="ml-2 text-gray-900" data-i18n="login.remember">ログイン状態を保持</span>
-            </label>
           </div>
 
           <button 
             type="submit"
             class="w-full bg-blue-600 text-white py-3 rounded-lg font-bold hover:bg-blue-700 transition"
           >
-            <span data-i18n="login.button">ログイン</span>
+            <span data-i18n="login.button">ログインリンクを送信</span>
           </button>
         </form>
 
+        <!-- デモアカウント情報 -->
         <div class="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
           <p class="text-sm text-blue-900">
             <span class="font-bold" data-i18n="login.demo">デモアカウント</span><br>
-            <span data-i18n="login.demo.text">ユーザー名: B71 / パスワード: demo</span>
+            <span data-i18n="login.demo.text">メールアドレス: demo@securea-city.jp</span>
           </p>
         </div>
       </div>
 
+      <!-- メール送信完了画面（最初は非表示） -->
+      <div id="emailSent" class="bg-white rounded-lg shadow-lg p-8 fade-in" style="display: none;">
+        <div class="text-center mb-6">
+          <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-gray-900 mb-2" data-i18n="login.sent.title">
+            メールを送信しました
+          </h3>
+          <p class="text-gray-600 mb-2" data-i18n="login.sent.message">
+            入力されたメールアドレス宛にログインリンクを送信しました。
+          </p>
+          <p class="text-gray-600 font-medium" data-i18n="login.sent.check">
+            メールボックスをご確認ください。
+          </p>
+        </div>
+
+        <div class="mb-4">
+          <p class="text-sm text-gray-500 text-center mb-1">
+            <span data-i18n="login.sent.demo">デモ：下のボタンをクリックしてログインをシミュレートできます</span>
+          </p>
+        </div>
+
+        <!-- デモ用マジックリンクボタン -->
+        <button 
+          onclick="simulateMagicLink()"
+          class="w-full bg-gradient-to-r from-purple-600 to-blue-600 text-white py-4 rounded-lg font-bold hover:from-purple-700 hover:to-blue-700 transition shadow-lg mb-4"
+        >
+          <span data-i18n="login.sent.demo.button">✉️ マジックリンクをクリック（デモ）</span>
+        </button>
+
+        <p class="text-xs text-gray-500 text-center mb-4" data-i18n="login.sent.note">
+          ※ 実際の環境では、メール内のリンクをクリックしてログインします
+        </p>
+
+        <!-- 再送信ボタン -->
+        <button 
+          onclick="backToLogin()"
+          class="w-full border border-gray-300 text-gray-700 py-2 rounded-lg hover:bg-gray-50 transition"
+        >
+          <span data-i18n="login.sent.resend">← 再送信する</span>
+        </button>
+      </div>
+
+      <!-- 画面情報 -->
       <div class="mt-6 text-center text-sm text-gray-600">
         <p data-i18n="login.info.screens">このデモは全15画面で構成されています</p>
         <p class="mt-1" data-i18n="login.info.language">🌐 右上のボタンで言語を切り替えられます</p>
@@ -141,9 +193,11 @@
     </div>
   </div>
 
+  <!-- JavaScriptコード -->
   <script>
     console.log('=== 翻訳システム初期化開始 ===');
     
+    // 翻訳マネージャークラス
     class EmbeddedLanguageManager {
       constructor() {
         console.log('EmbeddedLanguageManager constructor');
@@ -174,6 +228,8 @@
       updatePage() {
         console.log('🔄 Updating page translations');
         let count = 0;
+        
+        // data-i18n属性を持つ要素を翻訳
         document.querySelectorAll('[data-i18n]').forEach(element => {
           const key = element.getAttribute('data-i18n');
           const translation = this.translate(key);
@@ -190,6 +246,13 @@
           }
           count++;
         });
+        
+        // placeholder属性の翻訳
+        document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+          const key = element.getAttribute('data-i18n-placeholder');
+          element.placeholder = this.translate(key);
+        });
+        
         console.log('✅ Translated', count, 'elements');
       }
       
@@ -221,6 +284,63 @@
       }
     }
     
+    // デモ用：登録されているメールアドレスのリスト
+    const registeredEmails = [
+      'demo@securea-city.jp',
+      'test@securea-city.jp',
+      'user@securea-city.jp'
+    ];
+    
+    // マジックリンク送信リクエスト処理
+    function handleMagicLinkRequest(event) {
+      event.preventDefault();
+      const email = document.getElementById('email').value.trim();
+      
+      console.log('📧 Magic link request for:', email);
+      
+      // デモ用：メールアドレスの検証（実際にはバックエンドで行う）
+      // セキュリティ考慮：実際の環境では、存在しないメールでも同じメッセージを表示
+      if (!registeredEmails.includes(email)) {
+        // デモなので、エラーメッセージを表示
+        const errorMsg = window.i18n ? window.i18n('login.error.invalid') : 'このメールアドレスは登録されていません';
+        alert(errorMsg);
+        return;
+      }
+      
+      // ログイン画面を非表示、メール送信完了画面を表示
+      document.getElementById('loginForm').style.display = 'none';
+      document.getElementById('emailSent').style.display = 'block';
+      
+      // 送信したメールアドレスを保存（デモ用）
+      sessionStorage.setItem('loginEmail', email);
+      
+      console.log('✅ Email sent screen displayed');
+    }
+    
+    // マジックリンククリックのシミュレーション
+    function simulateMagicLink() {
+      const email = sessionStorage.getItem('loginEmail') || 'demo@securea-city.jp';
+      
+      console.log('🔗 Simulating magic link click for:', email);
+      
+      // ログイン状態を保存
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('userEmail', email);
+      // デモ用に部屋番号も設定
+      localStorage.setItem('roomNumber', 'B71');
+      
+      // ホーム画面へ遷移
+      console.log('➡️ Redirecting to home.html');
+      window.location.href = 'home.html';
+    }
+    
+    // ログイン画面に戻る
+    function backToLogin() {
+      document.getElementById('emailSent').style.display = 'none';
+      document.getElementById('loginForm').style.display = 'block';
+      sessionStorage.removeItem('loginEmail');
+    }
+    
     // DOMが読み込まれたら実行
     document.addEventListener('DOMContentLoaded', function() {
       console.log('=== DOMContentLoaded ===');
@@ -240,22 +360,6 @@
       
       console.log('=== 翻訳システム初期化完了 ===');
     });
-    
-    function handleLogin(event) {
-      event.preventDefault();
-      const username = document.getElementById('username').value;
-      const password = document.getElementById('password').value;
-      
-      if (username === 'B71' && password === 'demo') {
-        // ログイン状態をlocalStorageに保存
-        localStorage.setItem('isLoggedIn', 'true');
-        localStorage.setItem('roomNumber', username);
-        window.location.href = 'home.html';
-      } else {
-        const errorMsg = window.i18n ? window.i18n('login.error') : 'ユーザー名またはパスワードが正しくありません';
-        alert(errorMsg);
-      }
-    }
   </script>
 </body>
 </html>
