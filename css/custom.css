@@ -166,44 +166,46 @@ button:focus-visible {
 }
 
 /* ========================================
-   掲示板バッジのスマホ対応（追加部分）
+   掲示板バッジのスマホ対応（修正版）
    ======================================== */
 
-/* 掲示板の投稿カード内のバッジをレスポンシブ対応 */
+/* より強力なセレクタで上書き */
+span.badge,
 .badge {
-  /* フォントサイズを可変にする（clamp: 最小値, 推奨値, 最大値） */
+  /* !important を追加して確実に適用 */
   font-size: clamp(9px, 2.5vw, 12px) !important;
-  
-  /* レイアウト調整 */
+  padding: 2px 6px !important;
   display: inline-block !important;
-  margin-right: 6px;
+  min-width: auto !important;
+  height: auto !important;
+  margin-right: 6px !important;
   margin-left: 0 !important;
-  white-space: nowrap;
-  vertical-align: middle;
+  white-space: nowrap !important;
+  vertical-align: middle !important;
+  line-height: 1.2 !important;
 }
 
-/* 小型スマートフォン対応（iPhone SE、古いAndroid等） */
+/* 小型スマートフォン対応 */
 @media (max-width: 375px) {
+  span.badge,
   .badge {
     font-size: 9px !important;
     padding: 1px 4px !important;
-    min-width: 16px !important;
-    height: 16px !important;
   }
 }
 
-/* 中型スマートフォン対応（iPhone 12/13、一般的なAndroid） */
+/* 中型スマートフォン対応 */
 @media (min-width: 376px) and (max-width: 414px) {
+  span.badge,
   .badge {
     font-size: 10px !important;
     padding: 2px 5px !important;
-    min-width: 18px !important;
-    height: 18px !important;
   }
 }
 
-/* 大型スマートフォン対応（iPhone 13 Pro Max、Galaxy S21+等） */
+/* 大型スマートフォン対応 */
 @media (min-width: 415px) and (max-width: 768px) {
+  span.badge,
   .badge {
     font-size: 11px !important;
     padding: 2px 6px !important;
@@ -212,7 +214,38 @@ button:focus-visible {
 
 /* タブレット・PC対応 */
 @media (min-width: 769px) {
+  span.badge,
   .badge {
     font-size: 12px !important;
+  }
+}
+
+
+/* ========================================
+   掲示板フィルタボタンのスマホ対応
+   ======================================== */
+
+/* フィルタボタンの基本スタイル改善 */
+.filter-btn {
+  font-size: clamp(12px, 3vw, 14px) !important;
+  padding: 8px 16px !important;
+  white-space: nowrap !important;
+  min-width: auto !important;
+  flex-shrink: 0 !important;
+}
+
+/* 小型スマートフォン対応 */
+@media (max-width: 375px) {
+  .filter-btn {
+    font-size: 11px !important;
+    padding: 6px 12px !important;
+  }
+}
+
+/* 中型スマートフォン対応 */
+@media (min-width: 376px) and (max-width: 640px) {
+  .filter-btn {
+    font-size: 12px !important;
+    padding: 7px 14px !important;
   }
 }
