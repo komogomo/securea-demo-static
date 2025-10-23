@@ -166,15 +166,21 @@ button:focus-visible {
 }
 
 /* ========================================
-   掲示板バッジのスマホ対応（修正版）
+   掲示板バッジのスマホ対応（強化版）
    ======================================== */
 
-/* より強力なセレクタで上書き */
+/* 最も強力なセレクタでBootstrapを完全に上書き */
+span.badge.bg-danger,
+span.badge.bg-primary,
+span.badge.bg-success,
+span.badge.bg-info,
+span.badge.bg-warning,
+span.badge[class*="bg-"],
 span.badge,
 .badge {
-  /* !important を追加して確実に適用 */
-  font-size: clamp(9px, 2.5vw, 12px) !important;
-  padding: 2px 6px !important;
+  /* 基本スタイル - !importantで強制適用 */
+  font-size: 13px !important;
+  padding: 4px 10px !important;
   display: inline-block !important;
   min-width: auto !important;
   height: auto !important;
@@ -182,44 +188,54 @@ span.badge,
   margin-left: 0 !important;
   white-space: nowrap !important;
   vertical-align: middle !important;
-  line-height: 1.2 !important;
+  line-height: 1.4 !important;
+  box-sizing: border-box !important;
 }
 
-/* 小型スマートフォン対応 */
+/* 小型スマートフォン対応（iPhone SE など） */
 @media (max-width: 375px) {
+  span.badge.bg-danger,
+  span.badge.bg-primary,
+  span.badge.bg-success,
+  span.badge.bg-info,
+  span.badge.bg-warning,
+  span.badge[class*="bg-"],
   span.badge,
   .badge {
-    font-size: 9px !important;
-    padding: 1px 4px !important;
+    font-size: 12px !important;
+    padding: 3px 8px !important;
   }
 }
 
-/* 中型スマートフォン対応 */
-@media (min-width: 376px) and (max-width: 414px) {
+/* 中型スマートフォン対応（iPhone 12/13 など） */
+@media (min-width: 376px) and (max-width: 640px) {
+  span.badge.bg-danger,
+  span.badge.bg-primary,
+  span.badge.bg-success,
+  span.badge.bg-info,
+  span.badge.bg-warning,
+  span.badge[class*="bg-"],
   span.badge,
   .badge {
-    font-size: 10px !important;
-    padding: 2px 5px !important;
-  }
-}
-
-/* 大型スマートフォン対応 */
-@media (min-width: 415px) and (max-width: 768px) {
-  span.badge,
-  .badge {
-    font-size: 11px !important;
-    padding: 2px 6px !important;
+    font-size: 13px !important;
+    padding: 4px 10px !important;
   }
 }
 
 /* タブレット・PC対応 */
-@media (min-width: 769px) {
+@media (min-width: 641px) {
+  span.badge.bg-danger,
+  span.badge.bg-primary,
+  span.badge.bg-success,
+  span.badge.bg-info,
+  span.badge.bg-warning,
+  span.badge[class*="bg-"],
   span.badge,
   .badge {
-    font-size: 12px !important;
+    font-size: 13px !important;
+    padding: 4px 10px !important;
   }
 }
-
 
 /* ========================================
    掲示板フィルタボタンのスマホ対応
